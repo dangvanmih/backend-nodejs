@@ -19,7 +19,10 @@ app.get('/product',(req, res) => {
 })
 
 app.get('/about',(req, res) => {
-    res.send('<h1>Liên hệ</h1>')
+    res.render("contact.pug", {
+        title: " Trang liên hệ",
+        message: "Xin chào các bạn"
+    })
 })
 
 app.listen(port, () => {
