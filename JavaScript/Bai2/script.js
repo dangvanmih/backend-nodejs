@@ -86,3 +86,9 @@
 
 // ✅ Object / Array → Tham chiếu
 // 14
+
+// các hàm loops:
+// for in: là lặp qua từng key của từng key của từng object
+// for of là lặp qua từng phần từ của 1 mảng
+// each cũng lặp qua từng phần từ của một mảng
+// map: lặp qua từng phần từ của một mảng và tạo ra mảng mới

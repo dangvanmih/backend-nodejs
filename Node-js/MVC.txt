@@ -1,0 +1,6 @@
+Mô hình MVC: Model View Controller
+1. Client truy cập vào route
+2. từ route đó sẽ gọi đến controller tương ứng
+3. trong controller sẽ viết câu lệnh để lấy dữ liệu từ cơ sở dữ liệu thông qua model
+4. Sau khi lấy được dữ liệu thông qua model, controller sẽ truyền dữ liệu sang cho view.
+5. view sẽ nhận được dữ liệu và hiển thị ra giao diện người dùng.
