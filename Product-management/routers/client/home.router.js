@@ -1,10 +1,6 @@
 const express = require("express");
 const router = express.Router() //tạo các router con
-
-
-  router.get('/', (req, res) => {
-    res.render("client/pages/home/index")
-  })
-
+const controller = require("../../controller/client/home-controller")
+  router.get('/', controller.index);
 
   module.exports = router;
