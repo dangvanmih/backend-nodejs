@@ -1,6 +1,10 @@
 const express = require("express");
+//cấu hình .env
 require("dotenv").config();
-const router = require("./routers/client/index.router")
+
+const database = require("./config/database")
+const router = require("./routers/client/index.router");
+database.connect();
 const app = express();
 const port = process.env.PORT;
 
