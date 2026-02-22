@@ -1,4 +1,19 @@
 extends ../../layouts/default.pug
-
+include ../../mixins/box-head.pug
 block main 
-  h1 Danh sách sản phẩm
+  .container.my-3   
+    .row  
+      .col-12 
+        +box-head("Danh sách sản phẩm")
+        
+    .row  
+      .col-4.mb-3 
+        .product-item 
+          .inner-item 
+            .inner-image
+              img(src="https://www.apple.com/v/iphone/home/ci/images/overview/select/iphone_17pro__0s6piftg70ym_large.jpg" alt="iphone 17")
+            .inner-content 
+              h3.inner-title Iphone 17
+              .inner-price-new 1000$
+              .inner-price-old 900$
+              .inner-discount -20%
