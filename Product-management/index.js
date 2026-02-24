@@ -2,7 +2,9 @@ const express = require("express");
 //cấu hình .env
 require("dotenv").config();
 
-const database = require("./config/database")
+const database = require("./config/database");
+
+const systemConfg = require("./config/system")
 
 // import router bên client
 const routerClient = require("./routers/client/index.router");
@@ -16,6 +18,9 @@ const port = process.env.PORT;
 //cấu hình pug
 app.set("views","./views");
 app.set("view engine", "pug");
+
+//APP Local variables
+app.locals.prefixAdmin = systemConfg.prefixAdmin;
 
 // cấu hình file tĩnh
 app.use(express.static('public'));
