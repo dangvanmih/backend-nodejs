@@ -25,7 +25,10 @@
 .header .inner-menu ul li a {
   color: #000;
 }
-
+.box-menu {
+  display: flex;
+  justify-content: space-between;
+}
 /* end-header */
 .footer {
   background-color: rgb(255, 255, 255);
@@ -65,10 +68,11 @@
   text-decoration: line-through;
 }
 .product-item .inner-item .inner-content .inner-discount {
-  padding: 10px 15px;
-  background-color: red;
+  padding: 8px 12px;
+  background-color: rgb(212, 139, 54);
   color: #fff;
   font-weight: 500;
+  font-size: 12px;
   width: fit-content;
   border-radius: 12px;
 }

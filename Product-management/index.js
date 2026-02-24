@@ -3,7 +3,12 @@ const express = require("express");
 require("dotenv").config();
 
 const database = require("./config/database")
-const router = require("./routers/client/index.router");
+
+// import router bên client
+const routerClient = require("./routers/client/index.router");
+// import router bên admin
+const routerAdmin = require("./routers/admin/index.router");
+
 database.connect();
 const app = express();
 const port = process.env.PORT;
@@ -16,7 +21,8 @@ app.set("view engine", "pug");
 app.use(express.static('public'));
 
 //Router
-router(app)
+routerClient(app);
+routerAdmin(app);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
