@@ -20,7 +20,7 @@ app.set("views","./views");
 app.set("view engine", "pug");
 
 //APP Local variables
-app.locals.prefixAdmin = systemConfg.prefixAdmin;
+app.locals.prefixAdmin = systemConfg.prefixAdmin; // khai báo biến như này thì biến đó sẽ sử dụng được trong tất cả các file pug
 
 // cấu hình file tĩnh
 app.use(express.static('public'));
