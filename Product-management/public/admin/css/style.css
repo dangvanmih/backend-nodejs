@@ -26,11 +26,13 @@
   background-color: #AEC3B0;
   color: #fff;
   height: calc(100vh - 56px);
+  position: fixed;
 }
 
 .body .main {
   margin: 15px;
-  flex: 1
+  flex: 1;
+  margin-left: 230px;
 }
 
 /* end-body */
