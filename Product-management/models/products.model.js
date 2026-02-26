@@ -13,5 +13,8 @@ const productSchema = new mongoose.Schema(
     delete: Boolean
   }
 );
-const Product = mongoose.model("Product", productSchema, "products");
+const Product = mongoose.model("Product", productSchema, "products"); 
+// tham số thứ nhất là tên của model
+// tham số thứ 2 là cấu trúc document bên trên nó sẽ quyết định file, kiểu dữ liệu
+// tham số thứ 3 Đây là tên collection thật trong MongoDB
 module.exports = Product;
