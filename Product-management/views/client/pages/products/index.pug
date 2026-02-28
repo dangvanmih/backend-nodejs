@@ -15,6 +15,8 @@ block main
                 img(src=items.thumbnail alt=items.title)
               .inner-content 
                 h3.inner-title #{items.title}
-                .inner-price-new #{items.priceNew}
+                .inner-price-new #{items.priceNew}$
                 .inner-price-old #{items.price}$
-                .inner-discount #{items.discountPercentage}%
+                .inner-discount 
+                  span Giảm 
+                  b #{items.discountPercentage}%

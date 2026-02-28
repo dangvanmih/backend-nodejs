@@ -29,13 +29,36 @@ if (formSearch) {
     e.preventDefault();
     const value = e.target.elements.keyword.value;
     if (value) {
-        url.searchParams.set("keyword", value); // hàm searchParams là lấy url hiện tại và set thêm các key phía sau
-      }
-      else {
-        url.searchParams.delete("keyword");
-      }
-      window.location.href = url.href // chuyển hướng sang trang khác
+      url.searchParams.set("keyword", value); // hàm searchParams là lấy url hiện tại và set thêm các key phía sau
+    }
+    else {
+      url.searchParams.delete("keyword");
+    }
+    window.location.href = url.href // chuyển hướng sang trang khác
   })
 }
 
 //end-form seacrh
+
+
+// pagination
+const buttonPagination = document.querySelectorAll("[button-pagination]");
+// check nếu lấy đc buttonPagination thì làm tiếp
+
+if (buttonPagination) {
+  let url = new URL(window.location.href);
+  buttonPagination.forEach(button => {
+    button.addEventListener("click", () => {
+      const page = button.getAttribute("button-pagination");
+      if (page) {
+        url.searchParams.set("page", page);
+      }
+      else {
+        url.searchParams.delete("page");
+      }
+      window.location.href = url.href // chuyển hướng sang trang khác
+    });
+  })
+
+}
+//end-pagination
