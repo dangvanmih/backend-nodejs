@@ -1,0 +1,163 @@
+Server-side rendering (SSR) là gì?
+
+👉 Là kiểu:
+
+HTML được render ở server, rồi gửi về browser
+
+1. express — xương sống của server
+👉 Dùng để:
+
+tạo server
+
+tạo route
+
+xử lý request/response
+
+middleware
+
+Bạn đã dùng ở đâu
+const express = require("express");
+const app = express();
+
+app.get("/", ...)
+app.use(...)
+app.listen(...)
+👉 Không có Express → app Node của bạn không chạy web được.
+
+
+--------------------------------------
+
+
+🚀 2. mongoose — kết nối MongoDB
+👉 Dùng để:
+
+connect MongoDB
+
+tạo schema
+
+query database
+
+🧠 Bạn đã dùng ở đâu
+const mongoose = require("mongoose");
+
+mongoose.connect(...)
+
+const Product = mongoose.model(...)
+Product.find()
+
+👉 Không có mongoose → không nói chuyện được với MongoDB.
+
+--------------------------------------
+
+
+🚀 3. pug — template engine
+
+Bạn nhớ đúng phần này 👍
+
+👉 Dùng để:
+
+viết HTML bằng cú pháp gọn
+
+render view server-side: hiển thị giao diện phía máy chủ
+
+🧠 Bạn đã dùng ở đâu
+app.set("view engine", "pug");
+res.render("client/pages/home/index");
+
+👉 Express sẽ:
+
+pug → compile → html → gửi về browser
+
+
+------------------------------------------
+
+
+🚀 4. dotenv — đọc file .env
+👉 Dùng để:
+
+load biến môi trường từ file .env
+
+bảo mật config
+
+🧠 Ví dụ thực tế
+file .env
+MONGO_URL=mongodb://localhost:27017/test
+PORT=3000
+dùng trong code
+require("dotenv").config();
+
+mongoose.connect(process.env.MONGO_URL);
+
+👉 Không có dotenv → process.env từ file .env sẽ không load.
+
+
+-----------------------------------------------
+
+
+🚀 5. method-override — giả lập PUT/PATCH/DELETE
+
+🔥 Đây là cái nhiều bạn mới học chưa hiểu.
+
+❗ Vấn đề
+
+HTML form chỉ hỗ trợ:
+
+GET
+POST
+
+❌ KHÔNG hỗ trợ:
+
+PUT
+
+PATCH
+
+DELETE
+
+👉 method-override giúp gì?
+
+Cho phép bạn:
+
+gửi POST nhưng server hiểu là DELETE/PUT
+
+🧠 Ví dụ thực tế
+
+Form:
+
+<form method="POST" action="/products/123?_method=DELETE">
+
+Server dùng method-override:
+
+👉 Express sẽ hiểu là:
+
+DELETE /products/123
+🧠 Bạn sẽ dùng khi làm
+
+xóa sản phẩm
+
+cập nhật sản phẩm
+
+RESTful route chuẩn
+
+
+------------------------------------
+
+🔧 devDependencies là gì?
+"devDependencies": {
+  "nodemon": "^3.1.14"
+}
+
+👉 Chỉ dùng khi development
+
+🚀 nodemon — auto restart server
+👉 Dùng để:
+
+tự restart khi bạn sửa code
+
+🧠 Bạn đã dùng
+"start": "nodemon --inspect index.js"
+
+Nếu không có nodemon:
+
+❌ mỗi lần sửa code phải restart tay
+
+

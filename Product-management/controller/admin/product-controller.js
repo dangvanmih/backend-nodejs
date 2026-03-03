@@ -59,7 +59,7 @@ module.exports.products = async (req, res) => {
 }
 
 
-// [GET] '/admin/product/change-status/:status/:id'
+// [PATCH] '/admin/products/change-status/:status/:id'
 module.exports.changeStatus = async (req, res) => {
   const status = req.params.status;
   const id = req.params.id;
@@ -70,4 +70,26 @@ module.exports.changeStatus = async (req, res) => {
   // hàm redirect của express điều hướng sang trang khác và điều kiện bên trong là(nếu có trang trước thì quay về trang trước còn không thì về trang /admin/products)
   res.redirect(req.get("Referer") || "/admin/products"); 
   
-} 
+}
+
+// [PATCH] '/admin/products/change-multi-status
+module.exports.changeMulti = async (req, res) => {
+  const type = req.body.type;
+  const ids = req.body.ids.split(", "); //convert lại sang dạng mảng
+  console.log(type);
+  console.log(ids);
+
+  switch (type) {
+    case "active":
+      await Product.updateMany({_id: { $in: ids }}, {status: "active"});
+      break;
+    case "inactive":
+      await Product.updateMany({_id: { $in: ids }}, {status: "inactive"});
+      break;
+
+    default:
+      break;
+  }
+  
+  res.redirect(req.get("Referer") || "/admin/products"); 
+};
