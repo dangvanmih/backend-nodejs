@@ -40,7 +40,7 @@ module.exports.products = async (req, res) => {
     },
     req.query,
     countProducts
-    
+
   );
 
   //hết phân trang
@@ -64,12 +64,12 @@ module.exports.changeStatus = async (req, res) => {
   const status = req.params.status;
   const id = req.params.id;
 
-  await Product.updateOne({_id: id},{status: status}); // hàm update của mongoose và các tham số bên trong là các key trong database được gán lại giá trị mới
-  
+  await Product.updateOne({ _id: id }, { status: status }); // hàm update của mongoose và các tham số bên trong là các key trong database được gán lại giá trị mới
+
 
   // hàm redirect của express điều hướng sang trang khác và điều kiện bên trong là(nếu có trang trước thì quay về trang trước còn không thì về trang /admin/products)
-  res.redirect(req.get("Referer") || "/admin/products"); 
-  
+  res.redirect(req.get("Referer") || "/admin/products");
+
 }
 
 // [PATCH] '/admin/products/change-multi-status
@@ -81,17 +81,17 @@ module.exports.changeMulti = async (req, res) => {
 
   switch (type) {
     case "active":
-      await Product.updateMany({_id: { $in: ids }}, {status: "active"});
+      await Product.updateMany({ _id: { $in: ids } }, { status: "active" });
       break;
     case "inactive":
-      await Product.updateMany({_id: { $in: ids }}, {status: "inactive"});
+      await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
       break;
 
     default:
       break;
   }
-  
-  res.redirect(req.get("Referer") || "/admin/products"); 
+
+  res.redirect(req.get("Referer") || "/admin/products");
 };
 
 
@@ -99,9 +99,8 @@ module.exports.changeMulti = async (req, res) => {
 module.exports.deleteItem = async (req, res) => {
 
   const id = req.params.id;
-
-  await Product.deleteOne({_id: id});
-  
-  res.redirect(req.get("Referer") || "/admin/products"); 
-  
+  // await Product.deleteOne({ _id: id }); // xóa vĩnh viễn
+  await Product.updateOne({ _id: id }, { deleted: true });
+  // xóa mềm khi xóa thì đổi trạng thái cho sản phẩm đó thành true thì lúc find sản phầm thì truyền vào deleted:false
+  res.redirect(req.get("Referer") || "/admin/products");
 }
