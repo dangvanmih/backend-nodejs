@@ -118,6 +118,7 @@ module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
   // await Product.deleteOne({ _id: id }); // xóa vĩnh viễn
   await Product.updateOne({ _id: id }, { deleted: true, deletedAt: new Date() });
+  req.flash("success", "Xóa sản phẩm thành công!");
   // xóa mềm khi xóa thì đổi trạng thái cho sản phẩm đó thành true thì lúc find sản phầm thì truyền vào deleted:false
   res.redirect(req.get("Referer") || "/admin/products");
 }
