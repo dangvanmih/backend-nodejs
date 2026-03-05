@@ -46,7 +46,10 @@ module.exports.products = async (req, res) => {
   //hết phân trang
 
 
-  const products = await Product.find(find).limit(objectPagination.limitItems).skip(objectPagination.skip); //Product lấy  từ bên model
+  const products = await Product.find(find)
+    .limit(objectPagination.limitItems)
+    .skip(objectPagination.skip) //Product lấy  từ bên model
+    .sort({position: "desc"});  //desc: giảm dần; asc: tăng dần
   // console.log(products);
 
   res.render("admin/pages/products/index", {
@@ -76,8 +79,6 @@ module.exports.changeStatus = async (req, res) => {
 module.exports.changeMulti = async (req, res) => {
   const type = req.body.type;
   const ids = req.body.ids.split(", "); //convert lại sang dạng mảng
-  console.log(type);
-  console.log(ids);
 
   switch (type) {
     case "active":
@@ -88,6 +89,15 @@ module.exports.changeMulti = async (req, res) => {
       break;
     case "delete-all":
       await Product.updateMany({ _id: { $in: ids } }, { deleted: true, deletedAt: new Date() });
+      break
+    case "change-position":
+      for (const item of ids) {   // không dùng forEach vì forEach không chờ await
+        let [id, position] = item.split("-");
+        position = parseInt(position);
+        // console.log(id);
+        // console.log(position);
+        await Product.updateOne({ _id: id }, { position: position });
+      }
       break
     default:
       break;
@@ -102,7 +112,7 @@ module.exports.deleteItem = async (req, res) => {
 
   const id = req.params.id;
   // await Product.deleteOne({ _id: id }); // xóa vĩnh viễn
-  await Product.updateOne({ _id: id }, { deleted: true , deletedAt: new Date() });
+  await Product.updateOne({ _id: id }, { deleted: true, deletedAt: new Date() });
   // xóa mềm khi xóa thì đổi trạng thái cho sản phẩm đó thành true thì lúc find sản phầm thì truyền vào deleted:false
   res.redirect(req.get("Referer") || "/admin/products");
 }

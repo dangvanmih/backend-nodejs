@@ -3,8 +3,9 @@ const Product = require("../../models/products.model");
 //[GET] /products
 module.exports.index = async (req, res) => {
     const products = await Product.find({
-      status: "active"
-    });
+      status: "active",
+      deleted: false
+    }).sort({position: "desc"});
     
     const newProducts = products.map(item => {
       item.priceNew = (item.price*(100 - item.discountPercentage)/100).toFixed(); // thêm thuộc tính giá mới trực tiếp vào object gốc
