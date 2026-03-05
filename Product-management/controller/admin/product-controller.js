@@ -69,7 +69,7 @@ module.exports.changeStatus = async (req, res) => {
 
   await Product.updateOne({ _id: id }, { status: status }); // hàm update của mongoose và các tham số bên trong là các key trong database được gán lại giá trị mới
 
-
+  req.flash("success", "Cập nhật trạng thái thành công!");
   // hàm redirect của express điều hướng sang trang khác và điều kiện bên trong là(nếu có trang trước thì quay về trang trước còn không thì về trang /admin/products)
   res.redirect(req.get("Referer") || "/admin/products");
 
@@ -83,12 +83,15 @@ module.exports.changeMulti = async (req, res) => {
   switch (type) {
     case "active":
       await Product.updateMany({ _id: { $in: ids } }, { status: "active" });
+      req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`);
       break;
     case "inactive":
       await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
+      req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`);
       break;
     case "delete-all":
       await Product.updateMany({ _id: { $in: ids } }, { deleted: true, deletedAt: new Date() });
+      req.flash("success", `Xóa thành công ${ids.length} sản phẩm!`);
       break
     case "change-position":
       for (const item of ids) {   // không dùng forEach vì forEach không chờ await
@@ -97,7 +100,9 @@ module.exports.changeMulti = async (req, res) => {
         // console.log(id);
         // console.log(position);
         await Product.updateOne({ _id: id }, { position: position });
+        
       }
+      req.flash("success", `Thay đổi vị trí thành công ${ids.length} sản phẩm!`);
       break
     default:
       break;
@@ -116,3 +121,4 @@ module.exports.deleteItem = async (req, res) => {
   // xóa mềm khi xóa thì đổi trạng thái cho sản phẩm đó thành true thì lúc find sản phầm thì truyền vào deleted:false
   res.redirect(req.get("Referer") || "/admin/products");
 }
+

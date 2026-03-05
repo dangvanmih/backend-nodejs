@@ -3,7 +3,11 @@ include ../../mixins/filter-Status.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
+include ../../mixins/show-alert.pug
+
 block main 
+  +alert-success(3000)
+
   h1 Danh sách sản phẩm 
   .card.mb-3  
     .card-header Bộ lọc và tìm kiếm
@@ -18,7 +22,7 @@ block main
     .card-header Danh sách
       .card-body
         +form-change-multi(`${prefixAdmin}/products/change-multi-status?_method=PATCH`)
-        
+
         table(class ="table table-hover table-sm" checkbox-multi)
           thead
             tr

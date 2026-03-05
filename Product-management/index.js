@@ -3,8 +3,17 @@ const express = require("express");
 //import thư viện method-override để ghi đè phương thức
 const methodOverride = require("method-override");
 
-//iimport thư viện body-parser để lấy data convert 
+//import thư viện body-parser để lấy data convert 
 const bodyParser = require("body-parser");
+
+//import thư viện express-flash để sử dụng thông báo
+const flash = require('express-flash');
+
+//import thư viện cookie-parser
+const cookieParser = require("cookie-parser");
+
+//import thư viện express-session
+const session = require("express-session");
 
 
 //cấu hình .env
@@ -28,16 +37,22 @@ const port = process.env.PORT;
 app.use(methodOverride("_method"));
 
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({extended: false}))
+// parse application/x-www-form-urlencoded dùng để lấy ra data req.body
+app.use(bodyParser.urlencoded({ extended: false }))
 
 
 //cấu hình pug
-app.set("views","./views");
+app.set("views", "./views");
 app.set("view engine", "pug");
 
 //APP Local variables
 app.locals.prefixAdmin = systemConfg.prefixAdmin; // khai báo biến như này thì biến đó sẽ sử dụng được trong tất cả các file pug
+
+
+// express-flash
+app.use(cookieParser('JLAHSDLAISDGLI'));
+app.use(session({ cookie: { maxAge: 60000 } }));
+app.use(flash());
 
 // cấu hình file tĩnh
 app.use(express.static('public'));
@@ -48,5 +63,5 @@ routerAdmin(app);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
-    
+
 })
