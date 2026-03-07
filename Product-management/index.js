@@ -1,5 +1,4 @@
 const express = require("express");
-
 //import thư viện method-override để ghi đè phương thức
 const methodOverride = require("method-override");
 
@@ -42,11 +41,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 
 //cấu hình pug
-app.set("views", "./views");
+// app.set("views", "./views");
+app.set("views", "views");
 app.set("view engine", "pug");
 
 //APP Local variables
-app.locals.prefixAdmin = systemConfg.prefixAdmin; // khai báo biến như này thì biến đó sẽ sử dụng được trong tất cả các file pug
+app.locals.prefixAdmin = systemConfg.prefixAdmin; // khai báo biến như này thì biến đó sẽ "chỉ" sử dụng được trong tất cả các file pug
 
 
 // express-flash
@@ -65,3 +65,4 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 
 })
+

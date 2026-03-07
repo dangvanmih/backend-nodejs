@@ -49,6 +49,4 @@ if(buttonDelete.length > 0 ) {
     });
   });
 }
-
-
 //end delete item

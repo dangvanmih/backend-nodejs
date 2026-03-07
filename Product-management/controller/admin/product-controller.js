@@ -1,8 +1,8 @@
 const Product = require("../../models/products.model")
 const filterStatusHelper = require("../../helpers/filterStatus");
 const seacrhHelper = require("../../helpers/search");
-const paginationHelper = require("../../helpers/pagination")
-
+const paginationHelper = require("../../helpers/pagination");
+const systemConfig = require("../../config/system")
 //[GET] /admin/products
 module.exports.products = async (req, res) => {
   // console.log(req.query.status);
@@ -49,7 +49,7 @@ module.exports.products = async (req, res) => {
   const products = await Product.find(find)
     .limit(objectPagination.limitItems)
     .skip(objectPagination.skip) //Product lấy  từ bên model
-    .sort({position: "desc"});  //desc: giảm dần; asc: tăng dần
+    .sort({ position: "desc" });  //desc: giảm dần; asc: tăng dần
   // console.log(products);
 
   res.render("admin/pages/products/index", {
@@ -100,7 +100,7 @@ module.exports.changeMulti = async (req, res) => {
         // console.log(id);
         // console.log(position);
         await Product.updateOne({ _id: id }, { position: position });
-        
+
       }
       req.flash("success", `Thay đổi vị trí thành công ${ids.length} sản phẩm!`);
       break
@@ -123,3 +123,31 @@ module.exports.deleteItem = async (req, res) => {
   res.redirect(req.get("Referer") || "/admin/products");
 }
 
+
+// [CREATE] '/admin/pages/products/create
+module.exports.create = async (req, res) => {
+  res.render("admin/pages/products/create", {
+    pageTitle: "Thêm mới sản phẩm",
+  });
+};
+
+// [POST] '/admin/pages/products/create
+module.exports.createPost = async (req, res) => {
+  req.body.price = parseInt(req.body.price);
+  req.body.discountPercentage = parseInt(req.body.discountPercentage);
+  req.body.stock = parseInt(req.body.stock);
+
+  if(req.body.position === "")
+  {
+    const countProducts = await Product.countDocuments();
+    req.body.position = countProducts + 1;
+  }
+  else {
+    req.body.position = parseInt(req.body.position);
+  }
+
+  const product = new Product(req.body); //tạo mới 1 sản phẩm nhưng chưa lưu vào database
+  await product.save()
+
+  res.redirect(`${systemConfig.prefixAdmin}/products`);
+};
