@@ -53,6 +53,7 @@
   box-shadow: 0 4px 15px rgba(0.2, 0.2, 0.2, 0.2);
   border-radius: 20px;
   overflow: hidden;
+  cursor: pointer;
 }
 .product-item .inner-item .inner-image {
   text-align: center;
@@ -62,7 +63,6 @@
   height: 400px;
   object-fit: cover;
   overflow: hidden;
-  cursor: pointer;
 }
 .product-item .inner-item .inner-content {
   padding: 10px;

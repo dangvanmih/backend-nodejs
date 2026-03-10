@@ -163,3 +163,17 @@ Nếu không có nodemon:
 ❌ mỗi lần sửa code phải restart tay
 
 
+
+
+
+Kiến trúc chuẩn Express
+
+Trong Express thường chia 3 tầng:
+
+Router
+   ↓
+Middleware (validate, upload, auth)
+   ↓
+Controller
+   ↓
+Model

@@ -157,6 +157,7 @@ if(uploadImage) {
   const uploadImageInput = document.querySelector("[upload-image-input]");
   const uploadImagePreview = document.querySelector("[upload-image-preview]");
   const btnCloseImage = document.querySelector("[close-image]");
+  
   uploadImageInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
     if(file) {
