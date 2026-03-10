@@ -147,6 +147,28 @@ if(showAlert) {
     showAlert.classList.add("alert-hidden");
   })
 }
+//end-show-alert
 
 
-//end-show-alert 
+// upload image
+const uploadImage = document.querySelector("[upload-image]");
+if(uploadImage) {
+  
+  const uploadImageInput = document.querySelector("[upload-image-input]");
+  const uploadImagePreview = document.querySelector("[upload-image-preview]");
+  const btnCloseImage = document.querySelector("[close-image]");
+  uploadImageInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if(file) {
+      btnCloseImage.classList = 'd-flex btn-danger'
+      uploadImagePreview.src = URL.createObjectURL(file);
+    }
+    btnCloseImage.addEventListener("click", () => {
+      uploadImageInput.value = "";
+      uploadImagePreview.src = "";
+      btnCloseImage.classList = 'd-none'
+    })
+  })
+}
+
+//end upload-image

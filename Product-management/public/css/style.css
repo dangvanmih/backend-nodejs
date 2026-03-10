@@ -3,10 +3,11 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
+  padding: 5px 0;
 }
 
 .header .inner-logo img {
-  width: 100px;
+  width: 100%;
 }
 
 .header .inner-menu ul {
@@ -55,11 +56,11 @@
 }
 .product-item .inner-item .inner-image {
   text-align: center;
-  padding: 10px;
 }
 .product-item .inner-item .inner-image img {
-
-  height: 200px;
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
   overflow: hidden;
   cursor: pointer;
 }

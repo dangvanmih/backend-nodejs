@@ -5,11 +5,12 @@ block main
 
   form(
     action=`${prefixAdmin}/products/create`
+    enctype="multipart/form-data"
     id="form-create-product"
     method="POST"
   )
     div(class = "form-group")
-      label(for="title") Tên sản phẩm
+      label(for="title") Tên sản phẩm:
       input(
         type="text"
         class ="form-control"
@@ -18,7 +19,7 @@ block main
         required
       )
     div(class = "form-group")
-      label(for="desc") Mô tả
+      label(for="desc") Mô tả:
       input(
         type="text"
         class ="form-control"
@@ -26,7 +27,7 @@ block main
         name = "description"
       )
     div(class = "form-group")
-      label(for="price") Giá
+      label(for="price") Giá:
       textarea(
         type="number"
         class ="form-control"
@@ -34,10 +35,10 @@ block main
         name = "price"
         value = "0"
         min = "0"
-        required
+
       )
     div(class = "form-group")
-      label(for="price") % Giảm giá
+      label(for="price") % Giảm giá:
       input(
         type="number"
         step="0.01"
@@ -46,10 +47,10 @@ block main
         name = "discountPercentage"
         value = "0"
         min = "0"
-        required
+
       )
     div(class = "form-group")
-      label(for="stock") Số lượng
+      label(for="stock") Số lượng:
       input(
         type="number"
         class ="form-control"
@@ -57,19 +58,28 @@ block main
         name = "stock"
         value = "0"
         min = "0"
-        required
+
       )
-    div(class = "form-group")
-      label(for="thumbnail") Ảnh
+    div(class = "form-group" upload-image)
+      label(for="thumbnail") Ảnh:
       input(
-        type="text"
-        class ="form-control"
+        type="file"
+        class ="form-control-file"
         id = "thumbnail"
         name = "thumbnail"
-        required
+        accept="image/*"
+        upload-image-input
       )
+      div(class = "d-flex")
+        img(
+          src=""
+          upload-image-preview
+          class ="image-preview"
+        )
+        button(class="btn btn-danger btn-sm d-none " style="height: 30px; margin-top: 10px" close-image) Close
+
     div(class = "form-group")
-      label(for="position") Vị trí
+      label(for="position") Vị trí:
       input(
         type="text"
         class ="form-control"
@@ -87,7 +97,7 @@ block main
         value = "active"
         checked
       )
-      label(for="statusInactive" class = "form-check-label") Hoạt động
+      label(for="statusInactive" class = "form-check-label") Hoạt động:
 
     div(class = "form-group form-check form-check-inline")
       input(
@@ -97,7 +107,7 @@ block main
         name = "status"
         value = "inactive"
       )
-      label(for="statusInactive" class = "form-check-label") Dừng hoạt động
+      label(for="statusInactive" class = "form-check-label") Dừng hoạt động:
     div(class = "form-group")
       button(
         type="submit"
