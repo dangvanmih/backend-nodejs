@@ -2,7 +2,8 @@ const Product = require("../../models/products.model")
 const filterStatusHelper = require("../../helpers/filterStatus");
 const seacrhHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
-const systemConfig = require("../../config/system")
+const systemConfig = require("../../config/system");
+const flash = require("express-flash");
 //[GET] /admin/products
 module.exports.products = async (req, res) => {
   // console.log(req.query.status);
@@ -135,8 +136,8 @@ module.exports.create = async (req, res) => {
 module.exports.createPost = async (req, res) => {
   // console.log(req.file);
 
-  req.body.price = parseInt(req.body.price);
-  req.body.discountPercentage = parseInt(req.body.discountPercentage);
+  req.body.price = parseFloat(req.body.price);
+  req.body.discountPercentage = parseIparseFloatnt(req.body.discountPercentage);
   req.body.stock = parseInt(req.body.stock);
 
   if (req.body.position === "") {
@@ -152,5 +153,56 @@ module.exports.createPost = async (req, res) => {
     const product = new Product(req.body); //tạo mới 1 sản phẩm nhưng chưa lưu vào database
     await product.save()
   }
+
+  req.flash("success", "Thêm sản phẩm thành công!");
   res.redirect(`${systemConfig.prefixAdmin}/products`);
 };
+
+
+// [CREATE] '/admin/pages/products/edit
+module.exports.edit = async (req, res) => {
+  try {
+    const find = {
+      deleted: false,
+      _id: req.params.id
+    };
+
+    const product = await Product.findOne(find); // sửa 1 sản phẩm thì dùng findOne để trả ra 1 object còn hàm find thì trả ra 1 mảng chứa các object
+
+    console.log(product);
+
+
+    res.render("admin/pages/products/edit", {
+      pageTitle: "Sửa sản phẩm",
+      product: product
+    });
+  }
+  catch (error) {
+    flash
+    res.redirect(`${systemConfig.prefixAdmin}/products`)
+  }
+};
+
+// [PATCH] '/admin/pages/products/editPatch
+module.exports.editPatch = async (req, res) => {
+  // console.log(req.body);
+  const id = req.params.id;
+  req.body.price = parseFloat(req.body.price);
+  req.body.discountPercentage = parseFloat(req.body.discountPercentage);
+  req.body.stock = parseInt(req.body.stock);
+  req.body.position = parseInt(req.body.position);
+  if (req.file) {
+    req.body.thumbnail = `/uploads/${req.file.filename}`;
+  }
+
+  try {
+    await Product.updateOne({ _id: id }, req.body);
+    req.flash("success", "Cập nhật sản phẩm thành công!");
+
+  } catch (error) {
+    req.flash("error", "Cập nhật sản phẩm không thành công!");
+    res.redirect(`${systemConfig.prefixAdmin}/products`)
+  }
+  
+  res.redirect(req.get('Referrer') || '/');
+}

@@ -20,4 +20,11 @@ router.post('/create', upload.single("thumbnail"),
 validates.createPost, // đây sẽ là middleware khi mà phần bên trên gửi yêu cầu, thì hàm này sẽ check nếu có thì mới cho đi tiếp xuống bên dưới
 controller.createPost);
 
+router.get('/edit/:id', controller.edit);
+
+router.patch('/edit/:id',
+  upload.single("thumbnail"), 
+  validates.createPost,
+  controller.editPatch
+);
 module.exports = router;

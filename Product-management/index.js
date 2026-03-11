@@ -31,13 +31,11 @@ database.connect();
 const app = express();
 const port = process.env.PORT;
 
+// parse application/x-www-form-urlencoded dùng để lấy ra data req.body
+app.use(bodyParser.urlencoded({ extended: false }));
+
 //method-override để ghi đè phương thức
 app.use(methodOverride("_method"));
-
-
-// parse application/x-www-form-urlencoded dùng để lấy ra data req.body
-app.use(bodyParser.urlencoded({ extended: false }))
-
 
 //cấu hình pug
 // app.set("views", "./views");
