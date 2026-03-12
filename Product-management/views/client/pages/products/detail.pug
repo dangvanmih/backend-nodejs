@@ -1,0 +1,20 @@
+extends ../../layouts/default.pug 
+
+block main 
+  div(style=" background-color: #EFEEF5; border-radius: 5px; padding: 50px 0 90px 0;")
+    .container
+      div(class="row" style="padding: 20px 0 ")
+        .col-6  
+          if(product.thumbnail)
+            .inner-image 
+              img(src=product.thumbnail width="500px" height="700px" style="object-fit: cover; border-radius: 5px")
+        .col-6 
+          if(product.title)
+            h1.inner-title #{product.title}
+          if(product.price)
+            p.inner-price Giá: $#{product.price} USD
+          if(product.discountPercentage)
+            p.inner-discount Giảm giá: #{product.discountPercentage} %
+          if(product.stock)
+            p.inner-stock Còn lại: #{product.stock}
+  script(src="/js/product.js")

@@ -161,7 +161,7 @@ if(uploadImage) {
   uploadImageInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
     if(file) {
-      btnCloseImage.classList = 'd-flex btn-danger'
+      btnCloseImage.classList.remove("d-none");
       uploadImagePreview.src = URL.createObjectURL(file);
     }
     btnCloseImage.addEventListener("click", () => {
