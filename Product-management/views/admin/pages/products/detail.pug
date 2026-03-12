@@ -1,13 +1,13 @@
 extends ../../layouts/default.pug 
 
 block main 
-  div
+  div(style="background-color: #EFEEF5; margin: 0 20px; border-radius: 5px")
     .container
-      div(class="row" style="margin-top: 6rem;")
-        .col-6 
+      div(class="row" style="margin-top: 6rem; padding: 20px 0 ")
+        .col-6  
           if(product.thumbnail)
             .inner-image 
-              img(src=product.thumbnail width="500px" height="700px" style="object-fit: cover;")
+              img(src=product.thumbnail width="500px" height="700px" style="object-fit: cover; border-radius: 5px")
 
 
         .col-6 
