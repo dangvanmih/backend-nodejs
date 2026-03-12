@@ -1,16 +1,22 @@
-let lastScroll = 0;
+// scroll-header
+let lastScroll = 0; //vị trí scroll của lần trước
 const header = document.querySelector(".header");
 
 window.addEventListener("scroll", () => {
   const currentScroll = window.scrollY;
+  console.log(currentScroll);
+  
 
-  if (currentScroll > lastScroll) {
+  if (currentScroll > lastScroll) { //đang scroll xuống
     // scroll xuống
     header.classList.add("hide");
-  } else {
+    
+  } else { //đang scroll lên
     // scroll lên
     header.classList.remove("hide");
   }
 
-  lastScroll = currentScroll;
+  lastScroll = currentScroll; // sau mỗi lần scroll thì gán lại vị trí scroll mới nhất
 });
+
+//end-scrol-header

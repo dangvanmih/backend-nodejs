@@ -1,24 +1,25 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 block main 
-  .container.my-3   
-    .row  
-      .col-12 
-        +box-head("Danh sách sản phẩm")
-        
-    .row
-      each items in products  
-        .col-4.mb-3 
-          .product-item
-            a(href=`/products/${items.slug}` style = "text-decoration: none") 
-              .inner-item
-                .inner-image
-                  img(src=items.thumbnail alt=items.title class = "img-main")
-                  //- img(src="/uploads/1773127767614-IMG_9438.webp" class = "img-hover") // cách làm khi hover thì đổi sang ảnh khác
-                .inner-content 
-                  h3.inner-title #{items.title}
-                  .inner-price-new #{items.priceNew}$
-                  .inner-price-old #{items.price}$
-                  .inner-discount 
-                    span Giảm 
-                    b #{items.discountPercentage}%
+  div(style = "background-color: #EFEEF5; padding: 10px 0")
+    .container.my-3
+      .row 
+        .col-12 
+          +box-head("Danh sách sản phẩm")
+          
+      .row
+        each items in products  
+          .col-4.mb-3 
+            .product-item
+              a(href=`/products/${items.slug}` style = "text-decoration: none") 
+                .inner-item
+                  .inner-image
+                    img(src=items.thumbnail alt=items.title class = "img-main")
+                    //- img(src="/uploads/1773127767614-IMG_9438.webp" class = "img-hover") // cách làm khi hover thì đổi sang ảnh khác
+                  .inner-content 
+                    h3.inner-title #{items.title}
+                    .inner-price-new #{items.priceNew}$
+                    .inner-price-old #{items.price}$
+                    .inner-discount 
+                      span Giảm 
+                      b #{items.discountPercentage}%
