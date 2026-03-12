@@ -161,15 +161,15 @@ if(uploadImage) {
   uploadImageInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
     if(file) {
-      btnCloseImage.classList.remove("d-none");
       uploadImagePreview.src = URL.createObjectURL(file);
+      btnCloseImage.classList.remove("d-none");
     }
-    btnCloseImage.addEventListener("click", () => {
+  })
+   btnCloseImage.addEventListener("click", () => {
       uploadImageInput.value = "";
       uploadImagePreview.src = "";
-      btnCloseImage.classList = 'd-none'
+      btnCloseImage.classList.add("d-none");
     })
-  })
 }
 
 //end upload-image
