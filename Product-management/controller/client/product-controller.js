@@ -8,7 +8,7 @@ module.exports.index = async (req, res) => {
     }).sort({position: "desc"});
     
     const newProducts = products.map(item => {
-      item.priceNew = (item.price*(100 - item.discountPercentage)/100).toFixed(); // thêm thuộc tính giá mới trực tiếp vào object gốc
+      item.priceNew = (item.price*(100 - item.discountPercentage)/100).toFixed(2); // thêm thuộc tính giá mới trực tiếp vào object gốc
       return item;
     });
 

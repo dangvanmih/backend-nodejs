@@ -169,7 +169,7 @@ module.exports.edit = async (req, res) => {
 
     const product = await Product.findOne(find); // sửa 1 sản phẩm thì dùng findOne để trả ra 1 object còn hàm find thì trả ra 1 mảng chứa các object
 
-    console.log(product);
+    //console.log(product); 
 
 
     res.render("admin/pages/products/edit", {
@@ -206,3 +206,24 @@ module.exports.editPatch = async (req, res) => {
   
   res.redirect(req.get('Referrer') || '/');
 }
+
+// [CREATE] '/admin/pages/products/detail
+module.exports.detail = async (req, res) => {
+  try {
+    const find = {
+      deleted: false,
+      _id: req.params.id
+    };
+
+    const product = await Product.findOne(find); // sửa 1 sản phẩm thì dùng findOne để trả ra 1 object còn hàm find thì trả ra 1 mảng chứa các object
+
+    res.render("admin/pages/products/detail", {
+      pageTitle: product.title,
+      product: product
+    });
+  }
+  catch (error) {
+    flash
+    res.redirect(`${systemConfig.prefixAdmin}/products`)
+  }
+};
