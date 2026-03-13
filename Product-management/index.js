@@ -39,7 +39,7 @@ app.use(methodOverride("_method"));
 
 //cấu hình pug
 // app.set("views", "./views");
-app.set("views", "views");
+app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
 
 //APP Local variables
@@ -51,8 +51,8 @@ app.use(cookieParser('JLAHSDLAISDGLI'));
 app.use(session({ cookie: { maxAge: 60000 } }));
 app.use(flash());
 
-// cấu hình file tĩnh
-app.use(express.static('public'));
+// cấu hình file tĩnh: dùng online thì phải thêm __dirname
+app.use(express.static(`${__dirname}public`));
 
 //Router
 routerClient(app);
