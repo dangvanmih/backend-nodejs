@@ -52,7 +52,7 @@ app.use(session({ cookie: { maxAge: 60000 } }));
 app.use(flash());
 
 // cấu hình file tĩnh: dùng online thì phải thêm __dirname
-app.use(express.static(`${__dirname}public`));
+app.use(express.static(`${__dirname}/public`));
 
 //Router
 routerClient(app);
