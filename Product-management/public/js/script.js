@@ -4,9 +4,7 @@ const header = document.querySelector(".header");
 
 window.addEventListener("scroll", () => {
   const currentScroll = window.scrollY;
-  console.log(currentScroll);
   
-
   if (currentScroll > lastScroll) { //đang scroll xuống
     // scroll xuống
     header.classList.add("hide");
