@@ -148,11 +148,10 @@ module.exports.createPost = async (req, res) => {
     req.body.position = parseInt(req.body.position);
   }
 
-  if (req.file) {
-    req.body.thumbnail = `/uploads/${req.file.filename}`;
-    const product = new Product(req.body); //tạo mới 1 sản phẩm nhưng chưa lưu vào database
-    await product.save()
-  }
+
+  const product = new Product(req.body); //tạo mới 1 sản phẩm nhưng chưa lưu vào database
+  await product.save()
+
 
   req.flash("success", "Thêm sản phẩm thành công!");
   res.redirect(`${systemConfig.prefixAdmin}/products`);
@@ -203,7 +202,7 @@ module.exports.editPatch = async (req, res) => {
     req.flash("error", "Cập nhật sản phẩm không thành công!");
     res.redirect(`${systemConfig.prefixAdmin}/products`)
   }
-  
+
   res.redirect(req.get('Referrer') || '/');
 }
 
@@ -223,7 +222,6 @@ module.exports.detail = async (req, res) => {
     });
   }
   catch (error) {
-    flash
     res.redirect(`${systemConfig.prefixAdmin}/products`)
   }
 };
