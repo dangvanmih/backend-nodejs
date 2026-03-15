@@ -137,7 +137,7 @@ module.exports.createPost = async (req, res) => {
   // console.log(req.file);
 
   req.body.price = parseFloat(req.body.price);
-  req.body.discountPercentage = parseIparseFloatnt(req.body.discountPercentage);
+  req.body.discountPercentage = parseFloat(req.body.discountPercentage);
   req.body.stock = parseInt(req.body.stock);
 
   if (req.body.position === "") {
