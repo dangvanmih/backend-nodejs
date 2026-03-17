@@ -1,4 +1,7 @@
 const express = require("express");
+
+var path = require('path');
+
 //import thư viện method-override để ghi đè phương thức
 const methodOverride = require("method-override");
 
@@ -50,6 +53,9 @@ app.locals.prefixAdmin = systemConfg.prefixAdmin; // khai báo biến như này 
 app.use(cookieParser('JLAHSDLAISDGLI'));
 app.use(session({ cookie: { maxAge: 60000 } }));
 app.use(flash());
+
+//tinyMCE
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 // cấu hình file tĩnh: dùng online thì phải thêm __dirname
 app.use(express.static(`${__dirname}/public`));

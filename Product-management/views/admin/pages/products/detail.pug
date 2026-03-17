@@ -27,8 +27,12 @@ block main
               span(class = "badg badge-error") Không hoạt động
           if(product.position)
             h4.inner-position Vị trí: #{product.position}
-
+          
+          if(product.description)
+            div(class="mb-4") !{product.description} 
+            //- nếu mã in ra là dạng html thì phải đặt dấu chấm ! để hiển thị đúng định dạng.
           a(
             href=`${prefixAdmin}/products/edit/${product.id}` 
             class = "btn btn-warning btn-xl mr-1" ) Chỉnh sửa
   script(src="/admin/js/product.js")
+//- 22:14
