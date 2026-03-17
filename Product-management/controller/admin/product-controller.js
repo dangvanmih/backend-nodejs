@@ -30,7 +30,6 @@ module.exports.products = async (req, res) => {
   // hết tìm kiếm
 
   // phân trang
-
   const countProducts = await Product.countDocuments(find); // countDocuments là hàm đếm của mongoose
   // console.log(countProducts);
 
@@ -43,14 +42,24 @@ module.exports.products = async (req, res) => {
     countProducts
 
   );
-
   //hết phân trang
 
+
+
+  // sort 
+  let sort = {}
+  if (req.query.sortKey && req.query.sortValue) {
+    sort[req.query.sortKey] = req.query.sortValue; //key của object được lấy từ một string (biến) nên phải dùng ngoặc vuông
+  }
+  else {
+    sort.position = "desc"
+  }
+  // end-sort 
 
   const products = await Product.find(find)
     .limit(objectPagination.limitItems)
     .skip(objectPagination.skip) //Product lấy  từ bên model
-    .sort({ position: "desc" });  //desc: giảm dần; asc: tăng dần
+    .sort(sort);  //desc: giảm dần; asc: tăng dần
   // console.log(products);
 
   res.render("admin/pages/products/index", {

@@ -115,7 +115,7 @@ if (formChangeMulti) {
 
         if (typeChange == "change-position") {
           const position = input.closest("tr").querySelector("input[name='position']").value;
-          
+
           ids.push(`${id}-${position}`);
         }
         else {
@@ -135,14 +135,14 @@ if (formChangeMulti) {
 
 // Show alert
 const showAlert = document.querySelector("[show-alert]")
-if(showAlert) {
+if (showAlert) {
   const time = parseInt(showAlert.getAttribute("data-time"));
   const closeAlert = showAlert.querySelector("[close-alert]");
 
   setTimeout(() => {
     showAlert.classList.add("alert-hidden");
   }, time);
-  
+
   closeAlert.addEventListener("click", () => {
     showAlert.classList.add("alert-hidden");
   })
@@ -152,24 +152,71 @@ if(showAlert) {
 
 // upload image
 const uploadImage = document.querySelector("[upload-image]");
-if(uploadImage) {
-  
+if (uploadImage) {
+
   const uploadImageInput = document.querySelector("[upload-image-input]");
   const uploadImagePreview = document.querySelector("[upload-image-preview]");
   const btnCloseImage = document.querySelector("[close-image]");
-  
+
   uploadImageInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
-    if(file) {
+    if (file) {
       uploadImagePreview.src = URL.createObjectURL(file);
       btnCloseImage.classList.remove("d-none");
     }
   })
-   btnCloseImage.addEventListener("click", () => {
-      uploadImageInput.value = "";
-      uploadImagePreview.src = "";
-      btnCloseImage.classList.add("d-none");
-    })
+  btnCloseImage.addEventListener("click", () => {
+    uploadImageInput.value = "";
+    uploadImagePreview.src = "";
+    btnCloseImage.classList.add("d-none");
+  })
 }
 
 //end upload-image
+
+
+//sort 
+const sort = document.querySelector("[sort]");
+if (sort) {
+
+  const sortClear = sort.querySelector("[sort-clear]");
+  const url = new URL(window.location.href);
+  const sortSelect = document.querySelector("[sort-select]");
+
+  if (sortSelect) {
+    // khi user change
+    sortSelect.addEventListener("change", (e) => {
+      const values = e.target.value;
+      const [sortKey, sortValue] = values.split("-");
+
+      url.searchParams.set("sortKey", sortKey);
+      url.searchParams.set("sortValue", sortValue);
+
+      window.location.href = url.href;
+    });
+  }
+  sortClear.addEventListener("click", () => {
+    url.searchParams.delete("sortKey");
+    url.searchParams.delete("sortValue");
+    window.location.href = url.href;
+  });
+
+  // thêm selected cho option
+  const sortKey = url.searchParams.get("sortKey");
+  const sortValue = url.searchParams.get("sortValue");
+  
+  // nếu có sort thì set lại option
+  if (sortKey && sortValue) {
+    const stringSort = `${sortKey}-${sortValue}`;
+    const optionSelected = sortSelect.querySelector(`option[value='${stringSort}']`);
+    if(optionSelected) {
+      optionSelected.selected = true;
+    }
+  }
+
+}
+
+
+
+
+//end-sort
