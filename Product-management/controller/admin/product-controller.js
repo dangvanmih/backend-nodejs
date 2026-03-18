@@ -19,6 +19,7 @@ module.exports.products = async (req, res) => {
   {
     find.status = req.query.status; // thêm key status  và gán câu truy vấn
   };
+
   // hết bộ lọc
 
   // tìm kiếm
@@ -165,7 +166,6 @@ module.exports.createPost = async (req, res) => {
   req.flash("success", "Thêm sản phẩm thành công!");
   res.redirect(`${systemConfig.prefixAdmin}/products`);
 };
-
 
 // [CREATE] '/admin/pages/products/edit
 module.exports.edit = async (req, res) => {

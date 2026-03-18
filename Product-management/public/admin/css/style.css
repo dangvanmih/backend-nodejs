@@ -1,17 +1,18 @@
 /* header */
 .header {
-  background-color: #689071;
+  background-color: #1E1D2F;
   padding: 10px 0;
   position: sticky;
   top: 0;
   z-index: 999;
- 
+
 }
 
 .header .inner-logo a {
   color: #fff;
   font-size: 24px;
   font-weight: 700;
+  text-decoration: none;
 }
 
 /* end-header */
@@ -21,10 +22,10 @@
 .body {
   display: flex;
 }
+
 .body .sider {
   width: 10%;
-  background-color: #AEC3B0;
-  color: #fff;
+  background-color: #1E1D2F;
   height: calc(100vh - 56px);
   position: fixed;
 }
@@ -38,16 +39,24 @@
 /* end-body */
 
 /* sider  */
-.sider .inner-menu ul{
+.sider .inner-menu ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 .sider .inner-menu ul li a {
-  color: #fff;
+  color: #ffffff56;
   display: block;
-  padding: 6px 10px;
+  padding: 15px 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.sider .inner-menu ul li a:hover {
+  color: #ffff;
+  text-decoration: none;
+  background-color: #25243a;
+
 }
 
 /* end-sider */
@@ -67,10 +76,11 @@
   animation-fill-mode: both;
 }
 
-@keyframes alert-hidden  {
+@keyframes alert-hidden {
   from {
-    right:15px;
+    right: 15px;
   }
+
   to {
     right: -100%;
     display: none;
@@ -89,18 +99,21 @@
   cursor: pointer;
   text-align: center;
 }
+
 /* end-show-alert */
 
 /* pagination */
 .page-link {
-  color: #28a745;
+  color: #25243a;
 }
+
 .page-link:hover {
-  color: #28a745;
+  color: #25243a;
 }
+
 .page-item.active .page-link {
-  background-color: #28a745;
-  border-color: #28a745;
+  background-color: #25243a;
+  border-color: #25243a;
   color: white;
 }
 
@@ -115,7 +128,38 @@
   padding: 15px;
   border-radius: 5px;
 }
+
 .image-preview[src=""] {
   display: none;
 }
+
 /* end-image-preview */
+
+/* button */
+.btn-success {
+  background-color: #6775FF !important;
+  border-color: #6775FF !important;
+  color: #ffff;
+}
+
+.btn-success:hover {
+  background-color: #6776ff9f !important;
+}
+
+.btn-outline-success {
+  color: #6775FF;
+  border: 1px solid #6775FF !important;
+}
+.btn-outline-success:hover{
+  color: #fff;
+  background-color: #6775FF !important;
+}
+.btn-outline-success:not(:disabled):not(.disabled).active,
+.btn-outline-success:not(:disabled):not(.disabled):active,
+.show>.btn-outline-success.dropdown-toggle {
+  color: #fff;
+  background-color: #6775FF !important;
+  border-color: #6775FF !important;
+}
+
+/* end-button */
