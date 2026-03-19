@@ -23,7 +23,7 @@ module.exports.index = async (req, res) => {
         find.title = objectSearch.regex;
       }
     //End-tìm kiếm
-    const records = await productsCategory.find(find);    
+    const records = await productsCategory.find(find).sort({ position: "desc" });    
     res.render("admin/pages/productCategory/index", {
       pageTitle: "Trang danh mục sản phẩm",
       records: records,
@@ -69,4 +69,40 @@ module.exports.changeStatus = async (req, res) => {
   req.flash("success", "Cập nhật trạng thái thành công!");
   // hàm redirect của express điều hướng sang trang khác và điều kiện bên trong là(nếu có trang trước thì quay về trang trước còn không thì về trang /admin/products)
   res.redirect(req.get("Referer") || "/admin/products-category");
+};
+
+//[PATCH] /admin/products-category/change-multi-status
+module.exports.changeMulti = async (req, res) => {
+  const type = req.body.type;    
+  const ids = req.body.ids.split(", "); //convert lại sang dạng mảng
+
+  switch (type) {
+    case "active":
+      await productsCategory.updateMany({ _id: { $in: ids } }, { status: "active" });
+      req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`);
+      break;
+    case "inactive":
+      await productsCategory.updateMany({ _id: { $in: ids } }, { status: "inactive" });
+      req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`);
+      break;
+    case "delete-all":
+      await productsCategory.updateMany({ _id: { $in: ids } }, { deleted: true, deletedAt: new Date() });
+      req.flash("success", `Xóa thành công ${ids.length} sản phẩm!`);
+      break
+    case "change-position":
+      for (const item of ids) {   // không dùng forEach vì forEach không chờ await
+        let [id, position] = item.split("-");
+        position = parseInt(position);
+        // console.log(id);
+        // console.log(position);
+        await productsCategory.updateOne({ _id: id }, { position: position });
+
+      }
+      req.flash("success", `Thay đổi vị trí thành công ${ids.length} sản phẩm!`);
+      break
+    default:
+      break;
+  }
+
+  res.redirect(req.get("Referer") || "/admin/products-category")
 };
