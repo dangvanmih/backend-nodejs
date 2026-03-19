@@ -14,7 +14,6 @@ block main
     .card-body
       .row
         .col-6
-          //- thêm attribute tự định nghĩa để bắt sự kiện bên front-end 
           +filter-Status(filterStatus)
         .col-6
           +search(keyword)
@@ -27,7 +26,7 @@ block main
   .card.mb-3  
     .card-header Danh sách
       .card-body
-        .row 
+        .row
           .col-8
             +form-change-multi(`${prefixAdmin}/products/change-multi-status?_method=PATCH`)
           .col-4 

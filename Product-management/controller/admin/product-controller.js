@@ -6,8 +6,6 @@ const systemConfig = require("../../config/system");
 const flash = require("express-flash");
 //[GET] /admin/products
 module.exports.products = async (req, res) => {
-  // console.log(req.query.status);
-
   //bộ lọc
   const filterStatus = filterStatusHelper(req.query);
 

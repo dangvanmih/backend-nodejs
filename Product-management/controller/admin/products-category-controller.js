@@ -1,17 +1,27 @@
 const productsCategory = require("../../models/products-category.model");
 const systemConfig = require("../../config/system");
+const filterStatusHelper = require("../../helpers/filterStatus");
+
 //[GET] /admin/products-category
 module.exports.index = async (req, res) => {
   try {
+    const fillterStatus = filterStatusHelper(req.query);
     let find = {
       deleted: false,
     };
 
-    const records = await productsCategory.find(find);
+    //bộ lọc
+    if (req.query.status) {
+      find.status = req.query.status
+    }
+    //End-bộ lọc
 
+    //tìm kiếm
+    const records = await productsCategory.find(find);    
     res.render("admin/pages/productCategory/index", {
       pageTitle: "Trang danh mục sản phẩm",
-      records: records
+      records: records,
+      fillterStatus:fillterStatus
     });
   }
   catch (error) {
@@ -44,7 +54,7 @@ module.exports.createPost = async (req, res) => {
 
 //[PATCH] /admin/products-category/change-status
 module.exports.changeStatus = async (req, res) => {
- const status = req.params.status;
+  const status = req.params.status;
   const id = req.params.id;
 
   await productsCategory.updateOne({ _id: id }, { status: status }); // hàm update của mongoose và các tham số bên trong là các key trong database được gán lại giá trị mới
