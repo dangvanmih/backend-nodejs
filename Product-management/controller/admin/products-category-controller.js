@@ -1,7 +1,7 @@
 const productsCategory = require("../../models/products-category.model");
 const systemConfig = require("../../config/system");
 const filterStatusHelper = require("../../helpers/filterStatus");
-
+const seacrhHelper = require("../../helpers/search");
 //[GET] /admin/products-category
 module.exports.index = async (req, res) => {
   try {
@@ -17,11 +17,18 @@ module.exports.index = async (req, res) => {
     //End-bộ lọc
 
     //tìm kiếm
+    const objectSearch = seacrhHelper(req.query);
+    
+      if (objectSearch.regex) {
+        find.title = objectSearch.regex;
+      }
+    //End-tìm kiếm
     const records = await productsCategory.find(find);    
     res.render("admin/pages/productCategory/index", {
       pageTitle: "Trang danh mục sản phẩm",
       records: records,
-      fillterStatus:fillterStatus
+      fillterStatus:fillterStatus,
+      keyword:objectSearch.keyword
     });
   }
   catch (error) {
