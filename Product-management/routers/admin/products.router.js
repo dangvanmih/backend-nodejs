@@ -17,7 +17,7 @@ router.delete('/delete/:id', controller.deleteItem);
 router.get('/create', controller.create);
 
 router.post('/create', upload.single("thumbnail"),
-  validates.createPost, // đây sẽ là middleware khi mà phần bên trên gửi yêu cầu, thì hàm này sẽ check nếu có thì mới cho đi tiếp xuống bên dưới
+  validates.createPost,
   uploadCloud.upload,
   controller.createPost);
 

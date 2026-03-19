@@ -13,10 +13,6 @@ if(buttonChangeStatus){
 
       let statusChange = statusCurrent == "active" ? "inactive" : "active";
 
-      // console.log(statusChange);
-      // // console.log(statusCurrent);
-      // console.log(id);
-      
       const action = path + `/${statusChange}/${id}?_method=PATCH`;  // bên view phải là POST thì bên này mới ghi đè được , và phải thay đổi phương thức bên router nữa. 
 
       formChangeStatus.action = action; // vì nó là thuộc tính có sẵn nên gán lại action bên form bằng action mới; còn attribute tự định nghĩa thì phải dùng setattibute thì mới sửa được
@@ -31,6 +27,7 @@ if(buttonChangeStatus){
 //delete item
 const buttonDelete  = document.querySelectorAll("[button-delete]");
 if(buttonDelete.length > 0 ) {
+  
   const formDeleteItem = document.querySelector("#form-delete-item");
   const path = formDeleteItem.getAttribute("data-path");
 

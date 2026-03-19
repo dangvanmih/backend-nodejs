@@ -72,7 +72,6 @@ module.exports.products = async (req, res) => {
   });
 }
 
-
 // [PATCH] '/admin/products/change-status/:status/:id'
 module.exports.changeStatus = async (req, res) => {
   const status = req.params.status;

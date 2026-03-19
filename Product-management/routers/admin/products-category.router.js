@@ -11,14 +11,12 @@ router.get('/', controller.index);
 
 router.get('/create', controller.create);
 
-console.log("uploadCloud.upload:", typeof uploadCloud.upload);
-console.log("controller.createPost:", typeof controller.createPost);
-
 router.post('/create',
   upload.single("thumbnail"),
   validates.createPost,
   uploadCloud.upload,
   controller.createPost);
 
+router.patch('/change-status/:status/:id', controller.changeStatus);
 
 module.exports = router;

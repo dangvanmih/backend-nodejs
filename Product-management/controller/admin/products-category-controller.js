@@ -41,3 +41,15 @@ module.exports.createPost = async (req, res) => {
   req.flash("success", "Thêm Danh mục thành công!");
   res.redirect(`${systemConfig.prefixAdmin}/products-category`);
 };
+
+//[PATCH] /admin/products-category/change-status
+module.exports.changeStatus = async (req, res) => {
+ const status = req.params.status;
+  const id = req.params.id;
+
+  await productsCategory.updateOne({ _id: id }, { status: status }); // hàm update của mongoose và các tham số bên trong là các key trong database được gán lại giá trị mới
+
+  req.flash("success", "Cập nhật trạng thái thành công!");
+  // hàm redirect của express điều hướng sang trang khác và điều kiện bên trong là(nếu có trang trước thì quay về trang trước còn không thì về trang /admin/products)
+  res.redirect(req.get("Referer") || "/admin/products-category");
+};
