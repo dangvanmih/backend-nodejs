@@ -32,3 +32,6 @@ router.patch('/edit/:id',
   controller.editPost);
 
 module.exports = router;
+
+
+router.get('/detail/:id', controller.productsCategoryDetail);

@@ -159,13 +159,13 @@ module.exports.editCategory = async (req, res) => {
     const records = await productsCategory.findOne(find); // sửa 1 sản phẩm thì dùng findOne để trả ra 1 object còn hàm find thì trả ra 1 mảng chứa các object
 
     res.render("admin/pages/productCategory/edit", {
-      pageTitle: "Sửa sản phẩm",
+      pageTitle: "Sửa danh mục",
       productsCategory: records
     });
   }
   catch (error) {
     flash
-    res.redirect(`${systemConfig.prefixAdmin}/products`)
+    res.redirect(`${systemConfig.prefixAdmin}/products-category`)
   }
 };
 
@@ -187,4 +187,24 @@ module.exports.editPost = async (req, res) => {
   }
 
   res.redirect(req.get('Referrer') || '/');
+};
+
+//[GET] /admin/products-category/detail/:id
+module.exports.productsCategoryDetail = async (req, res) => {
+  try {
+    const find = {
+      _id: req.params.id
+    };
+
+    const records = await productsCategory.findOne(find); // sửa 1 sản phẩm thì dùng findOne để trả ra 1 object còn hàm find thì trả ra 1 mảng chứa các object
+
+    res.render("admin/pages/productCategory/detail", {
+      pageTitle: "Chi tiết danh mục",
+      productsCategory: records
+    });
+  }
+  catch (error) {
+    flash
+    res.redirect(`${systemConfig.prefixAdmin}/products-category`)
+  }
 };

@@ -1,0 +1,38 @@
+extends ../../layouts/default.pug 
+
+block main 
+  div(style="background-color: #EFEEF5; margin: 0 20px; border-radius: 5px")
+    .container
+      div(class="row" style="margin-top: 6rem; padding: 20px 0 ")
+        .col-6  
+          if(productsCategory.thumbnail)
+            .inner-image 
+              img(src=productsCategory.thumbnail width="500px" height="700px" style="object-fit: cover; border-radius: 5px")
+
+
+        .col-6 
+          if(productsCategory.title)
+            h1.inner-title #{productsCategory.title}
+          if(productsCategory.price)
+            h4.inner-price Giá: $#{productsCategory.price} USD
+          if(productsCategory.discountPercentage)
+            h4.inner-discount Giảm giá: #{productsCategory.discountPercentage} %
+          if(productsCategory.stock)
+            h4.inner-stock Còn lại: #{productsCategory.stock}
+          if(productsCategory.status == "active")
+            h4.inner-status Trạng thái: 
+              span(class = "badg badge-success p-1 " style ="font-size: 16px; border-radius: 5px") Hoạt động
+          if(productsCategory.status == "inactive")
+            h4.inner-status Trạng thái: 
+              span(class = "badg badge-error") Không hoạt động
+          if(productsCategory.position)
+            h4.inner-position Vị trí: #{productsCategory.position}
+          
+          if(productsCategory.description)
+            div(class="mb-4") !{productsCategory.description} 
+            //- nếu mã in ra là dạng html thì phải đặt dấu chấm ! để hiển thị đúng định dạng.
+          a(
+            href=`${prefixAdmin}/products-category/edit/${productsCategory.id}` 
+            class = "btn btn-warning btn-xl mr-1" ) Chỉnh sửa
+  script(src="/admin/js/products-category.js")
+//- 22:14
