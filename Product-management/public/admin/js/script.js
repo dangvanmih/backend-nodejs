@@ -213,10 +213,5 @@ if (sort) {
       optionSelected.selected = true;
     }
   }
-
 }
-
-
-
-
 //end-sort

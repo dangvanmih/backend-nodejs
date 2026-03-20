@@ -18,17 +18,26 @@ module.exports.index = async (req, res) => {
 
     //tìm kiếm
     const objectSearch = seacrhHelper(req.query);
-    
-      if (objectSearch.regex) {
-        find.title = objectSearch.regex;
-      }
+
+    if (objectSearch.regex) {
+      find.title = objectSearch.regex;
+    }
     //End-tìm kiếm
-    const records = await productsCategory.find(find).sort({ position: "desc" });    
+    // sort 
+    let sort = {}
+    if (req.query.sortKey && req.query.sortValue) {
+      sort[req.query.sortKey] = req.query.sortValue; //key của object được lấy từ một string (biến) nên phải dùng ngoặc vuông
+    }
+    else {
+      sort.position = "desc"
+    }
+    // end-sort
+    const records = await productsCategory.find(find).sort(sort);
     res.render("admin/pages/productCategory/index", {
       pageTitle: "Trang danh mục sản phẩm",
       records: records,
-      fillterStatus:fillterStatus,
-      keyword:objectSearch.keyword
+      fillterStatus: fillterStatus,
+      keyword: objectSearch.keyword
     });
   }
   catch (error) {
@@ -73,7 +82,7 @@ module.exports.changeStatus = async (req, res) => {
 
 //[PATCH] /admin/products-category/change-multi-status
 module.exports.changeMulti = async (req, res) => {
-  const type = req.body.type;    
+  const type = req.body.type;
   const ids = req.body.ids.split(", "); //convert lại sang dạng mảng
 
   switch (type) {
