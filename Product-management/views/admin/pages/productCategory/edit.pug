@@ -1,0 +1,89 @@
+extends ../../layouts/default.pug
+include ../../mixins/show-alert.pug
+block main 
+  +alert-error(3000)
+  +alert-success(3000)
+
+  h1(class = "mb-4") Chỉnh sửa sản phẩm
+
+  form(
+    action=`${prefixAdmin}/products-category/edit/${productsCategory.id}?_method=PATCH`
+    enctype="multipart/form-data"
+    id="form-create-product"
+    method="POST"
+  )
+    div(class = "form-group")
+      label(for="title") Tiêu đề
+      input(
+        type="text"
+        class ="form-control"
+        id = "title"
+        name = "title"
+        required
+        value=productsCategory.title
+      )
+    div(class = "form-group")
+      label(for="desc") Mô tả:
+      textarea(
+        type="text"
+        class ="form-control"
+        id = "desc"
+        name = "description"
+      ) #{productsCategory.description}
+    div(class = "form-group" upload-image)
+      label(for="thumbnail") Ảnh:
+      input(
+        type="file"
+        class ="form-control-file"
+        id = "thumbnail"
+        name = "thumbnail"
+        accept="image/*"
+        upload-image-input
+      )
+      div(class = "d-flex")
+        img(
+          src=productsCategory.thumbnail
+          upload-image-preview
+          class ="image-preview"
+        )
+        button(class="btn btn-danger btn-sm d-none " style="height: 30px; margin-top: 10px" close-image) Close
+
+    div(class = "form-group")
+      label(for="position") Vị trí:
+      input(
+        type="text"
+        class ="form-control"
+        id = "position"
+        name = "position"
+        min="1"
+        placeholder="Tự động tăng"
+        value = productsCategory.position
+      )  
+    div(class = "form-group form-check form-check-inline")
+      input(
+        type="radio"
+        class ="form-check-input"
+        id = "statusActive"
+        name = "status"
+        value = "active"
+        checked = (productsCategory.status == "active" ? true : false )
+      )
+      label(for="statusInactive" class = "form-check-label") Hoạt động:
+
+    div(class = "form-group form-check form-check-inline")
+      input(
+        type="radio"
+        class ="form-check-input"
+        id = "statusInactive"
+        name = "status"
+        value = "inactive"
+        checked = (productsCategory.status == "inactive" ? true : false )
+      )
+      label(for="statusInactive" class = "form-check-label") Dừng hoạt động:
+    div(class = "form-group")
+      button(
+        type="submit"
+        class = "btn btn-success"
+      ) Cập nhật
+
+  script(src = "/admin/js/products-category.js")

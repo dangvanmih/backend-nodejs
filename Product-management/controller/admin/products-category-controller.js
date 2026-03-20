@@ -2,6 +2,8 @@ const productsCategory = require("../../models/products-category.model");
 const systemConfig = require("../../config/system");
 const filterStatusHelper = require("../../helpers/filterStatus");
 const seacrhHelper = require("../../helpers/search");
+const paginationHelper = require("../../helpers/pagination")
+
 //[GET] /admin/products-category
 module.exports.index = async (req, res) => {
   try {
@@ -32,16 +34,32 @@ module.exports.index = async (req, res) => {
       sort.position = "desc"
     }
     // end-sort
-    const records = await productsCategory.find(find).sort(sort);
+
+    //Phân trang
+    const countProducts = await productsCategory.countDocuments(find); // countDocuments là hàm đếm của mongoose
+
+    let objectPagination = paginationHelper(
+      {
+        limitItems: 4,
+        currentPage: 1
+      },
+      req.query,
+      countProducts
+
+    );
+    //hết phân trang
+    const records = await productsCategory.find(find).limit(objectPagination.limitItems).skip(objectPagination.skip).sort(sort)
+
     res.render("admin/pages/productCategory/index", {
       pageTitle: "Trang danh mục sản phẩm",
       records: records,
       fillterStatus: fillterStatus,
-      keyword: objectSearch.keyword
+      keyword: objectSearch.keyword,
+      pagination: objectPagination,
     });
   }
   catch (error) {
-    res.redirect(`${systemConfig.prefixAdmin}/products`)
+    res.redirect(`${systemConfig.prefixAdmin}/products-category`)
   }
 };
 
@@ -114,4 +132,59 @@ module.exports.changeMulti = async (req, res) => {
   }
 
   res.redirect(req.get("Referer") || "/admin/products-category")
+};
+
+//[DELETE] /admin/products-category/delete
+module.exports.deleteCategory = async (req, res) => {
+  try {
+    const id = req.params.id;
+    // await Product.deleteOne({ _id: id }); // xóa vĩnh viễn
+    await productsCategory.updateOne({ _id: id }, { deleted: true, deletedAt: new Date() });
+    req.flash("success", "Xóa danh mục thành công!");
+    res.redirect(req.get("Referer") || "/admin/products-category");
+  } catch (error) {
+      req.flash("error", "Xóa danh mục không thành công!");
+      res.redirect(req.get("Referer") || "/admin/products-category")
+  }
+};
+
+//[GET] /admin/products-category/edit
+module.exports.editCategory = async (req, res) => {
+  try {
+    const find = {
+      deleted: false,
+      _id: req.params.id
+    };
+
+    const records = await productsCategory.findOne(find); // sửa 1 sản phẩm thì dùng findOne để trả ra 1 object còn hàm find thì trả ra 1 mảng chứa các object
+
+    res.render("admin/pages/productCategory/edit", {
+      pageTitle: "Sửa sản phẩm",
+      productsCategory: records
+    });
+  }
+  catch (error) {
+    flash
+    res.redirect(`${systemConfig.prefixAdmin}/products`)
+  }
+};
+
+//[PATCH] /admin/products-category/edit
+module.exports.editPost = async (req, res) => {
+  const id = req.params.id;
+  req.body.position = parseInt(req.body.position);
+ 
+  if (req.file) {
+    req.body.thumbnail = `/uploads/${req.file.filename}`;
+  }
+  try {
+    await productsCategory.updateOne({ _id: id }, req.body);
+    req.flash("success", "Cập nhật sản phẩm thành công!");
+
+  } catch (error) {
+    req.flash("error", "Cập nhật sản phẩm không thành công!");
+    res.redirect(`${systemConfig.prefixAdmin}/products-category`)
+  }
+
+  res.redirect(req.get('Referrer') || '/');
 };
