@@ -8,8 +8,6 @@ block main
           if(productsCategory.thumbnail)
             .inner-image 
               img(src=productsCategory.thumbnail width="500px" height="700px" style="object-fit: cover; border-radius: 5px")
-
-
         .col-6 
           if(productsCategory.title)
             h1.inner-title #{productsCategory.title}
@@ -35,4 +33,3 @@ block main
             href=`${prefixAdmin}/products-category/edit/${productsCategory.id}` 
             class = "btn btn-warning btn-xl mr-1" ) Chỉnh sửa
   script(src="/admin/js/products-category.js")
-//- 22:14

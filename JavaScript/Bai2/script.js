@@ -92,3 +92,5 @@
 // for of là lặp qua từng phần từ của 1 mảng
 // each cũng lặp qua từng phần từ của một mảng
 // map: lặp qua từng phần từ của một mảng và tạo ra mảng mới
+// hàm some: lặp qua từng phần tử của mảng kiểm tra xem có phần từ nào thỏa mãn không điều kiện không
+// hàm every: lặp qua từng phần tử của mảng, điều kiện tất cả các phần tử phải thỏa mãn điều kiện

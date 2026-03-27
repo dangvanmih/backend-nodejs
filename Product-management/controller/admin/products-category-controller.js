@@ -2,8 +2,7 @@ const productsCategory = require("../../models/products-category.model");
 const systemConfig = require("../../config/system");
 const filterStatusHelper = require("../../helpers/filterStatus");
 const seacrhHelper = require("../../helpers/search");
-const paginationHelper = require("../../helpers/pagination")
-
+const createTreeHelper = require("../../helpers/createTree");
 //[GET] /admin/products-category
 module.exports.index = async (req, res) => {
   try {
@@ -31,31 +30,21 @@ module.exports.index = async (req, res) => {
       sort[req.query.sortKey] = req.query.sortValue; //key của object được lấy từ một string (biến) nên phải dùng ngoặc vuông
     }
     else {
-      sort.position = "desc"
+      sort.position = "asc"
     }
     // end-sort
 
-    //Phân trang
-    const countProducts = await productsCategory.countDocuments(find); // countDocuments là hàm đếm của mongoose
+    // đệ quy phân cấp danh mục
 
-    let objectPagination = paginationHelper(
-      {
-        limitItems: 4,
-        currentPage: 1
-      },
-      req.query,
-      countProducts
 
-    );
-    //hết phân trang
-    const records = await productsCategory.find(find).limit(objectPagination.limitItems).skip(objectPagination.skip).sort(sort)
+    const records = await productsCategory.find(find).sort(sort)
+    const newRecords = createTreeHelper.createTree(records);
 
     res.render("admin/pages/productCategory/index", {
       pageTitle: "Trang danh mục sản phẩm",
-      records: records,
+      records: newRecords,
       fillterStatus: fillterStatus,
       keyword: objectSearch.keyword,
-      pagination: objectPagination,
     });
   }
   catch (error) {
@@ -65,8 +54,18 @@ module.exports.index = async (req, res) => {
 
 //[GET] /admin/products-category/create
 module.exports.create = async (req, res) => {
+
+  let find = {
+    deleted: false,
+  };
+
+  const records = await productsCategory.find(find);
+
+  const newRecords = createTreeHelper.createTree(records);
+
   res.render("admin/pages/productCategory/create", {
     pageTitle: "Tạo danh mục sản phẩm",
+    records: newRecords
   });
 };
 
@@ -143,8 +142,8 @@ module.exports.deleteCategory = async (req, res) => {
     req.flash("success", "Xóa danh mục thành công!");
     res.redirect(req.get("Referer") || "/admin/products-category");
   } catch (error) {
-      req.flash("error", "Xóa danh mục không thành công!");
-      res.redirect(req.get("Referer") || "/admin/products-category")
+    req.flash("error", "Xóa danh mục không thành công!");
+    res.redirect(req.get("Referer") || "/admin/products-category")
   }
 };
 
@@ -173,7 +172,7 @@ module.exports.editCategory = async (req, res) => {
 module.exports.editPost = async (req, res) => {
   const id = req.params.id;
   req.body.position = parseInt(req.body.position);
- 
+
   if (req.file) {
     req.body.thumbnail = `/uploads/${req.file.filename}`;
   }
