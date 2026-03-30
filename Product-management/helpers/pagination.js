@@ -7,7 +7,6 @@ module.exports = (objectPagination,query,countProducts) => {
   
 
   const totalPage = Math.ceil(countProducts/objectPagination.limitItems); // hàm ceil dùng để luôn làm tròn lên
-  // console.log(totalPage);
   
   objectPagination.totalPage = totalPage;
 
