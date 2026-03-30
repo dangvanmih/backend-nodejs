@@ -183,7 +183,7 @@ module.exports.edit = async (req, res) => {
     });
   }
   catch (error) {
-    req.flash("success", "Lỗi không tìm thấy bản ghi!");
+    flash("success", "Lỗi không tìm thấy bản ghi!");
     res.redirect(`${systemConfig.prefixAdmin}/products`)
   }
 };
