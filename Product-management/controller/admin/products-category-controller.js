@@ -35,8 +35,6 @@ module.exports.index = async (req, res) => {
     // end-sort
 
     // đệ quy phân cấp danh mục
-
-
     const records = await productsCategory.find(find).sort(sort)
     const newRecords = createTreeHelper.createTree(records);
 
@@ -150,20 +148,26 @@ module.exports.deleteCategory = async (req, res) => {
 //[GET] /admin/products-category/edit
 module.exports.editCategory = async (req, res) => {
   try {
-    const find = {
+    const id = req.params.id;
+
+    const products = await productsCategory.findOne({
       deleted: false,
-      _id: req.params.id
-    };
+      _id:id
+    });
 
-    const records = await productsCategory.findOne(find); // sửa 1 sản phẩm thì dùng findOne để trả ra 1 object còn hàm find thì trả ra 1 mảng chứa các object
+    const records = await productsCategory.find({
+      deleted: false
+    });
 
+    const newRecords = createTreeHelper.createTree(records);
+    
     res.render("admin/pages/productCategory/edit", {
       pageTitle: "Sửa danh mục",
-      productsCategory: records
+      productsCategory: products,
+      records: newRecords
     });
   }
   catch (error) {
-    flash
     res.redirect(`${systemConfig.prefixAdmin}/products-category`)
   }
 };
