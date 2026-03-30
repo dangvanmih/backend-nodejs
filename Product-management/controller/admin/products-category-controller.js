@@ -3,6 +3,7 @@ const systemConfig = require("../../config/system");
 const filterStatusHelper = require("../../helpers/filterStatus");
 const seacrhHelper = require("../../helpers/search");
 const createTreeHelper = require("../../helpers/createTree");
+const flash = require("express-flash");
 //[GET] /admin/products-category
 module.exports.index = async (req, res) => {
   try {
@@ -168,6 +169,7 @@ module.exports.editCategory = async (req, res) => {
     });
   }
   catch (error) {
+    req.flash("error", "lỗi không tìm thấy bản ghi!");
     res.redirect(`${systemConfig.prefixAdmin}/products-category`)
   }
 };

@@ -164,7 +164,7 @@ module.exports.createPost = async (req, res) => {
   res.redirect(`${systemConfig.prefixAdmin}/products`);
 };
 
-// [CREATE] '/admin/pages/products/edit
+// [GET] '/admin/pages/products/edit
 module.exports.edit = async (req, res) => {
   try {
     const find = {
@@ -183,7 +183,7 @@ module.exports.edit = async (req, res) => {
     });
   }
   catch (error) {
-    flash
+    req.flash("success", "Lỗi không tìm thấy bản ghi!");
     res.redirect(`${systemConfig.prefixAdmin}/products`)
   }
 };
