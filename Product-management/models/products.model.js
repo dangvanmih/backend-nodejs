@@ -8,11 +8,15 @@ mongoose.plugin(slug)
 const productSchema = new mongoose.Schema(
   {
     title: String,
+    products_category_id: {
+      type: String,
+      default: ""
+    },
     description: String,
     price: Number,
     discountPercentage: Number,
     stock: Number,
-    thumbnail:String,
+    thumbnail: String,
     status: String,
     position: Number,
     slug: {
@@ -30,7 +34,7 @@ const productSchema = new mongoose.Schema(
     timestamps: true
   }
 );
-const Product = mongoose.model("Product", productSchema, "products"); 
+const Product = mongoose.model("Product", productSchema, "products");
 // tham số thứ nhất là tên của model
 // tham số thứ 2 là cấu trúc document bên trên nó sẽ quyết định file, kiểu dữ liệu
 // tham số thứ 3 Đây là tên collection thật trong MongoDB

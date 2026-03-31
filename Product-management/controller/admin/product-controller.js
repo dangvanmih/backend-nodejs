@@ -4,6 +4,8 @@ const seacrhHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
 const systemConfig = require("../../config/system");
 const flash = require("express-flash");
+const createTreeHelper = require("../../helpers/createTree");
+const productsCategory = require("../../models/products-category.model");
 //[GET] /admin/products
 module.exports.products = async (req, res) => {
   //bộ lọc
@@ -134,14 +136,21 @@ module.exports.deleteItem = async (req, res) => {
 
 // [CREATE] '/admin/pages/products/create
 module.exports.create = async (req, res) => {
+
+  const records = await productsCategory.find({
+    deleted: false
+  });
+
+  const newRecords = createTreeHelper.createTree(records);
+
   res.render("admin/pages/products/create", {
     pageTitle: "Thêm mới sản phẩm",
+    category: newRecords
   });
 };
 
 // [POST] '/admin/pages/products/create
 module.exports.createPost = async (req, res) => {
-  // console.log(req.file);
 
   req.body.price = parseFloat(req.body.price);
   req.body.discountPercentage = parseFloat(req.body.discountPercentage);
@@ -154,7 +163,6 @@ module.exports.createPost = async (req, res) => {
   else {
     req.body.position = parseInt(req.body.position);
   }
-
 
   const product = new Product(req.body); //tạo mới 1 sản phẩm nhưng chưa lưu vào database
   await product.save()
