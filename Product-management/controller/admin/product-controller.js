@@ -175,23 +175,24 @@ module.exports.createPost = async (req, res) => {
 // [GET] '/admin/pages/products/edit
 module.exports.edit = async (req, res) => {
   try {
-    const find = {
-      deleted: false,
-      _id: req.params.id
-    };
+    const id = req.params.id
 
-    const product = await Product.findOne(find); // sửa 1 sản phẩm thì dùng findOne để trả ra 1 object còn hàm find thì trả ra 1 mảng chứa các object
+    const product = await Product.findOne({ deleted: false, _id: id }); // sửa 1 sản phẩm thì dùng findOne để trả ra 1 object còn hàm find thì trả ra 1 mảng chứa các object
 
-    //console.log(product); 
+    const records = await productsCategory.find({
+      deleted: false
+    });
 
+    const newRecords = createTreeHelper.createTree(records);
 
     res.render("admin/pages/products/edit", {
       pageTitle: "Sửa sản phẩm",
-      product: product
+      product: product,
+      category: newRecords
     });
   }
   catch (error) {
-    flash("success", "Lỗi không tìm thấy bản ghi!");
+    req.flash("error", "Lỗi không tìm thấy bản ghi!");
     res.redirect(`${systemConfig.prefixAdmin}/products`)
   }
 };
