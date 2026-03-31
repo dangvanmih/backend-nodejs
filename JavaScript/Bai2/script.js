@@ -90,7 +90,7 @@
 // các hàm loops:
 // for in: là lặp qua từng key của từng key của từng object
 // for of là lặp qua từng phần từ của 1 mảng
-// each cũng lặp qua từng phần từ của một mảng
-// map: lặp qua từng phần từ của một mảng và tạo ra mảng mới
+// each cũng lặp qua từng phần từ của một mảng "khi chỉ cần lặp để xử lý side effects như log, gọi API, hoặc thao tác ngoài."
+// map: lặp qua từng phần từ của một mảng và tạo ra mảng mới, "khi cần transform data và trả về mảng mới,"
 // hàm some: lặp qua từng phần tử của mảng kiểm tra xem có phần từ nào thỏa mãn không điều kiện không
 // hàm every: lặp qua từng phần tử của mảng, điều kiện tất cả các phần tử phải thỏa mãn điều kiện
