@@ -6,4 +6,6 @@ const controller = require("../../controller/admin/roles-controller")
   router.post('/create', controller.createPost);
   router.get('/edit/:id', controller.edit);
   router.patch('/edit/:id', controller.editPatch);
+  router.get('/permission', controller.permission);
+  router.patch('/permission', controller.permissionPatch);
 module.exports = router;

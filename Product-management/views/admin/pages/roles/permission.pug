@@ -1,0 +1,149 @@
+extends ../../layouts/default.pug
+include ../../mixins/show-alert.pug
+block main 
+
+  +alert-error(3000)
+  +alert-success(3000)
+
+  h1(class="mb-4") Phân quyền
+  div(data-records=records)
+  if(records)
+    .card.mb-3
+      .card-header.d-flex.align-items-center.justify-content-between
+        span.font-weight-bold Danh sách nhóm quyền
+        button(
+          type="submit"
+          class="btn btn-success"
+          button-submit
+        ) Cập nhật
+
+      .card-body
+        table(class="table table-hover table-bordered" table-permissions)
+          thead.thead-light
+            tr(data-name="id" class ="d-none")
+              td
+              each item in records
+                td(class="text-center")
+                  input(type="text" value=item.id)
+            
+            //- Hàng tiêu đề hiển thị Title
+            tr
+              th Tính năng
+              each item in records
+                th(class="text-center") #{item.title}
+          
+          tbody
+            //- Nhóm: Danh mục sản phẩm
+            tr.table-secondary
+              //- colspan phải bằng số lượng records + 1 (cột Tính năng)
+              td(colspan=records.length + 1)
+                b Danh mục sản phẩm 
+            
+            //- Hàng: Xem
+            tr(data-name="products-category_view") 
+              td.pl-4 Xem
+              each item in records
+                td.text-center
+                  input(type="checkbox")
+            
+            //- Hàng: Thêm mới
+            tr(data-name="products-category_create") 
+              td.pl-4 Thêm mới
+              each item in records
+                td.text-center
+                  input(type="checkbox")
+            
+            //- Hàng: Sửa
+            tr(data-name="products-category_edit") 
+              td.pl-4 Sửa 
+              each item in records
+                td.text-center
+                  input(type="checkbox")
+            
+            //- Hàng: Xóa
+            tr(data-name="products-category_delete") 
+              td.pl-4 Xóa
+              each item in records
+                td.text-center
+                  input(type="checkbox")
+
+            //-  Quyền Sản phẩm  
+            tr.table-secondary
+              td(colspan=records.length + 1)
+                b Sản phẩm 
+            
+            //- Hàng: Xem
+            tr(data-name="products_view") 
+              td.pl-4 Xem
+              each item in records
+                td.text-center
+                  input(type="checkbox")
+            
+            //- Hàng: Thêm mới
+            tr(data-name="products_create") 
+              td.pl-4 Thêm mới
+              each item in records
+                td.text-center
+                  input(type="checkbox")
+            
+            //- Hàng: Sửa
+            tr(data-name="products_edit") 
+              td.pl-4 Sửa 
+              each item in records
+                td.text-center
+                  input(type="checkbox")
+            
+            //- Hàng: Xóa
+            tr(data-name="products_delete") 
+              td.pl-4 Xóa
+              each item in records
+                td.text-center
+                  input(type="checkbox")
+            //-  Nhóm quyền 
+            tr.table-secondary
+              td(colspan=records.length + 1)
+                b Nhóm quyền 
+            
+            //- Hàng: Xem
+            tr(data-name="roles_view") 
+              td.pl-4 Xem
+              each item in records
+                td.text-center
+                  input(type="checkbox")
+            
+            //- Hàng: Thêm mới
+            tr(data-name="roles_create") 
+              td.pl-4 Thêm mới
+              each item in records
+                td.text-center
+                  input(type="checkbox")
+            
+            //- Hàng: Sửa
+            tr(data-name="roles_edit") 
+              td.pl-4 Sửa 
+              each item in records
+                td.text-center
+                  input(type="checkbox")
+            
+            //- Hàng: Xóa
+            tr(data-name="roles_delete") 
+              td.pl-4 Xóa
+              each item in records
+                td.text-center
+                  input(type="checkbox")
+            //- Hàng: Phân quyền
+            tr(data-name="roles_permission") 
+              td.pl-4 Phân quyền
+              each item in records
+                td.text-center
+                  input(type="checkbox")
+  form(
+    id="form-change-permissions"
+    method="POST"
+    action=`${prefixAdmin}/roles/permission?_method=PATCH`
+    class="d-none"
+  ) 
+    div(class ="form-group")
+      input(type="text" class="form-control" name="permissions")    
+
+  script(src="/admin/js/roles.js")
