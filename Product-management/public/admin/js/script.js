@@ -215,3 +215,13 @@ if (sort) {
   }
 }
 //end-sort
+
+// Tự động thêm class active dựa trên URL hiện tại
+const currentPath = window.location.pathname;
+const menuLinks = document.querySelectorAll('.menu-list li a');
+
+menuLinks.forEach(link => {
+  if (currentPath.includes(link.getAttribute('href'))) {
+    link.parentElement.classList.add('active');
+  }
+});
