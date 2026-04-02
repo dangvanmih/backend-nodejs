@@ -4,7 +4,7 @@ const accountsSchema = new mongoose.Schema(
   {
     fullName: String,
     email: String,
-    passWord: String,
+    password: String,
     token: {
       type: String,
       default: generate.generateToken(20)
