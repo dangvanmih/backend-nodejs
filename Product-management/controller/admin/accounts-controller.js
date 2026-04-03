@@ -71,7 +71,6 @@ module.exports.edit = async (req, res) => {
     const role = await roles.find({
       deleted: false
     });
-    console.log(data);
 
     res.render("admin/pages/accounts/edit", {
       pageTitle: "Chỉnh sửa tài khoản",

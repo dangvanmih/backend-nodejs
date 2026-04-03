@@ -1,0 +1,49 @@
+extends ../../layouts/auth.pug
+include ../../mixins/show-alert.pug
+
+block main
+  +alert-error(3000)
+  +alert-success(3000)
+
+  .login-page
+    .login-card
+      .row.no-gutters
+        //- Cột bên trái: Hình ảnh hoặc Gradient trang trí
+        .col-md-5.d-none.d-md-flex.login-visual.text-center
+          .visual-content
+            h1 ADMIN
+            p Hệ thống quản lý sản phẩm thông minh và bảo mật.
+        
+        //- Cột bên phải: Form đăng nhập
+        .col-md-7.login-form-container
+          .form-box
+            h2.mb-2.text-center Đăng nhập
+            p.text-muted.mb-4.text-center Vui lòng nhập thông tin tài khoản
+
+            form(action=`${prefixAdmin}/auth/login`, method="POST")
+              .form-group
+                label(for="email") Email
+                input(
+                  type="email"
+                  name="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Nhập email.."
+                  required
+                )
+              .form-group
+                label(for="password") Mật khẩu
+                input(
+                  type="password"
+                  name="password"
+                  id="password"
+                  class="form-control"
+                  placeholder="Nhập password.."
+                  required
+                )
+              .form-group.mt-4
+                button(type="submit" class="btn btn-primary btn-block btn-login") 
+                  b ĐĂNG NHẬP
+            
+            .text-center.mt-3
+              a(href=`${prefixAdmin}/auth/forgot` class="small text-secondary") Quên mật khẩu? 

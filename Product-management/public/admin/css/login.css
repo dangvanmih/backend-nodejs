@@ -1,0 +1,235 @@
+/* login.css - Optimized Version */
+
+/* 1. Base Styles & Reset */
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --primary-hover: #5663d1;
+    --bg-light: #f0f2f5;
+    --input-bg: #f8f9fa;
+    --border-radius-lg: 25px;
+    --border-radius-sm: 12px;
+}
+
+body {
+    /* Chuyển từ xám nhạt sang tím cực nhạt */
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e7ff 100%);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+/* 2. Layout Containers */
+.login-page {
+    width: 100%;
+    max-width: 1100px;
+    padding: 20px;
+}
+
+.login-card {
+    background: #fff;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    min-height: 600px;
+}
+
+/* Ép các cột cao bằng nhau */
+.login-card .row.no-gutters {
+    display: flex;
+    align-items: stretch;
+}
+
+/* 3. Left Side: Visual Content */
+.login-visual {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 80px 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 600px; /* Fallback for small content */
+}
+
+.visual-content h1 {
+    font-size: 4rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.visual-content p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+/* 4. Right Side: Login Form */
+.login-form-container {
+    padding: 80px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-box {
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-box h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.text-muted {
+    margin-bottom: 30px;
+}
+
+/* 5. Form Elements */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.form-control {
+    height: 55px;
+    font-size: 1.1rem;
+    border-radius: var(--border-radius-sm);
+    background: var(--input-bg);
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    border-color: #667eea;
+}
+
+/* 6. Buttons & Links */
+.btn-login {
+    height: 55px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #fff;
+    background: #667eea;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+    background-color: var(--primary-hover) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(102, 126, 234, 0.3);
+}
+
+.small.text-secondary {
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.small.text-secondary:hover {
+    color: #667eea !important;
+    text-decoration: none;
+}
+/* Toast Notification Style */
+[show-alert] {
+  position: fixed;
+  top: 25px; /* Đẩy cao lên một chút cho thoáng */
+  right: 25px;
+  z-index: 9999;
+  min-width: 300px;
+  max-width: 450px;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  animation: alert-show 0.5s ease forwards; /* Hiệu ứng bay vào */
+}
+
+/* Hiệu ứng bay vào từ bên phải */
+@keyframes alert-show {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Hiệu ứng ẩn đi */
+[show-alert].alert-hidden {
+  animation: alert-hidden 0.5s ease forwards;
+}
+
+@keyframes alert-hidden {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+/* Định dạng Icon và Text */
+.alert-icon {
+  font-size: 20px;
+  margin-right: 12px;
+}
+
+.alert-text {
+  flex: 1;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+/* Nút đóng (Close Alert) */
+[show-alert] [close-alert] {
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  margin-left: 15px;
+  transition: all 0.2s;
+  padding: 0 5px;
+}
+
+[show-alert] [close-alert]:hover {
+  color: rgba(0, 0, 0, 0.8);
+  transform: scale(1.2);
+}
+
+/* Màu sắc riêng biệt cho Success và Danger */
+.alert-success {
+  background-color: #d4edda !important;
+  color: #155724 !important;
+  border-left: 5px solid #28a745 !important;
+}
+
+.alert-danger {
+  background-color: #f8d7da !important;
+  color: #721c24 !important;
+  border-left: 5px solid #dc3545 !important;
+}
+/* end-show-alert  */
