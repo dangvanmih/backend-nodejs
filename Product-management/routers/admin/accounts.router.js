@@ -13,3 +13,8 @@ router.post('/create', upload.single("avatar"),
   uploadCloud.upload,
   controller.createPost);
 module.exports = router;
+router.get('/edit/:id', controller.edit);
+router.patch('/edit/:id', upload.single("avatar"),
+  validates.editPatch,
+  uploadCloud.upload,
+  controller.editPatch);
