@@ -4,9 +4,14 @@ const md5 = require("md5");
 const flash = require("express-flash");
 //[GET] /admin/auth/login
 module.exports.login = async (req, res) => {
-  res.render("admin/pages/auth/login", {
-    pageTitle: "Đăng nhập",
-  })
+  if (req.cookies.token) {
+    res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
+  }
+  else {
+    res.render("admin/pages/auth/login", {
+      pageTitle: "Đăng nhập",
+    })
+  }
 }
 //[POST] /admin/auth/login
 module.exports.loginPost = async (req, res) => {
