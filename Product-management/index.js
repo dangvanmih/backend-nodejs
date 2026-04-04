@@ -17,6 +17,8 @@ const cookieParser = require("cookie-parser");
 //import thư viện express-session
 const session = require("express-session");
 
+//import thư viện moment
+const moment = require("moment")
 //cấu hình .env
 require("dotenv").config();
 
@@ -47,7 +49,7 @@ app.set("view engine", "pug");
 
 //APP Local variables
 app.locals.prefixAdmin = systemConfg.prefixAdmin; // khai báo biến như này thì biến đó sẽ "chỉ" sử dụng được trong tất cả các file pug
-
+app.locals.moment = moment;
 
 // express-flash
 app.use(cookieParser('JLAHSDLAISDGLI'));

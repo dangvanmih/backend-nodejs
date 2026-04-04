@@ -1,4 +1,5 @@
-const Product = require("../../models/products.model")
+const Product = require("../../models/products.model");
+const accounts = require("../../models/accounts.model");
 const filterStatusHelper = require("../../helpers/filterStatus");
 const seacrhHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
@@ -62,7 +63,14 @@ module.exports.products = async (req, res) => {
     .skip(objectPagination.skip) //Product lấy  từ bên model
     .sort(sort);  //desc: giảm dần; asc: tăng dần
   // console.log(products);
-
+  for(const product of products) {
+    const user = await accounts.findOne({
+      _id: product.createBy.account_id
+    });
+    if(user) {
+      product.accountFullName = user.fullName
+    }
+  }
   res.render("admin/pages/products/index", {
     pageTitle: "Trang sản phẩm",
     products: products,
@@ -164,6 +172,9 @@ module.exports.createPost = async (req, res) => {
     req.body.position = parseInt(req.body.position);
   }
 
+  req.body.createBy = {
+    account_id: res.locals.user.id
+  };
 
   const product = new Product(req.body); //tạo mới 1 sản phẩm nhưng chưa lưu vào database
   await product.save()
