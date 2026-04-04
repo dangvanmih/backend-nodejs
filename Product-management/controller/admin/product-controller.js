@@ -164,6 +164,7 @@ module.exports.createPost = async (req, res) => {
     req.body.position = parseInt(req.body.position);
   }
 
+
   const product = new Product(req.body); //tạo mới 1 sản phẩm nhưng chưa lưu vào database
   await product.save()
 
@@ -205,10 +206,6 @@ module.exports.editPatch = async (req, res) => {
   req.body.discountPercentage = parseFloat(req.body.discountPercentage);
   req.body.stock = parseInt(req.body.stock);
   req.body.position = parseInt(req.body.position);
-  if (req.file) {
-    req.body.thumbnail = `/uploads/${req.file.filename}`;
-  }
-
   try {
     await Product.updateOne({ _id: id }, req.body);
     req.flash("success", "Cập nhật sản phẩm thành công!");

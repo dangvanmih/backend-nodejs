@@ -27,8 +27,8 @@ router.get('/edit/:id', controller.editCategory);
 
 router.patch('/edit/:id',
   upload.single("thumbnail"),
-  validates.createPost,
   uploadCloud.upload,
+  validates.createPost,
   controller.editPost);
 
 module.exports = router;
