@@ -87,7 +87,7 @@ block main
                   td 
                     p #{item.accountFullName}
                     p
-                      +formatDateTime(item.createBy.createdAt)
+                      +formatDateTime(item.createdBy.createdAt)
                   td
                     if(role.permission.includes("products_edit")) 
                       a(

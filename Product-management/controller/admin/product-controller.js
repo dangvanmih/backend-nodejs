@@ -65,7 +65,7 @@ module.exports.products = async (req, res) => {
   // console.log(products);
   for(const product of products) {
     const user = await accounts.findOne({
-      _id: product.createBy.account_id
+      _id: product.createdBy.account_id
     });
     if(user) {
       product.accountFullName = user.fullName
@@ -108,7 +108,14 @@ module.exports.changeMulti = async (req, res) => {
       req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`);
       break;
     case "delete-all":
-      await Product.updateMany({ _id: { $in: ids } }, { deleted: true, deletedAt: new Date() });
+      await Product.updateMany(
+        { _id: { $in: ids } }, 
+        { 
+          deleted: true,
+          deletedBy: {
+          account_id: res.locals.user.id,
+          deletedAt: new Date()
+        }});
       req.flash("success", `Xóa thành công ${ids.length} sản phẩm!`);
       break
     case "change-position":
@@ -135,7 +142,15 @@ module.exports.deleteItem = async (req, res) => {
 
   const id = req.params.id;
   // await Product.deleteOne({ _id: id }); // xóa vĩnh viễn
-  await Product.updateOne({ _id: id }, { deleted: true, deletedAt: new Date() });
+  await Product.updateOne(
+    { _id: id },
+    { 
+      deleted: true,
+      deletedBy: {
+        account_id: res.locals.user.id,
+        deletedAt: new Date()
+      } 
+    });
   req.flash("success", "Xóa sản phẩm thành công!");
   // xóa mềm khi xóa thì đổi trạng thái cho sản phẩm đó thành true thì lúc find sản phầm thì truyền vào deleted:false
   res.redirect(req.get("Referer") || "/admin/products");
