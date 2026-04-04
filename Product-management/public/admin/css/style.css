@@ -61,46 +61,44 @@
 
 /* end-sider */
 
+/* alert */
 
-/* show-alert */
+/* 1. Trạng thái hiển thị mặc định */
 [show-alert] {
   position: fixed;
-  top: 70px;
-  right: 15px;
-  z-index: 9999;
+  top: 80px; /* Tránh đè lên Header của trang Product */
+  right: 20px;
+  z-index: 10000; /* Ưu tiên cao nhất */
+  min-width: 250px;
+  display: flex !important; /* Dùng flex để icon và chữ thẳng hàng */
+  align-items: center;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+  transition: all 0.5s ease-in-out;
+  opacity: 1;
+  visibility: visible;
 }
 
+/* 2. Trạng thái khi JS thêm class alert-hidden */
 [show-alert].alert-hidden {
-  animation: alert-hidden;
-  animation-duration: 0.5s;
-  animation-fill-mode: both;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translateX(100%); /* Đẩy nó ra khỏi màn hình bên phải */
 }
 
-@keyframes alert-hidden {
-  from {
-    right: 15px;
-  }
-
-  to {
-    right: -100%;
-    display: none;
-  }
-}
-
+/* 3. Chỉnh lại nút đóng để không bị vỡ giao diện */
 [show-alert] [close-alert] {
-  color: gray;
-  background-color: #0808084b;
-  display: inline-block;
-  margin-left: 10px;
-  font-size: 22px;
-  width: 24px;
-  height: 24px;
-  line-height: 18px;
+  margin-left: auto; /* Đẩy nút X về cuối bên phải */
+  padding: 0 8px;
   cursor: pointer;
-  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1;
 }
 
-/* end-show-alert */
+/* end-alert  */
+
 
 /* pagination */
 .page-link {
