@@ -1,2 +1,53 @@
 footer.footer
-  | Copyright 2026 Minhxje
+  .container
+    .inner-top
+      .row
+        //- Cột 1: Giới thiệu
+        .col-3
+          .footer-info
+            .inner-logo
+              a(href="/") Furnitica
+            p.description Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.
+            p.description Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+        //- Cột 2: Who We Are
+        .col-2
+          .footer-menu
+            h3.footer-title WHO WE ARE
+            ul
+              li: a(href="/about") About Us
+              li: a(href="/shop") Reasons to shop
+              li: a(href="/reviews") What our customers say
+              li: a(href="/team") Meet the team
+              li: a(href="/contact") Contact our buyers
+              li: a(href="/cookies") Cookies & privacy
+
+        //- Cột 3: Customer Services
+        .col-2
+          .footer-menu
+            h3.footer-title CUSTOMER SERVICES
+            ul
+              li: a(href="/contact") Contact Us
+              li: a(href="/help") Help and advice
+              li: a(href="/delivery") Delivery
+              li: a(href="/terms") Terms and conditions
+              li: a(href="/refund") Refund Policy
+              li: a(href="/faqs") FAQs
+
+        //- Cột 4: Newsletter
+        .col-5
+          .footer-newsletter
+            h3.footer-title NEWSLETTER
+            p Sign up to our newsletter to get the latest articles, lookbooks voucher codes direct to your inbox.
+            
+            form.newsletter-form
+              input(type="email" placeholder="Enter Your Email")
+              button(type="submit") SUBSCRIBE
+            
+            .payment-methods
+              span PAYMENT ACCEPT:
+              img(src="/images/payment.png" alt="payments")
+
+    .inner-bottom
+      .container
+        .copyright Copyright © 2026 Figurexje. All Rights Reserved.

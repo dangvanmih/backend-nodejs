@@ -161,3 +161,43 @@
 }
 
 /* end-button */
+
+/* form-edit  */
+
+/* Tăng độ đậm cho label */
+.font-weight-600 {
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 8px;
+}
+
+/* Tùy chỉnh Input khi focus */
+.form-control:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* Nút bấm bo góc hiện đại */
+.btn {
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: #4f46e5;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #4338ca;
+  transform: translateY(-1px);
+}
+
+/* Custom Radio */
+.custom-control-input:checked ~ .custom-control-label::before {
+  border-color: #4f46e5;
+  background-color: #4f46e5;
+}
+
+/* end-form-edit  */

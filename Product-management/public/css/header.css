@@ -1,0 +1,263 @@
+/* --- Tổng thể Header --- */
+/* --- Phông chữ hiện đại (Quan trọng để web sang hơn) --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+:root {
+  --primary-orange: #ff4d4f; /* Màu đỏ cam hiện đại */
+}
+.header {
+  background: #ffffff;
+  padding: 20px 0; /* Tạo khoảng trống trên dưới */
+  border-bottom: 1px solid #f1f1f1;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: 'Inter', sans-serif;
+}
+
+/* 1. MENU BÊN TRÁI */
+.inner-menu > ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 20px; /* Khoảng cách giữa các mục */
+}
+
+.inner-menu ul li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: 0.3s;
+}
+
+.inner-menu ul li a:hover {
+  color: #007bff; /* Màu xanh hiện đại */
+}
+
+/* 2. LOGO Ở GIỮA (Làm cho chữ FIGUREXJE đẹp hơn) */
+.inner-logo a {
+  font-size: 24px;
+  font-weight: 1000;
+  text-decoration: none;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #333;
+}
+
+/* 3. ACTIONS BÊN PHẢI */
+.inner-actions {
+  gap: 15px;
+}
+
+/* Thanh Search bo tròn xịn */
+.action-search-box {
+  background: #f4f4f4;
+  border-radius: 25px;
+  padding: 6px 15px;
+  display: flex;
+  align-items: center;
+  width: 180px; /* Giới hạn độ dài ô search */
+}
+
+.action-search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 13px;
+  width: 100%;
+  color: #555;
+}
+
+.action-search-box i {
+  color: #888;
+  font-size: 14px;
+}
+
+/* Icons */
+.inner-actions i {
+  font-size: 20px;
+  color: #333;
+  transition: 0.2s;
+}
+
+.inner-actions i:hover {
+  color: #007bff;
+}
+
+/* --- XỬ LÝ MENU ĐA CẤP (Dropdown) --- */
+.inner-menu ul li {
+  position: relative; /* Quan trọng nhất: Làm gốc để con bám vào */
+  list-style: none;
+}
+
+/* --- MENU CẤP 2 (Đổ dọc xuống dưới Sản phẩm) --- */
+.inner-menu ul li ul {
+  position: absolute;
+  top: 100%; /* Nằm ngay dưới chữ Sản phẩm */
+  left: 0;
+  background: #fff;
+  min-width: 200px;
+  padding: 10px 0;
+  margin: 0;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  display: none;
+  z-index: 1000;
+  flex-direction: column; /* Ép hàng dọc */
+}
+
+/* Chỉ hiện menu con TRỰC TIẾP của mục đang hover */
+.inner-menu ul li:hover > ul {
+  display: flex;
+}
+
+/* --- MENU CẤP 3, 4 (Xổ sang bên PHẢI) --- */
+.inner-menu ul li ul li ul {
+  top: -10px;     /* Ngang hàng với mục cha hiện tại */
+  left: 100%;  /* Đẩy hẳn sang bên phải */
+  margin-left: 1px; /* Tạo khoảng hở nhỏ */
+}
+
+/* Style cho các link trong menu con */
+.inner-menu ul li ul li a {
+  padding: 8px 10px !important;
+  display: block !important;
+  text-transform: none !important; /* Chữ thường cho đỡ rối */
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: #333 !important;
+  text-decoration: none !important;
+}
+
+.inner-menu ul li ul li a:hover {
+  background-color: #f8f9fa;
+  color: #007bff !important;
+}
+
+.action-cart {
+  position: relative; /* Gốc để badge bám vào */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-cart i {
+  font-size: 22px; /* Tăng nhẹ kích thước icon cho cân đối */
+  color: #333;
+}
+
+/* Số lượng (Badge) */
+.action-cart .badge {
+  position: absolute;
+  top: -8px;       /* Đẩy lên trên icon */
+  right: -10px;    /* Đẩy sang phải icon */
+  background-color: #ff4d4f; /* Màu đỏ MixiShop/Furnitica */
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  
+  /* Tạo vòng tròn hoàn hảo */
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  
+  /* Căn giữa số 1 vào trong vòng tròn */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Tránh bị vỡ khung nếu số lên 2-3 chữ số */
+  padding: 0;
+  line-height: 1;
+  border: 2px solid #fff; /* Thêm viền trắng để nổi bật trên nền header */
+}
+
+.inner-menu ul li a:hover {
+  color: var(--primary-orange) !important;
+  transition: all 0.3s ease;
+}
+
+/* 2. Hover cho Icon Kính lúp */
+.action-search-box i:hover {
+  color: var(--primary-orange) !important;
+  cursor: pointer;
+}
+
+/* 3. Hover cho Icon User (Vòng tròn người) */
+.action-auth a i:hover {
+  color: var(--primary-orange) !important;
+  transform: scale(1.1); /* Hiệu ứng phóng to nhẹ cho hiện đại */
+  transition: all 0.2s ease;
+}
+
+/* 4. Hover cho Icon Giỏ hàng */
+.action-cart a:hover i {
+  color: var(--primary-orange) !important;
+  transition: all 0.2s ease;
+}
+
+/* 5. Hover cho Logo chữ (Nếu bạn muốn) */
+.inner-logo a:hover {
+  color: var(--primary-orange) !important;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+/* Container chứa icon và menu */
+.action-auth {
+  position: relative; /* Bắt buộc để menu con bám theo */
+  padding: 10px 0;    /* Tạo vùng đệm để hover không bị mất */
+  display: inline-block;
+}
+
+/* Menu con (Dropdown) */
+.inner-menu-user {
+  position: absolute;
+  top: 100%;          /* Nằm ngay dưới icon */
+  left: 50%;          /* Đẩy lề trái của menu ra giữa icon */
+  transform: translateX(-50%); /* Dịch ngược lại 50% chiều rộng của chính nó */
+  background: #333;   /* Màu đen xám như ảnh mẫu */
+  min-width: 120px;
+  list-style: none;
+  padding: 10px 0;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  display: none;      /* Ẩn mặc định */
+  z-index: 1100;
+}
+
+/* Hiển thị khi hover */
+.action-auth:hover .inner-menu-user {
+  display: block;
+}
+
+/* Mũi tên nhọn nằm chính giữa menu */
+.inner-menu-user::before {
+  content: "";
+  position: absolute;
+  top: -8px;          /* Đẩy lên trên đầu menu */
+  left: 50%;          /* Căn giữa menu */
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #333; /* Cùng màu với background menu */
+}
+
+/* Style cho chữ bên trong */
+.inner-menu-user li a {
+  color: #fff !important; /* Chữ trắng trên nền đen */
+  padding: 8px 15px !important;
+  display: block !important;
+  text-align: center;     /* Chữ căn giữa */
+  font-size: 14px !important;
+  text-decoration: none !important;
+  text-transform: none !important;
+}
+
+.inner-menu-user li a:hover {
+  background-color: #444; /* Đổi màu nhẹ khi hover vào mục con */
+  color: #ff4d4f !important; /* Màu đỏ cam nhấn mạnh */
+}
