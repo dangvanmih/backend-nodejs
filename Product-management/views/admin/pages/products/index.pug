@@ -47,7 +47,8 @@ block main
                 th Giá
                 th Vị trí
                 th Trạng thái
-                th Người tạo 
+                th Người tạo
+                th Người cập nhật 
                 th Hành động
             tbody
               each item,index in products
@@ -84,10 +85,20 @@ block main
                           button-change-status 
                           data-id=item.id
                         ) Không hoạt động
-                  td 
-                    p #{item.accountFullName}
+                  //- Cột thông tin người tạo
+                  td
+                    p #{item.ownerName}
                     p
-                      +formatDateTime(item.createdBy.createdAt)
+                      if(item.createdBy && item.createdBy.createdAt)
+                        +formatDateTime(item.createdBy.createdAt)
+
+                  //- Cột thông tin người cập nhật
+                  td
+                    - const lastUpdateInfo = item.updatedBy.slice(-1)[0];
+                    if(lastUpdateInfo)
+                      p #{lastUpdateInfo.editorName}
+                      p
+                        +formatDateTime(lastUpdateInfo.updatedAt)
                   td
                     if(role.permission.includes("products_edit")) 
                       a(

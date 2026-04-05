@@ -63,12 +63,20 @@ module.exports.products = async (req, res) => {
     .skip(objectPagination.skip) //Product lấy  từ bên model
     .sort(sort);  //desc: giảm dần; asc: tăng dần
   // console.log(products);
-  for(const product of products) {
-    const user = await accounts.findOne({
-      _id: product.createdBy.account_id
-    });
-    if(user) {
-      product.accountFullName = user.fullName
+  for (const product of products) {
+    // 1. Lấy tên người TẠO
+    const user = await accounts.findOne({ _id: product.createdBy.account_id });
+    if (user) {
+      product.ownerName = user.fullName; 
+    }
+
+    // 2. Lấy tên người CẬP NHẬT cuối cùng
+    const lastUpdate = product.updatedBy.slice(-1)[0];
+    if (lastUpdate) {
+      const userUpdated = await accounts.findOne({ _id: lastUpdate.account_id });
+      if (userUpdated) {
+        lastUpdate.editorName = userUpdated.fullName;
+      }
     }
   }
   res.render("admin/pages/products/index", {
@@ -84,8 +92,16 @@ module.exports.products = async (req, res) => {
 module.exports.changeStatus = async (req, res) => {
   const status = req.params.status;
   const id = req.params.id;
-
-  await Product.updateOne({ _id: id }, { status: status }); // hàm update của mongoose và các tham số bên trong là các key trong database được gán lại giá trị mới
+  const updatedBy = {
+    account_id: res.locals.user.id,
+    updatedAt: new Date()
+  }
+  await Product.updateOne(
+    { _id: id },
+    {
+      status: status,
+      $push: { updatedBy: updatedBy }
+    }); // hàm update của mongoose và các tham số bên trong là các key trong database được gán lại giá trị mới
 
   req.flash("success", "Cập nhật trạng thái thành công!");
   // hàm redirect của express điều hướng sang trang khác và điều kiện bên trong là(nếu có trang trước thì quay về trang trước còn không thì về trang /admin/products)
@@ -97,25 +113,29 @@ module.exports.changeStatus = async (req, res) => {
 module.exports.changeMulti = async (req, res) => {
   const type = req.body.type;
   const ids = req.body.ids.split(", "); //convert lại sang dạng mảng
-
+  const updatedBy = {
+    account_id: res.locals.user.id,
+    updatedAt: new Date()
+  }
   switch (type) {
     case "active":
-      await Product.updateMany({ _id: { $in: ids } }, { status: "active" });
+      await Product.updateMany({ _id: { $in: ids } }, { status: "active", $push: { updatedBy: updatedBy } });
       req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`);
       break;
     case "inactive":
-      await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
+      await Product.updateMany({ _id: { $in: ids } }, { status: "inactive", $push: { updatedBy: updatedBy } });
       req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm!`);
       break;
     case "delete-all":
       await Product.updateMany(
-        { _id: { $in: ids } }, 
-        { 
+        { _id: { $in: ids } },
+        {
           deleted: true,
           deletedBy: {
-          account_id: res.locals.user.id,
-          deletedAt: new Date()
-        }});
+            account_id: res.locals.user.id,
+            deletedAt: new Date()
+          }
+        });
       req.flash("success", `Xóa thành công ${ids.length} sản phẩm!`);
       break
     case "change-position":
@@ -124,7 +144,7 @@ module.exports.changeMulti = async (req, res) => {
         position = parseInt(position);
         // console.log(id);
         // console.log(position);
-        await Product.updateOne({ _id: id }, { position: position });
+        await Product.updateOne({ _id: id }, { position: position, $push: { updatedBy: updatedBy } });
 
       }
       req.flash("success", `Thay đổi vị trí thành công ${ids.length} sản phẩm!`);
@@ -144,12 +164,12 @@ module.exports.deleteItem = async (req, res) => {
   // await Product.deleteOne({ _id: id }); // xóa vĩnh viễn
   await Product.updateOne(
     { _id: id },
-    { 
+    {
       deleted: true,
       deletedBy: {
         account_id: res.locals.user.id,
         deletedAt: new Date()
-      } 
+      }
     });
   req.flash("success", "Xóa sản phẩm thành công!");
   // xóa mềm khi xóa thì đổi trạng thái cho sản phẩm đó thành true thì lúc find sản phầm thì truyền vào deleted:false
@@ -187,7 +207,7 @@ module.exports.createPost = async (req, res) => {
     req.body.position = parseInt(req.body.position);
   }
 
-  req.body.createBy = {
+  req.body.createdBy = {
     account_id: res.locals.user.id
   };
 
@@ -233,7 +253,14 @@ module.exports.editPatch = async (req, res) => {
   req.body.stock = parseInt(req.body.stock);
   req.body.position = parseInt(req.body.position);
   try {
-    await Product.updateOne({ _id: id }, req.body);
+    const updatedBy = {
+      account_id: res.locals.user.id,
+      updatedAt: new Date()
+    }
+    await Product.updateOne({ _id: id }, {
+      ...req.body,
+      $push: { updatedBy: updatedBy }
+    });
     req.flash("success", "Cập nhật sản phẩm thành công!");
 
   } catch (error) {
