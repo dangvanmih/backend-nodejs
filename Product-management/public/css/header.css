@@ -34,7 +34,7 @@
 }
 
 .inner-menu ul li a:hover {
-  color: #007bff; /* Màu xanh hiện đại */
+  color: var(--primary-orange); /* Màu xanh hiện đại */
 }
 
 /* 2. LOGO Ở GIỮA (Làm cho chữ FIGUREXJE đẹp hơn) */
@@ -84,7 +84,7 @@
 }
 
 .inner-actions i:hover {
-  color: #007bff;
+  color: var(--primary-orange);;
 }
 
 /* --- XỬ LÝ MENU ĐA CẤP (Dropdown) --- */
@@ -112,6 +112,7 @@
 /* Chỉ hiện menu con TRỰC TIẾP của mục đang hover */
 .inner-menu ul li:hover > ul {
   display: flex;
+  color:var(--primary-orange); ;
 }
 
 /* --- MENU CẤP 3, 4 (Xổ sang bên PHẢI) --- */
@@ -134,7 +135,7 @@
 
 .inner-menu ul li ul li a:hover {
   background-color: #f8f9fa;
-  color: #007bff !important;
+  color: var(--primary-orange);
 }
 
 .action-cart {
