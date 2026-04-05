@@ -1,25 +1,52 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
+
 block main 
-  div(style = "background-color: #EFEEF5; padding: 10px 0")
-    .container.my-3
-      .row 
-        .col-12 
+  .section-products
+    .container
+      .row.mb-4
+        .col-12
           +box-head("Danh sách sản phẩm")
-          
+
       .row
         each items in products  
-          .col-4.mb-3 
-            .product-item
-              a(href=`/products/${items.slug}` style = "text-decoration: none") 
-                .inner-item
-                  .inner-image
-                    img(src=items.thumbnail alt=items.title class = "img-main")
-                    //- img(src="/uploads/1773127767614-IMG_9438.webp" class = "img-hover") // cách làm khi hover thì đổi sang ảnh khác
-                  .inner-content 
-                    h3.inner-title #{items.title}
-                    .inner-price-new #{items.priceNew}$
-                    .inner-price-old #{items.price}$
-                    .inner-discount 
-                      span Giảm 
-                      b #{items.discountPercentage}%
+          .col-xl-3.col-lg-4.col-md-6.col-6.mb-4
+            .product-card
+              //- Image Area
+              .product-image
+                a(href=`/products/${items.slug}`)
+                  img(src=items.thumbnail alt=items.title)
+                
+                //- Nút tương tác nhanh xuất hiện khi hover
+                .product-actions
+                  button.btn-action(title="Xem nhanh")
+                    i.fa-regular.fa-eye
+                  button.btn-add-cart
+                    i.fa-solid.fa-cart-plus
+                    span Thêm giỏ hàng
+
+                if items.discountPercentage
+                  .badge-sale -#{items.discountPercentage}%
+
+              //- Content Area
+              .product-info
+                //- Thêm category hoặc thương hiệu nhỏ phía trên
+                .product-category Figure
+                
+                h3.product-title 
+                  a(href=`/products/${items.slug}`) #{items.title}
+
+                //- Đánh giá sao giả lập
+                .product-rating
+                  .stars
+                    i.fa-solid.fa-star
+                    i.fa-solid.fa-star
+                    i.fa-solid.fa-star
+                    i.fa-solid.fa-star
+                    i.fa-solid.fa-star-half-stroke
+                  span.sold-count (Đã bán 1.2k)
+
+                .product-price
+                  span.price-new #{items.priceNew}$
+                  if items.discountPercentage
+                    span.price-old #{items.price}$
