@@ -1,0 +1,62 @@
+extends ../../layouts/default.pug
+
+block main 
+  .container-fluid
+    .row.mt-4
+      .col-12
+        h2.mb-4(style="font-weight: 700; color: #1a202c;") Thông tin cá nhân
+
+    .row
+      .col-md-4
+        //- Card chứa Ảnh đại diện
+        .card.shadow-sm.text-center.border-0.mb-4(style="border-radius: 15px;")
+          .card-body.py-5
+            if(user.avatar)
+              img(
+                src=user.avatar 
+                class="rounded-circle img-thumbnail mb-3 shadow-sm"
+                style="width: 150px; height: 150px; object-fit: cover;"
+              )
+            else 
+              .bg-light.rounded-circle.d-inline-flex.align-items-center.justify-content-center.mb-3(style="width: 150px; height: 150px;")
+                i.fa-solid.fa-user.fa-4x.text-secondary
+            
+            h4.font-weight-bold.mb-1 #{user.fullName || "Chưa cập nhật tên"}
+            p.text-muted.small #{role.title || "Chưa phân quyền"}
+            
+            hr.my-4
+            
+            .d-flex.justify-content-center.align-items-center
+              span.mr-2 Trạng thái:
+              if(user.status === "active")
+                span.badge.badge-pill.badge-success.px-3.py-2 Hoạt động
+              else 
+                span.badge.badge-pill.badge-secondary.px-3.py-2 Không hoạt động
+
+      .col-md-8
+        //- Card chứa Chi tiết thông tin
+        .card.shadow-sm.border-0(style="border-radius: 15px;")
+          .card-header.bg-white.py-3.border-bottom-0
+            h5.mb-0.font-weight-bold Chi tiết tài khoản
+          .card-body
+            .row.mb-3
+              .col-sm-4.text-muted Email:
+              .col-sm-8.font-weight-bold #{user.email || "N/A"}
+            
+            hr
+            
+            .row.mb-3
+              .col-sm-4.text-muted Số điện thoại:
+              .col-sm-8.font-weight-bold #{user.phone || "N/A"}
+            
+            hr
+
+            .row.mb-3
+              .col-sm-4.text-muted Nhóm quyền:
+              .col-sm-8
+                span.badge.badge-info.px-3 #{role.title || "Chưa có"}
+
+            .mt-5
+              a(href=`${prefixAdmin}/my-account/edit` class="btn btn-primary px-4 shadow-sm" style="border-radius: 8px;") 
+                i.fa-solid.fa-user-pen.mr-2
+                | Chỉnh sửa thông tin

@@ -1,0 +1,113 @@
+extends ../../layouts/default.pug
+include ../../mixins/show-alert.pug
+
+block main 
+  +alert-error(3000)
+  +alert-success(3000)
+  
+  .container-fluid
+    .row.justify-content-center
+      .col-md-10
+        .card.border-0.shadow-sm(style="border-radius: 16px;")
+          .card-header.bg-white.py-3.border-bottom-0
+            h2.h4.font-weight-bold.text-dark.mb-0 Chỉnh sửa thông tin cá nhân
+            p.text-muted.small Cập nhật thông tin chi tiết để bảo mật tài khoản tốt hơn.
+          
+          .card-body.p-4
+            form(
+              action=`${prefixAdmin}/my-account/edit?_method=PATCH`
+              method="POST"
+              enctype="multipart/form-data"
+            )
+              .row
+                //- Cột trái: Thông tin cơ bản
+                .col-md-7
+                  .form-group.mb-4
+                    label.font-weight-600(for="fullName") Họ tên *
+                    input#fullName.form-control.form-control-lg(
+                      type="text"
+                      name="fullName"
+                      required
+                      value=user.fullName
+                      placeholder="Nhập họ và tên..."
+                    )
+                  
+                  .row
+                    .col-md-6
+                      .form-group.mb-4
+                        label.font-weight-600(for="email") Email *
+                        input#email.form-control(
+                          type="email"
+                          name="email"
+                          required
+                          value=user.email
+                        )
+                    .col-md-6
+                      .form-group.mb-4
+                        label.font-weight-600(for="phone") Số điện thoại
+                        input#phone.form-control(
+                          type="text"
+                          name="phone"
+                          value=user.phone
+                        )
+                  
+                  .form-group.mb-4
+                    label.font-weight-600(for="password") Mật khẩu (Nhập để thay đổi) *
+                    input#password.form-control(
+                      type="password"
+                      name="password"
+                      placeholder="********"
+                    )
+
+                  .form-group.mb-4
+                    label.d-block.font-weight-600 Trạng thái tài khoản
+                    .custom-control.custom-radio.custom-control-inline
+                      input#statusActive.custom-control-input(
+                        type="radio"
+                        name="status"
+                        value="active"
+                        checked=(user.status == "active")
+                      )
+                      label.custom-control-label(for="statusActive") Hoạt động
+                    .custom-control.custom-radio.custom-control-inline
+                      input#statusInactive.custom-control-input(
+                        type="radio"
+                        name="status"
+                        value="inactive"
+                        checked=(user.status == "inactive")
+                      )
+                      label.custom-control-label(for="statusInactive") Dừng hoạt động
+
+                //- Cột phải: Ảnh đại diện
+                .col-md-5
+                  div(class="form-group mb-4" upload-image)
+                    label.font-weight-600 Ảnh đại diện
+                    .upload-container.text-center.p-4.border.rounded-lg(style="background: #f8fafc; border-style: dashed !important;")
+                      input#avatar.form-control-file.d-none(
+                        type="file"
+                        name="avatar"
+                        accept="image/*"
+                        upload-image-input
+                      )
+                      label.btn.btn-outline-primary.btn-sm.mb-3(for="avatar") 
+                        i.fa-solid.fa-cloud-arrow-up.mr-2
+                        | Chọn ảnh mới
+                      
+                      .preview-wrapper.position-relative.d-flex.justify-content-center
+                        img(
+                          src=user.avatar
+                          upload-image-preview
+                          class="img-thumbnail rounded-circle"
+                          style="width: 180px; height: 180px; object-fit: cover;"
+                        )
+                        button.btn.btn-danger.btn-sm.position-absolute.d-none(
+                          type="button"
+                          style="top: 0; right: 20%; border-radius: 50%; width: 30px; height: 30px;"
+                          close-image
+                        ) &times;
+
+              hr.my-4
+              
+              .text-right
+                a(href=`${prefixAdmin}/my-account` class="btn btn-light px-4 mr-2") Hủy bỏ
+                button.btn.btn-primary.px-5(type="submit") Cập nhật ngay
