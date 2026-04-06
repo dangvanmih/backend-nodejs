@@ -1,0 +1,124 @@
+/* Slider Height Adjustment */
+.home-slider {
+  height: 50rem; /* Chiều cao đã co lại */
+  width: 100%;
+}
+
+.home-slider .swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* Service Row Style */
+.section-services .service-item {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.section-services .inner-icon i {
+  font-size: 30px;
+  color: #333;
+  margin-right: 15px;
+}
+
+.section-services .inner-content h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+@media (max-width: 767px) {
+  .home-slider { height: 250px; }
+}
+
+/* --- Tùy chỉnh Mũi tên Swiper --- */
+
+/* 1. Đổi màu sang trắng */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #ffffff !important; /* Đổi màu mũi tên */
+}
+
+/* 2. Cho bé lại (Dùng font-size vì Swiper dùng Icon Font) */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px !important; 
+  font-weight: bold;
+}
+
+/* 3. Thêm một lớp nền mờ hoặc đổ bóng (Tùy chọn) */
+.swiper-button-next,
+.swiper-button-prev {
+  background: rgba(0, 0, 0, 0.2);
+  width: 40px;  
+  height: 40px; 
+  border-radius: 50%; 
+  transition: all 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: rgba(0, 0, 0, 0.5); 
+  transform: scale(1.1);
+}
+
+
+/* --- Service Row Style --- */
+.section-services .service-item {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #eee; /* Màu viền mặc định */
+  border-radius: 10px;
+  
+  /* Cực kỳ quan trọng để các hiệu ứng chạy mượt */
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+  cursor: pointer;
+}
+
+/* --- Hiệu ứng Hover --- */
+.section-services .service-item:hover {
+  /* 1. Zoom nhẹ toàn bộ khung (1.03 là mức vừa phải, sang trọng) */
+  transform: scale(1.03); 
+  
+  /* 2. Khung chuyển dần sang màu đỏ cam */
+  border-color: var(--primary-orange); 
+  
+  /* 3. Thêm đổ bóng nhẹ để tăng hiệu ứng nổi khối (tùy chọn) */
+  box-shadow: 0 10px 20px rgba(255, 77, 79, 0.1); 
+}
+
+/* Khi hover vào item, icon cũng có thể đổi màu theo cho đồng bộ */
+.section-services .service-item:hover .inner-icon i {
+  color: var(--primary-orange);
+  transition: color 0.3s ease;
+}
+
+.section-services .inner-icon i {
+  font-size: 30px;
+  color: #333;
+  margin-right: 15px;
+  transition: color 0.3s ease;
+}
+
+.section-services .inner-content h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+/* Chữ cũng đổi màu khi hover */
+.section-services .service-item:hover .inner-content h4 {
+  color: var(--primary-orange);
+}

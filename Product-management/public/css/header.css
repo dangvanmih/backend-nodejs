@@ -60,7 +60,7 @@
   padding: 6px 15px;
   display: flex;
   align-items: center;
-  width: 180px; /* Giới hạn độ dài ô search */
+  width: 200px; /* Giới hạn độ dài ô search */
 }
 
 .action-search-box input {
@@ -262,4 +262,16 @@
 .inner-menu-user li a:hover {
   background-color: #444; /* Đổi màu nhẹ khi hover vào mục con */
   color: #ff4d4f !important; /* Màu đỏ cam nhấn mạnh */
+}
+.header {
+  position: fixed; /* Hoặc sticky */
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: transform 0.3s ease; /* Tạo hiệu ứng trượt mượt mà */
+  z-index: 1000;
+}
+
+.header.hide {
+  transform: translateY(-100%); /* Đẩy header lên trên để ẩn đi */
 }
