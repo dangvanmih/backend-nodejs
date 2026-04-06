@@ -1,5 +1,5 @@
 tinymce.init({
-  selector: 'textarea.texarea-mce',
+  selector: 'textarea.textarea-mce',
   plugins: 'lists link image table code help wordcount',
   license_key: 'gpl',
   file_picker_types: 'image',
