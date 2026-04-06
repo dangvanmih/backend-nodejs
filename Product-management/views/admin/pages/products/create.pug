@@ -6,156 +6,142 @@ block main
   +alert-error(3000)
   +alert-success(3000)
   
-  h1(class="mb-4") Thêm mới sản phẩm
+  .container-fluid.py-4
+    .row.mb-4
+      .col-12.d-flex.justify-content-between.align-items-center
+        h1(class="h3 mb-0 text-gray-800 font-weight-bold") 
+          i.fa-solid.fa-plus.mr-2
+          | Thêm mới sản phẩm
+        a(href=`${prefixAdmin}/products` class="btn btn-sm btn-secondary shadow-sm")
+          i.fa-solid.fa-arrow-left.mr-1
+          | Quay lại
 
-  if(role.permission.includes("products_create"))
+    if(role.permission.includes("products_create"))
+      form(
+        action=`${prefixAdmin}/products/create`
+        enctype="multipart/form-data"
+        id="form-create-product"
+        method="POST"
+      )
+        .row
+          //- CỘT TRÁI (8/12): THÔNG TIN NỘI DUNG
+          .col-lg-8
+            .card.shadow.mb-4
+              .card-header.py-3
+                h6.m-0.font-weight-bold.text-primary Thông tin chính
+              .card-body
+                .form-group
+                  label(for="title" class="font-weight-bold") Tên sản phẩm:
+                  input(
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    placeholder="Nhập tên sản phẩm..."
+                    required
+                  )
+                
+                .row
+                  .col-md-6
+                    .form-group
+                      label(for="products_category_id" class="font-weight-bold") Danh mục:
+                      select(
+                        name="products_category_id"
+                        id="products_category_id"
+                        class="form-control"
+                      )
+                        option(value="") -- Chọn danh mục --
+                        if(category)
+                          +select-tree(category)
+                  .col-md-6
+                    label(class="font-weight-bold d-block") Sản phẩm nổi bật:
+                    .mt-2
+                      .form-check.form-check-inline
+                        input(type="radio" class="form-check-input" id="featured1" name="featured" value="1")
+                        label(for="featured1" class="form-check-label") Nổi bật
+                      .form-check.form-check-inline
+                        input(type="radio" class="form-check-input" id="featured0" name="featured" value="0" checked=true)
+                        label(for="featured0" class="form-check-label") Không
 
-    form(
-      action=`${prefixAdmin}/products/create`
-      enctype="multipart/form-data"
-      id="form-create-product"
-      method="POST"
-    )
+                .form-group.mt-3
+                  label(for="desc" class="font-weight-bold") Mô tả sản phẩm:
+                  textarea(
+                    class="form-control textarea-mce"
+                    id="desc"
+                    name="description"
+                    rows="5"
+                  )
 
-      div(class="form-group")
-        label(for="title") Tên sản phẩm:
-        input(
-          type="text"
-          class="form-control"
-          id="title"
-          name="title"
-          required
-        )
-      
-      div(class="form-group")
-        label(for="products_category_id") Danh mục 
-        select(
-          name="products_category_id"
-          id="products_category_id"
-          class="form-control"
-        )
-          option(value="") -- Chọn danh mục --
-          if(category)
-            +select-tree(category)
-      div(class="form-group form-check form-check-inline")
-        input(
-          type="radio"
-          class="form-check-input"
-          id="featured1"
-          name="featured" 
-          value="1"
-        )
-        label(for="featured1" class="form-check-label") Nổi bật
+          //- CỘT PHẢI (4/12): THÔNG SỐ & HÌNH ẢNH
+          .col-lg-4
+            //- Card Giá & Kho
+            .card.shadow.mb-4
+              .card-header.py-3
+                h6.m-0.font-weight-bold.text-primary Thông số bán hàng
+              .card-body
+                .form-group
+                  label(for="price") Giá gốc ($):
+                  input(type="number" class="form-control" id="price" name="price" value="0" min="0" step="0.01")
+                .form-group
+                  label(for="discount") % Giảm giá:
+                  input(type="number" class="form-control" id="discount" name="discountPercentage" value="0" min="0" step="0.01")
+                .form-group
+                  label(for="stock") Số lượng tồn:
+                  input(type="number" class="form-control" id="stock" name="stock" value="0" min="0")
 
-      div(class="form-group form-check form-check-inline")
-        input(
-          type="radio"
-          class="form-check-input"
-          id="featured0"
-          name="featured" 
-          value="0"
-          checked=true 
-        )
-        label(for="featured0" class="form-check-label") Không
-      div(class="form-group")
-        label(for="desc") Mô tả:
-        textarea(
-          class="form-control textarea-mce"
-          id="desc"
-          name="description"
-          rows="5"
-        )
+            //- Card Hình ảnh (Giữ nguyên các thuộc tính JS)
+            .card.shadow.mb-4
+              .card-header.py-3
+                h6.m-0.font-weight-bold.text-primary Hình ảnh đại diện
+              .card-body
+                div(upload-image)
+                  label(for="thumbnail" class="btn btn-outline-primary btn-block") 
+                    i.fa-solid.fa-image.mr-1
+                    | Chọn ảnh sản phẩm
+                  input(
+                    type="file"
+                    class="form-control-file d-none"
+                    id="thumbnail"
+                    name="thumbnail"
+                    accept="image/*"
+                    upload-image-input
+                  )
+                  .mt-3.text-center.position-relative
+                    img(
+                      src=""
+                      upload-image-preview
+                      class="image-preview img-thumbnail shadow-sm"
+                      style="max-width: 100%; height: auto; min-height: 100px; display: block;"
+                    )
+                    button(type="button" class="btn btn-danger btn-sm mt-2 d-none" close-image) 
+                      i.fa-solid.fa-xmark.mr-1
+                      | Xóa ảnh
 
-      div(class="form-group")
-        label(for="price") Giá:
-        input(
-          type="number"
-          class="form-control"
-          id="price"
-          name="price"
-          value="0"
-          min="0"
-          step="0.01"
-        )
+            //- Card Cài đặt khác
+            .card.shadow.mb-4
+              .card-header.py-3
+                h6.m-0.font-weight-bold.text-primary Hiển thị
+              .card-body
+                .form-group
+                  label(for="position") Vị trí (Thứ tự):
+                  input(type="number" class="form-control" id="position" name="position" min="1" placeholder="Tự động tăng")
+                
+                label(class="font-weight-bold d-block mt-3") Trạng thái:
+                .mt-2
+                  .form-check.form-check-inline
+                    input(type="radio" class="form-check-input" id="statusActive" name="status" value="active" checked)
+                    label(for="statusActive" class="form-check-label") Hoạt động
+                  .form-check.form-check-inline
+                    input(type="radio" class="form-check-input" id="statusInactive" name="status" value="inactive")
+                    label(for="statusInactive" class="form-check-label") Dừng hoạt động
 
-      div(class="form-group")
-        label(for="discount") % Giảm giá:
-        input(
-          type="number"
-          step="0.01"
-          class="form-control"
-          id="discount" 
-          name="discountPercentage"
-          value="0"
-          min="0"
-        )
-
-      div(class="form-group")
-        label(for="stock") Số lượng:
-        input(
-          type="number"
-          class="form-control"
-          id="stock"
-          name="stock"
-          value="0"
-          min="0"
-        )
-
-      div(class="form-group" upload-image)
-        label(for="thumbnail") Ảnh:
-        input(
-          type="file"
-          class="form-control-file"
-          id="thumbnail"
-          name="thumbnail"
-          accept="image/*"
-          upload-image-input
-        )
-        div(class="d-flex mt-2")
-          img(
-            src=""
-            upload-image-preview
-            class="image-preview"
-            style="width: 100px; height: auto;"
-          )
-          button(type="button" class="btn btn-danger btn-sm d-none" style="height: 30px; margin-left: 10px" close-image) Close
-
-      div(class="form-group")
-        label(for="position") Vị trí:
-        input(
-          type="number" 
-          class="form-control"
-          id="position"
-          name="position"
-          min="1"
-          placeholder="Tự động tăng"
-        )
-
-      div(class="form-group form-check form-check-inline")
-        input(
-          type="radio"
-          class="form-check-input"
-          id="statusActive"
-          name="status"
-          value="active"
-          checked
-        )
-        label(for="statusActive" class="form-check-label") Hoạt động
-
-      div(class="form-group form-check form-check-inline")
-        input(
-          type="radio"
-          class="form-check-input"
-          id="statusInactive"
-          name="status"
-          value="inactive"
-        )
-        label(for="statusInactive" class="form-check-label") Dừng hoạt động
-
-      div(class="form-group")
-        button(
-          type="submit"
-          class="btn btn-success"
-        ) Tạo mới
+        //- Thanh tác vụ cuối cùng
+        .row.mt-3.mb-5
+          .col-12
+            .card.shadow
+              .card-body.d-flex.justify-content-end.bg-light
+                button(type="submit" class="btn btn-primary btn-lg px-5")
+                  i.fa-solid.fa-paper-plane.mr-2
+                  | Tạo mới
 
     script(src="/admin/js/product.js")
