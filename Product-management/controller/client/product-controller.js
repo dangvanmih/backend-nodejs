@@ -1,4 +1,3 @@
-
 const Product = require("../../models/products.model");
 //[GET] /products
 module.exports.index = async (req, res) => {

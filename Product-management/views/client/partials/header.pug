@@ -1,3 +1,4 @@
+include ../mixins/sub-menu.pug
 header.header
   .container
     .row.align-items-center
@@ -9,21 +10,9 @@ header.header
             li: a(href="/introduction") Giới Thiệu
             //- Menu Sản phẩm với đầy đủ các mục 1, 1-1, 1-2...
             li.sub-menu
-              a(href="/products") Sản phẩm
-              ul 
-                li 
-                  a(href="product/slug-1") Mục 1
-                  ul 
-                    li
-                      a(href="product/slug-1-1") Mục 1 - 1
-                    li
-                      a(href="product/slug-1-2") Mục 1 - 2
-                      ul 
-                        li
-                          a(href="product/slug-1-2-1") Mục 1 - 2 - 1
-                        li
-                          a(href="product/slug-1-2-2") Mục 1 - 2 - 2
-                li: a(href="product/slug-2") Mục 2
+              -const pathProduct ="/products"
+              a(href=pathProduct) Sản phẩm
+              +sub-menu(layoutProductsCategory,pathProduct)
             li
               a(href="/blog") Blog
             li
