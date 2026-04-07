@@ -40,6 +40,6 @@ mixin product-item(items)
                   span.sold-count (Đã bán 1.2k)
 
                 .product-price
-                  span.price-new #{items.priceNew}$
+                  span.price-new #{items.priceNew.toLocaleString('vi-VN')} ₫
                   if items.discountPercentage
-                    span.price-old #{items.price}$
+                    span.price-old #{items.price.toLocaleString('vi-VN')} ₫

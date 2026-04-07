@@ -1,4 +1,5 @@
 const Product = require("../../models/products.model");
+const productCategory = require("../../models/products-category.model");
 const productHelper = require("../../helpers/product");
 //[GET] /products
 module.exports.index = async (req, res) => {
@@ -7,7 +8,7 @@ module.exports.index = async (req, res) => {
     deleted: false
   }).sort({ position: "desc" });
 
-    const newProducts = productHelper.priceNewProducts(products)
+  const newProducts = productHelper.priceNewProducts(products)
 
   // console.log(newProducts);
 
@@ -28,7 +29,7 @@ module.exports.detail = async (req, res) => {
     };
 
     const product = await Product.findOne(find);
-    
+
     res.render("client/pages/products/detail", {
       pageTitle: product.title,
       product: product
@@ -39,3 +40,27 @@ module.exports.detail = async (req, res) => {
   }
 };
 
+//[GET] /products/:slugCategory
+module.exports.category = async (req, res) => {
+  try {
+    const category = await productCategory.findOne({
+      slug: req.params.slugCategory,
+      deleted: false
+    });
+    const products = await Product.find(
+      {
+        deleted: false,
+        status: "active",
+        products_category_id: category.id
+      }
+    ).sort({ position: "desc" });
+    const newProducts = productHelper.priceNewProducts(products)
+    res.render("client/pages/products/index", {
+      pageTitle: "Danh sách sản phẩm",
+      products: newProducts
+    });
+  } catch (error) {
+    res.redirect(req.get("Referer") || "/");
+  }
+};
+// 59:08

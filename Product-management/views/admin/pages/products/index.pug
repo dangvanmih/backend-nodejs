@@ -59,7 +59,7 @@ block main
                   td 
                     img(src=item.thumbnail alt=item.title width="100px" height = "auto")
                   td #{item.title}
-                  td #{item.price}$
+                  td #{item.price.toLocaleString('vi-VN')} ₫
                   td 
                     input(type="number"
                       value=item.position

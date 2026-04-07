@@ -58,5 +58,11 @@ block main
           +box-head("Sản phẩm nổi bật")
           
       +product-grid(productFeatured)
+  section.section-new-product.py-3 
+    .container 
+      .row.mb-4 
+        .col-12 
+          +box-head("Sản phẩm mới nhất")
+      +product-grid(newProducts)  
 block script
   script(src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js")
