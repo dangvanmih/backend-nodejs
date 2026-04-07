@@ -18,3 +18,30 @@ window.addEventListener("scroll", () => {
 });
 
 //end-scrol-header
+
+//slider
+document.addEventListener("DOMContentLoaded", () => {
+    // Kiểm tra xem class .home-slider có tồn tại trên trang không mới chạy
+    // Điều này giúp tránh lỗi ở các trang khác không có slider
+    const homeSlider = document.querySelector('.home-slider');
+    
+    if (homeSlider) {
+        const swiper = new Swiper('.home-slider', {
+            loop: true,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    }
+});
+
+//end-slider

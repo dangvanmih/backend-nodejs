@@ -7,10 +7,14 @@ module.exports.index = async (req, res) => {
     featured: "1",
     status: "active"
   }
-  const productFeatured = await Product.find(find)
 
+  const productFeatured = await Product.find(find)
+  const newProducts = productFeatured.map(item => {
+    item.priceNew = (item.price * (100 - item.discountPercentage) / 100).toFixed(2); // thêm thuộc tính giá mới trực tiếp vào object gốc
+    return item;
+  });
   res.render("client/pages/home/index", {
     pageTitle: "Trang chủ",
-    productFeatured: productFeatured
+    productFeatured: newProducts
   })
 }
