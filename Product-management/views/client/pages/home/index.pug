@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
-
+include ../../mixins/box-head.pug
+include ../../mixins/product-layout.pug
 block css 
   link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css")
   link(rel="stylesheet" href="/css/home.css")
@@ -50,6 +51,12 @@ block main
               i.fa-solid.fa-rotate-left
             .inner-content
               h4 Return 30 Days
-
+  section.section-product-featured.py-3 
+    .container 
+      .row.mb-4
+        .col-12
+          +box-head("Sản phẩm nổi bật")
+          
+      +product-grid(productFeatured)
 block script
   script(src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js")

@@ -1,7 +1,4 @@
 /* --- Tổng thể Header --- */
-/* --- Phông chữ hiện đại (Quan trọng để web sang hơn) --- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
 :root {
   --primary-orange: #ff4d4f;
   /* Màu đỏ cam hiện đại */

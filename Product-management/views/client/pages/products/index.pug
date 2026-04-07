@@ -1,6 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
-
+include ../../mixins/product-layout.pug
 block main 
   .section-products
     .container
@@ -8,46 +8,4 @@ block main
         .col-12
           +box-head("Danh sách sản phẩm")
 
-      .row
-        each items in products  
-          .col-xl-3.col-lg-4.col-md-6.col-6.mb-4
-            .product-card
-              //- Image Area
-              .product-image
-                a(href=`/products/${items.slug}`)
-                  img(src=items.thumbnail alt=items.title)
-                
-                //- Nút tương tác nhanh xuất hiện khi hover
-                .product-actions
-                  button.btn-action(title="Xem nhanh")
-                    i.fa-regular.fa-eye
-                  button.btn-add-cart
-                    i.fa-solid.fa-cart-plus
-                    span Thêm giỏ hàng
-
-                if items.discountPercentage
-                  .badge-sale -#{items.discountPercentage}%
-
-              //- Content Area
-              .product-info
-                //- Thêm category hoặc thương hiệu nhỏ phía trên
-                .product-category Figure
-                
-                h3.product-title 
-                  a(href=`/products/${items.slug}`) #{items.title}
-
-                //- Đánh giá sao giả lập
-                .product-rating
-                  .stars
-                    i.fa-solid.fa-star
-                    i.fa-solid.fa-star
-                    i.fa-solid.fa-star
-                    i.fa-solid.fa-star
-                    i.fa-solid.fa-star-half-stroke
-                  span.sold-count (Đã bán 1.2k)
-
-                .product-price
-                  span.price-new #{items.priceNew}$
-                  if items.discountPercentage
-                    span.price-old #{items.price}$
-                    //- 1:16
+      +product-grid(products)
