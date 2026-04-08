@@ -3,7 +3,7 @@ mixin product-item(items)
             .product-card
               //- Image Area
               .product-image
-                a(href=`/products/${items.slug}`)
+                a(href=`/products/detail/${items.slug}`)
                   img(src=items.thumbnail alt=items.title)
                 //- NHÓM BADGES (SALE & HOT)
                 .product-badges
@@ -27,7 +27,7 @@ mixin product-item(items)
                 .product-category Figure
                 
                 h3.product-title 
-                  a(href=`/products/${items.slug}`) #{items.title}
+                  a(href=`/products/detail/${items.slug}`) #{items.title}
 
                 //- Đánh giá sao giả lập
                 .product-rating

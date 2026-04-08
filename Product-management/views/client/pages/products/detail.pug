@@ -1,20 +1,94 @@
 extends ../../layouts/default.pug 
+include ../../mixins/box-head.pug
+include ../../mixins/product-layout.pug
+block css
+  //- Thêm Font Awesome để dùng icon cho breadcrumb và nút
+  link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css")
+  link(rel="stylesheet", href="/css/product-detail.css")
 
 block main 
-  div( class="product-detail")
+  section.product-detail-section
     .container
-      div(class="row" style="padding: 100px 0 ")
-        .col-6  
-          if(product.thumbnail)
-            .inner-image 
-              img(src=product.thumbnail width="500px" height="700px" style="object-fit: cover; border-radius: 5px")
-        .col-6 
-          if(product.title)
-            h1.inner-title #{product.title}
-          if(product.price)
-            p.inner-price Giá: $#{product.price} USD
-          if(product.discountPercentage)
-            p.inner-discount Giảm giá: #{product.discountPercentage} %
-          if(product.stock)
-            p.inner-stock Còn lại: #{product.stock}
-  script(src="/js/product.js")
+      .inner-wrapper.my-5
+        .row
+          //- Cột trái: Hình ảnh
+          .col-lg-6.col-md-12
+            .product-image-wrapper
+              if(product.thumbnail)
+                img(src=product.thumbnail alt=product.title class="main-image")
+          //- Cột phải: Thông tin
+          .col-lg-6.col-md-12
+            .product-info-content
+              if(product.category)
+                nav.breadcrumb-nav
+                  a(href="/") Trang chủ
+                  i.fa-solid.fa-chevron-right
+                  a(href=`/products/${product.category.slug}`) #{product.category.title}
+
+              h1.product-title #{product.title}
+              .product-brand.my-2 
+                if(product.category)
+                  span Thương hiệu: 
+                  a(href=`/products/${product.category.slug}`) #{product.category.title}
+              .product-meta
+                span.status Kho: #{product.stock} sản phẩm
+                span.divider |
+                span.sold Đã bán: 1.2k
+
+              //- Vùng giá: Tập trung thị giác cao
+              .product-price-block
+                if(product.discountPercentage)
+                  span.price-new #{product.priceNew.toLocaleString('vi-VN')} ₫
+                  span.price-old #{product.price.toLocaleString('vi-VN')} ₫
+                else
+                  span.price-new #{product.price.toLocaleString('vi-VN')} ₫
+
+              form(
+                action=`/cart/add/${product.id}`
+                method="POST"
+                class="add-to-cart-form"
+              )
+                .quantity-control
+                  label Số lượng:
+                  .input-group
+                    button(type="button" class="btn-qty minus") -
+                    input(
+                      type="number"
+                      name="quantity"
+                      value="1"
+                      min="1"
+                      max=product.stock
+                      class="quantity-input"
+                    )
+                    button(type="button" class="btn-qty plus") +
+                
+                .action-buttons
+                  button(type="submit" class="btn-add") 
+                    i.fa-solid.fa-cart-plus
+                    | Thêm vào giỏ hàng
+                  //- Nút Mua ngay thường sẽ thực hiện một action khác hoặc gửi kèm 1 flag để redirect thẳng đến thanh toán
+                  button(type="button" class="btn-buy-now")
+                    i.fa-solid.fa-bolt
+                    | Mua ngay
+
+    //- Phần mô tả 
+    .product-description-section
+      .container
+        .row
+          .col-lg-10.offset-lg-1
+            .desc-card
+              .desc-header
+                +box-head("Mô tả sản phẩm")
+              .desc-body
+                if(product.description)
+                  //- Chú ý dùng !{} để render HTML từ database
+                  .inner-desc !{product.description}
+                else 
+                  p.text-muted Nội dung đang được cập nhật...
+
+    .related-products-section.my-5
+      .container
+        .row
+          .mb-2 
+            +box-head("Sản phẩm liên quan") 
+          +product-grid(relatedProducts)
