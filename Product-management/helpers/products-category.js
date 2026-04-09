@@ -1,22 +1,23 @@
-const productCategory = require("../../models/products-category.model");
+const productCategory = require("../models/products-category.model");
 
-module.exports.getSubCategory = async (parentId) => {
-  const getCategory = async (parentId) => {
-    const subs = await productCategory.find({
-      deleted: false,
-      status: "active",
-      parent_id: parentId,
-    });
+// Viết hàm lấy danh mục con
+const getSubCategory = async (parentId) => {
+  const subs = await productCategory.find({
+    deleted: false,
+    status: "active",
+    parent_id: parentId,
+  });
 
-    let allSub = [...subs];
+  let allSub = [...subs];
 
-    for (const sub of subs) {
-      const childs = await getCategory(sub.id);
-      allSub = allSub.concat(childs)
-    }
-
-    return allSub;
+  for (const sub of subs) {
+    // Đệ quy: Gọi lại chính nó để tìm cấp sâu hơn
+    const childs = await getSubCategory(sub.id);
+    allSub = allSub.concat(childs);
   }
-  const result = await getCategory(parentId);
-  return result;
-}
+
+  return allSub;
+};
+
+// Export hàm ra để Controller sử dụng
+module.exports.getSubCategory = getSubCategory;

@@ -11,7 +11,6 @@ module.exports.addPost = async (req, res) => {
 
   const exitProductInCart = cart.products.find(item => item.product_id == productId);
 
-  console.log(exitProductInCart);
 
   if (exitProductInCart) {
     const newQuantity = quantity + exitProductInCart.quantity

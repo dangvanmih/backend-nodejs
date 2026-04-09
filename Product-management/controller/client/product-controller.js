@@ -1,7 +1,7 @@
 const Product = require("../../models/products.model");
 const productCategory = require("../../models/products-category.model");
 const productHelper = require("../../helpers/product");
-const productCategoryHelper = require("../../helpers/product");
+const productCategoryHelper = require("../../helpers/products-category");
 //[GET] /products
 module.exports.index = async (req, res) => {
   const products = await Product.find({
@@ -55,15 +55,15 @@ module.exports.detail = async (req, res) => {
     }).limit(4);
     const newRelatedProducts = productHelper.priceNewProducts(relatedProducts);
     // hết sản phầm liên quan
-  res.render("client/pages/products/detail", {
-    pageTitle: product.title,
-    product: product,
-    relatedProducts: newRelatedProducts
-  });
-}
+    res.render("client/pages/products/detail", {
+      pageTitle: product.title,
+      product: product,
+      relatedProducts: newRelatedProducts
+    });
+  }
   catch (error) {
-  res.redirect(`/products`)
-}
+    res.redirect(`/products`)
+  }
 };
 
 //[GET] /products/:slugCategory
@@ -87,11 +87,13 @@ module.exports.category = async (req, res) => {
       }
     ).sort({ position: "desc" });
     const newProducts = productHelper.priceNewProducts(products)
+
     res.render("client/pages/products/index", {
       pageTitle: category.title,
       products: newProducts
     });
   } catch (error) {
-    res.redirect(req.get("Referer") || "/");
+    console.log(error); // Dòng này sẽ hiện lỗi cụ thể ở terminal
+    res.send("Lỗi rồi: " + error.message);
   }
 };
