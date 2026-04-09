@@ -1,12 +1,14 @@
 extends ../../layouts/default.pug 
 include ../../mixins/box-head.pug
 include ../../mixins/product-layout.pug
+include ../../mixins/show-alert.pug
 block css
   //- Thêm Font Awesome để dùng icon cho breadcrumb và nút
   link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css")
   link(rel="stylesheet", href="/css/product-detail.css")
 
 block main 
+  +alert-success(3000)
   section.product-detail-section
     .container
       .inner-wrapper.my-5

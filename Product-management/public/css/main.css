@@ -1,8 +1,10 @@
 /* --- Phông chữ hiện đại (Quan trọng để web sang hơn) --- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 /* ===== Section ===== */
 .section-products {
-  background: #f8f9fa; /* Màu nền trung tính cho sản phẩm nổi bật */
+  background: #f8f9fa;
+  /* Màu nền trung tính cho sản phẩm nổi bật */
   padding: 60px 0;
 }
 
@@ -18,15 +20,17 @@
 
 .product-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
   border-color: #ff4d4f;
 }
+
 .product-badges {
   position: absolute;
   top: 10px;
   right: 10px;
   display: flex;
-  flex-direction: column; /* Xếp chồng nhãn nếu có cả Sale và Hot */
+  flex-direction: column;
+  /* Xếp chồng nhãn nếu có cả Sale và Hot */
   gap: 5px;
   z-index: 10;
 }
@@ -35,7 +39,8 @@
 /* ===== Image Area ===== */
 .product-image {
   position: relative;
-  aspect-ratio: 1/1; /* Ép ảnh vuông chuẩn e-commerce */
+  aspect-ratio: 1/1;
+  /* Ép ảnh vuông chuẩn e-commerce */
   overflow: hidden;
   background: #f1f1f1;
 }
@@ -51,6 +56,7 @@
 .product-card:hover .product-image img {
   transform: scale(1.1);
 }
+
 /* Style chung cho các nhãn */
 .badge-item {
   font-size: 11px;
@@ -58,7 +64,7 @@
   color: #fff;
   border-radius: 4px;
   text-transform: uppercase;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -67,20 +73,24 @@
   border-radius: 10px;
   margin-left: -10px;
 }
+
 .badge-hot img {
-  width: 50px;;
+  width: 50px;
+  ;
 }
 
 /* ===== Quick Actions (Hover) ===== */
 .product-actions {
   position: absolute;
-  bottom: -50px; /* Ẩn dưới */
+  bottom: -50px;
+  /* Ẩn dưới */
   left: 0;
   width: 100%;
   padding: 10px;
   display: flex;
+  justify-content: center;
   gap: 8px;
-  background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
   transition: all 0.3s ease;
   z-index: 2;
 }
@@ -108,17 +118,30 @@
 }
 
 .btn-add-cart {
-  flex: 1;
-  background: #ff4d4f;
-  color: #fff;
+  width: 35px;
+  height: 35px;
+  background: #fff;
+  transition: 0.3s;
   border: none;
   border-radius: 8px;
-  font-size: 12px;
-  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  cursor: pointer;
+}
+
+.btn-add-cart:hover {
+  background: #ff4d4f;
+}
+
+.btn-add-cart:hover a {
+  color: #fff;
+}
+
+.btn-add-cart a {
+  color: #333;
+  font-size: 12px;
+  text-decoration: none;
 }
 
 /* ===== Info & Typography ===== */
@@ -203,3 +226,46 @@
   z-index: 1;
   box-shadow: 0 4px 10px rgba(255, 77, 79, 0.3);
 }
+
+/* alert */
+
+/* 1. Trạng thái hiển thị mặc định */
+[show-alert] {
+  position: fixed;
+  top: 80px;
+  /* Tránh đè lên Header của trang Product */
+  right: 20px;
+  z-index: 10000;
+  /* Ưu tiên cao nhất */
+  min-width: 250px;
+  display: flex !important;
+  /* Dùng flex để icon và chữ thẳng hàng */
+  align-items: center;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.5s ease-in-out;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 2. Trạng thái khi JS thêm class alert-hidden */
+[show-alert].alert-hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translateX(100%);
+  /* Đẩy nó ra khỏi màn hình bên phải */
+}
+
+/* 3. Chỉnh lại nút đóng để không bị vỡ giao diện */
+[show-alert] [close-alert] {
+  margin-left: auto;
+  /* Đẩy nút X về cuối bên phải */
+  padding: 0 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* end-alert  */

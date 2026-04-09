@@ -14,10 +14,9 @@ mixin product-item(items)
                 .product-actions
                   button.btn-action(title="Xem nhanh")
                     i.fa-regular.fa-eye
-                  button.btn-add-cart
-                    i.fa-solid.fa-cart-plus
-                    span Thêm giỏ hàng
-
+                  button.btn-add-cart(title="tùy chọn")
+                    a(href=`/products/detail/${items.slug}`)
+                      i.fa-solid.fa-cart-plus
                 if items.discountPercentage
                   .badge-sale -#{items.discountPercentage}%
 
