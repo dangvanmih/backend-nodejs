@@ -4,6 +4,12 @@
   /* Màu đỏ cam hiện đại */
 }
 
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1189px;
+  }
+}
+
 .header {
   background: #ffffff;
   padding: 20px 0;
@@ -62,22 +68,49 @@
 .action-search-box {
   background: #f4f4f4;
   border-radius: 25px;
-  padding: 6px 15px;
+  padding: 10px 15px;
   display: flex;
   align-items: center;
-  width: 200px;
+  justify-content: center;
+  width: 90%;
+  max-width: 230px;
   /* Giới hạn độ dài ô search */
 }
 
-.action-search-box input {
-  border: none;
-  background: transparent;
-  outline: none;
-  font-size: 13px;
-  width: 100%;
-  color: #555;
+.action-search-box .form-control {
+  border: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  /* Xóa bỏ cái khung xanh/bóng mờ khi focus */
+  outline: none !important;
+  /* Xóa bỏ đường viền trình duyệt */
+  padding: 5px 10px;
+  font-size: 14px;
 }
 
+.action-search-box input:-webkit-autofill,
+.action-search-box input:-webkit-autofill:hover,
+.action-search-box input:-webkit-autofill:focus,
+.action-search-box input:-webkit-autofill:active {
+  /* Sử dụng transition để "trì hoãn" việc đổi màu nền vô thời hạn */
+  -webkit-transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
+
+  /* Hoặc dùng box-shadow để đè màu trắng (hoặc màu nền bạn muốn) lên trên */
+  -webkit-text-fill-color: #333 !important;
+  /* Màu chữ sau khi điền */
+  box-shadow: 0 0 0px 1000px #f4f4f4 inset !important;
+  /* Khớp với màu #f4f4f4 của thanh search */
+}
+
+.action-search-box input:filter(autofill) {
+  background-color: transparent !important;
+}
+.action-search-box button {
+  background-color: #f4f4f4;
+  border: none;
+  outline: none;
+}
 .action-search-box i {
   color: #888;
   font-size: 14px;
