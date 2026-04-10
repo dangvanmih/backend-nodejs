@@ -40,7 +40,7 @@ block main
               //- Vùng giá: Tập trung thị giác cao
               .product-price-block
                 if(product.discountPercentage)
-                  span.price-new #{product.priceNew.toLocaleString('vi-VN')} ₫
+                  span.price-new.mr-2 #{product.priceNew.toLocaleString('vi-VN')} ₫
                   span.price-old #{product.price.toLocaleString('vi-VN')} ₫
                 else
                   span.price-new #{product.price.toLocaleString('vi-VN')} ₫
