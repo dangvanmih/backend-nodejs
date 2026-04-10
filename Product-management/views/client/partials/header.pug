@@ -57,4 +57,4 @@ header.header
           .action-cart
             a(href="/cart")
               i.fa-solid.fa-cart-shopping
-              span.badge 1
+              span.badge #{miniCart ? miniCart.totalQuantity : "0"}
