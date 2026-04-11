@@ -18,21 +18,21 @@ module.exports.index = async (req, res) => {
       const productInfo = await Product.findOne({
         _id: productId
       })
-      productInfo.priceNew = productHelper.priceNewProduct(productInfo)
+      productInfo.priceNew = productHelper.priceNewProduct(productInfo);
+
       item.productInfo = productInfo;
 
-      item.totalPrice = item.quantity * productInfo.priceNew
+      item.totalPrice = item.quantity * productInfo.priceNew;
     }
   }
 
   cart.totalPriceProducts = cart.products.reduce((sum , item) => sum + item.totalPrice,0)
-  
+
   res.render("client/pages/cart/index", {
     pageTitle: "Giỏ hàng",
     cartDetail: cart
   })
-}
-
+};
 
 
 //[POST]/cart/add/:productId
@@ -75,4 +75,4 @@ module.exports.addPost = async (req, res) => {
   }
   req.flash("success", "Đã thêm sản phẩm vào giỏ hàng")
   res.redirect(req.get("Referer") || "/");
-}
+};
