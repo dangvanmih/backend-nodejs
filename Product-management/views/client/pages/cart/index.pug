@@ -1,0 +1,76 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/show-alert.pug
+block css 
+  link(rel="stylesheet" href="/css/cart.css")
+block main 
+  +alert-success(3000)
+  +alert-error(3000)
+
+  .container.my-5
+    .row 
+      .col-12 
+        +box-head("Giỏ hàng của bạn")
+
+    if(cartDetail.products.length > 0)
+      .row 
+        //- Cột danh sách sản phẩm
+        .col-lg-8.col-md-12
+          .cart-wrapper
+            each item, index in cartDetail.products
+              .cart-item(data-product-id=item.product_id)
+                .cart-item-info
+                  .cart-item-img
+                    img(src=item.productInfo.thumbnail alt=item.productInfo.title)
+                  .cart-item-detail
+                    a(href=`/products/detail/${item.productInfo.slug}` class="product-name")
+                      span.product-title.truncate-1-lines #{item.productInfo.title}
+                    p.product-price #{item.productInfo.priceNew.toLocaleString('vi-VN')} ₫
+
+                .cart-item-actions
+                  .row.align-center.justify-center
+                    .total-item-price.mr-3.product-price.mt-1
+                      span #{(item.totalPrice).toLocaleString('vi-VN')} ₫
+
+                    .quantity-control
+                      button(type="button" class="btn-qty minus btn-minus") -
+                      input(
+                        type="number"
+                        name="quantity"
+                        value=item.quantity
+                        product_id=item.product_id
+                        min="1"
+                        max=item.productInfo.stock
+                        class="quantity-input"
+                      )
+                      button(type="button" class="btn-qty plus btn-plus") +
+
+                    a(href=`/cart/delete/${item.product_id}` class="btn-delete-item")
+                      i.fa-regular.fa-trash-can
+
+        //- Cột thanh toán
+        .col-lg-4.col-md-12
+          .order-summary
+            h4 Tóm tắt đơn hàng
+            hr
+            .summary-line
+              span Tạm tính (#[span.text-highlight #{miniCart.totalQuantity}] sản phẩm)
+              span #{cartDetail.totalPriceProducts.toLocaleString('vi-VN')} ₫
+            .summary-line
+              span Phí vận chuyển
+              span Miễn phí
+            hr
+            .summary-line.total
+              span Tổng cộng
+              span.total-price-all #{cartDetail.totalPriceProducts.toLocaleString('vi-VN')} ₫
+
+            a(href="/checkout" class="btn btn-checkout btn-block mt-4") TIẾN HÀNH THANH TOÁN
+            a(href="/products" class="btn btn-outline-secondary btn-block mt-2") Tiếp tục mua sắm
+    else 
+      .empty-cart.text-center.py-5
+        img(src="/images/empty-cart.png" width="200px" class="mb-4")
+        p Giỏ hàng của bạn hiện đang trống.
+        a(href="/products" class="btn btn-primary") Mua sắm ngay
+
+
+//- 25:55

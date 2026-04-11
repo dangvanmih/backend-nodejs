@@ -64,28 +64,42 @@ document.addEventListener("DOMContentLoaded", () => {
 //end-slider
 
 //btn - minus plus quantity
-const formAddToCart = document.querySelector(".add-to-cart-form")
-if (formAddToCart) {
-  const btnPlus = formAddToCart.querySelector(".plus")
-  const btnMinus = formAddToCart.querySelector(".minus")
-  const inputQty = formAddToCart.querySelector(".quantity-input")
+// Chọn tất cả các cart-item
+const cartItems = document.querySelectorAll(".cart-item");
 
-  btnPlus.addEventListener("click", () => {
-    let currentQty = parseInt(inputQty.value);
-    const maxQty = parseInt(inputQty.getAttribute("max"))
-    if (currentQty < maxQty) {
-      inputQty.value = currentQty + 1
-    }
+if (cartItems.length > 0) {
+  cartItems.forEach((item) => {
+    const btnPlus = item.querySelector(".btn-plus");
+    const btnMinus = item.querySelector(".btn-minus");
+    const inputQty = item.querySelector(".quantity-input");
+
+    btnPlus.addEventListener("click", () => {
+      let currentQty = parseInt(inputQty.value);
+      const maxQty = parseInt(inputQty.getAttribute("max"));
+
+      if (currentQty < maxQty) {
+        inputQty.value = currentQty + 1;
+        // Sau này bạn sẽ thêm logic gửi API cập nhật giỏ hàng tại đây
+      }
+    });
+
+    btnMinus.addEventListener("click", () => {
+      let currentQty = parseInt(inputQty.value);
+      if (currentQty > 1) {
+        inputQty.value = currentQty - 1;
+        // Sau này bạn sẽ thêm logic gửi API cập nhật giỏ hàng tại đây
+      }
+    });
+
+    // Xử lý thêm trường hợp người dùng tự nhập số vào ô input
+    inputQty.addEventListener("change", (e) => {
+      const maxQty = parseInt(inputQty.getAttribute("max"));
+      let value = parseInt(e.target.value);
+
+      if (value > maxQty) e.target.value = maxQty;
+      if (value < 1 || isNaN(value)) e.target.value = 1;
+    });
   });
-
-  btnMinus.addEventListener("click", () => {
-    let currentQty = parseInt(inputQty.value);
-
-    if (currentQty > 1) {
-      inputQty.value = currentQty - 1;
-    }
-  });
-
 }
 //end-btn - minus plus quantity
 

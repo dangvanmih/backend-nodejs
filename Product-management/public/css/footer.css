@@ -5,6 +5,7 @@
   border-top: 1px solid #f0f0f0;
   color: #666;
   font-family: 'Inter', sans-serif;
+  box-shadow: 0 -8px 10px -5px rgba(0, 0, 0, 0.05);
 }
 
 /* --- LOGO & MÔ TẢ --- */
@@ -52,7 +53,8 @@
 }
 
 .footer-menu ul li a:hover {
-  color: #ff4d4f; /* Đỏ cam đồng bộ với Header */
+  color: #ff4d4f;
+  /* Đỏ cam đồng bộ với Header */
   padding-left: 5px;
 }
 
@@ -110,7 +112,8 @@
 
 .payment-methods img {
   max-height: 25px;
-  filter: grayscale(100%); /* Làm icon thanh toán màu xám cho sang */
+  filter: grayscale(100%);
+  /* Làm icon thanh toán màu xám cho sang */
   opacity: 0.6;
 }
 
