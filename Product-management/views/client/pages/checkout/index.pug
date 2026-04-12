@@ -13,6 +13,9 @@ block main
         +box-head("Thanh toán đơn hàng")
 
     form(action="/checkout/order" method="POST")
+      if (cartDetail && cartDetail.isBuyNow)
+          input(type="hidden" name="buyNowProductId" value=cartDetail.products[0].product_id)
+          input(type="hidden" name="buyNowQuantity" value=cartDetail.products[0].quantity)
       .row
         //- Cột trái: Thông tin cá nhân
         .col-lg-7

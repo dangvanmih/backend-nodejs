@@ -4,12 +4,12 @@ include ../../mixins/product-layout.pug
 include ../../mixins/show-alert.pug
 block css
   //- Thêm Font Awesome để dùng icon cho breadcrumb và nút
-  link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css")
-  link(rel="stylesheet", href="/css/product-detail.css")
+  link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css")
+  link(rel="stylesheet" href="/css/product-detail.css")
 
 block main 
   +alert-success(3000)
-  
+
   section.product-detail-section
     .container
       //- button(class = "btn btn-secondary " button-go-back) Back
@@ -65,13 +65,17 @@ block main
                       class="quantity-input"
                     )
                     button(type="button" class="btn-qty plus") +
-                
+
                 .action-buttons
                   button(type="submit" class="btn-add") 
                     i.fa-solid.fa-cart-plus
                     | Thêm vào giỏ hàng
                   //- Nút Mua ngay thường sẽ thực hiện một action khác hoặc gửi kèm 1 flag để redirect thẳng đến thanh toán
-                  a.btn(type="button" class="btn-buy-now" href=`/checkout`)
+                  button(
+                    type="submit" 
+                    class="btn-buy-now" 
+                    formaction=`/checkout/buy-now/${product.id}`
+                  )
                     i.fa-solid.fa-bolt
                     | Mua ngay
 

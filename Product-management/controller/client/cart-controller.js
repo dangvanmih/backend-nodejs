@@ -73,18 +73,22 @@ module.exports.addPost = async (req, res) => {
       }
     );
   }
-  req.flash("success", "Đã thêm sản phẩm vào giỏ hàng")
-  res.redirect(req.get("Referer") || "/");
+  if (req.query.redirect === "checkout") {
+    res.redirect("/checkout");
+  } else {
+    req.flash("success", "Đã thêm sản phẩm vào giỏ hàng!");
+    res.redirect("/cart");
+  }
 };
 
 //[DELETE]/cart/delete/:productId
 module.exports.delete = async (req, res) => {
   const productId = req.params.productId;
   const cartId = req.cookies.cartId;
-  
+
   await Cart.updateOne(
-    {_id:cartId},
-    {"$pull" : {products: { "product_id" : productId } } }
+    { _id: cartId },
+    { "$pull": { products: { "product_id": productId } } }
   )
 
   req.flash("success", "Đã xóa sản phẩm khỏi giỏ hàng!")
@@ -104,7 +108,7 @@ module.exports.update = async (req, res) => {
       'products.product_id': productId
     },
     {
-      'products.$.quantity' : quantity
+      'products.$.quantity': quantity
     }
   )
   res.redirect(req.get("Referer") || "/");
