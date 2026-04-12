@@ -4,6 +4,7 @@ const categoryMiddleware = require("../../middlewares/client/category.middleware
 const searchRouters = require("./search.router")
 const cartMiddleware = require("../../middlewares/client/cart.middleware")
 const cartRouters = require("./cart.router")
+const checkoutRouter = require("./checkout.router")
 module.exports = (app) => {
   app.use(categoryMiddleware.category)
   app.use(cartMiddleware.cartId)
@@ -11,6 +12,7 @@ module.exports = (app) => {
   app.use("/products", productRouters) // ở đây Nó gắn tiền tố /products cho toàn bộ route bên trong productRouters.
   app.use("/search", searchRouters)
   app.use("/cart", cartRouters)
+  app.use("/checkout", checkoutRouter)
 }
 
 // giải thích phần app.get và app.use:
