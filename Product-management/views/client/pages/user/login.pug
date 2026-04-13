@@ -1,0 +1,43 @@
+extends ../../layouts/default.pug
+include ../../mixins/show-alert.pug
+
+block css
+  link(rel="stylesheet", href="/css/user.css")
+
+block main
+  +alert-error(5000)
+  +alert-success(5000)
+  
+  .container.my-5
+    .row.justify-content-center
+      .col-lg-5.col-md-8
+        .auth-card.shadow-sm.border-0
+          .card-body.p-4
+            .text-center.mb-4
+              h2.font-weight-bold Đăng nhập
+              p.text-muted Chào mừng bạn quay trở lại!
+            form(action="/user/login" method="POST")
+              .form-group
+                label(for="email") 
+                  | Email 
+                  span.text-danger *
+                input(type="email" class="form-control" id="email" name="email" required placeholder =" Email")
+
+              .form-group
+                label(for="password") 
+                  | Mật khẩu 
+                  span.text-danger *
+                input(type="password" class="form-control" id="password" name="password" required placeholder =" Mật khẩu")
+              
+              .d-flex.justify-content-between.align-items-center.mb-4
+                .custom-control.custom-checkbox
+                  input#rememberMe.custom-control-input(type="checkbox" name="remember")
+                  label.custom-control-label(for="rememberMe") Ghi nhớ đăng nhập
+                a(href="/user/password/forgot" class="small text-primary") Quên mật khẩu?
+
+              button(type="submit" class="btn btn-primary btn-block btn-lg shadow-none") 
+                | Đăng nhập
+            
+            .text-center.mt-4
+              p.mb-0 Chưa có tài khoản? 
+                a(href="/user/register" class="font-weight-bold text-primary") Đăng ký ngay

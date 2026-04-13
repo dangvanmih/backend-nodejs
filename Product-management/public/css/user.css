@@ -31,3 +31,7 @@
 .auth-card h2 {
     color: #333;
 }
+.text-danger {
+    color: red;
+    margin-left: 2px;
+}
