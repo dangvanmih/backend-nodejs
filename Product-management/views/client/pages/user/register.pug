@@ -1,0 +1,69 @@
+extends ../../layouts/default.pug
+include ../../mixins/show-alert.pug
+
+block css
+  link(rel="stylesheet", href="/css/user.css")
+
+block main
+  +alert-error(5000)
+  
+  .container.my-5
+    .row.justify-content-center
+      .col-lg-5.col-md-8
+        .auth-card.shadow-sm.border-0
+          .card-body.p-4
+            .text-center.mb-4
+              h2.font-weight-bold Đăng ký tài khoản
+              p.text-muted Tạo tài khoản để trải nghiệm mua sắm tốt hơn
+
+            form(action="/user/register" method="POST")
+              .form-group
+                label(for="fullName") Họ tên *
+                input(
+                  type="text"
+                  class="form-control"
+                  id="fullName"
+                  name="fullName"
+                  placeholder="Nhập họ và tên"
+                  required
+                )
+              
+              .form-group
+                label(for="email") Email *
+                input(
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  placeholder="example@gmail.com"
+                  required
+                )
+
+              .form-group
+                label(for="password") Mật khẩu *
+                .input-group
+                  input(
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    placeholder="Tối thiểu 6 ký tự"
+                    required
+                  )
+              
+              .form-group.mb-4
+                label(for="phone") Số điện thoại
+                input(
+                  type="text"
+                  class="form-control"
+                  id="phone"
+                  name="phone"
+                  placeholder="Nhập số điện thoại"
+                )
+
+              button(type="submit" class="btn btn-primary btn-block btn-lg shadow-none") 
+                | Đăng ký ngay
+            
+            .text-center.mt-4
+              p.mb-0 Bạn đã có tài khoản? 
+                a(href="/user/login" class="font-weight-bold") Đăng nhập
