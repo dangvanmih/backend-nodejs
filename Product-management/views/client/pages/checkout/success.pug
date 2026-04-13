@@ -1,0 +1,65 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+  .container.my-5
+    .row
+      .col-12.text-center.mb-4
+        div(style="font-size: 80px; color: #28a745;")
+          i.fa-solid.fa-circle-check
+        h2(style="color: #28a745;") Đặt hàng thành công!
+        p Cảm ơn bạn đã tin tưởng mua sắm tại cửa hàng của chúng tôi.
+
+    .row
+      //- Thông tin khách hàng
+      .col-lg-6
+        .card.mb-4
+          .card-header.bg-white
+            h5.m-0 Thông tin khách hàng
+          .card-body
+            table.table.table-borderless.m-0
+              tr
+                th(width="150px") Họ tên:
+                td #{order.userInfo.fullName}
+              tr
+                th Số điện thoại:
+                td #{order.userInfo.phone}
+              tr
+                th Địa chỉ:
+                td #{order.userInfo.address}
+              if(order.userInfo.note)
+                tr
+                  th Ghi chú:
+                  td #{order.userInfo.note}
+
+      //- Thông tin đơn hàng
+      .col-lg-6
+        .card.mb-4
+          .card-header.bg-white
+            h5.m-0 Chi tiết đơn hàng
+          .card-body
+            table.table
+              thead
+                tr
+                  th Sản phẩm
+                  th(class="text-center") SL
+                  th(class="text-right") Tổng
+              tbody
+                each item in order.products
+                  tr
+                    td
+                      div.d-flex.align-items-center
+                        img(src=item.productInfo.thumbnail, width="40px", class="mr-2 rounded")
+                        span #{item.productInfo.title}
+                    td(class="text-center") #{item.quantity}
+                    td(class="text-right") #{item.price.toLocaleString('vi-VN')} ₫
+              tfoot
+                tr
+                  th(colspan="2", class="text-right") Tổng cộng:
+                  th(class="text-right text-danger", style="font-size: 1.2rem;") #{order.totalPrice.toLocaleString('vi-VN')} ₫
+
+    .row
+      .col-12.text-center
+        a(href="/" class="btn btn-outline-primary") 
+          i.fa-solid.fa-house.mr-2
+          | Quay về trang chủ

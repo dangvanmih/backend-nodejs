@@ -37,27 +37,27 @@ module.exports.index = async (req, res) => {
 
 // [POST] /checkout/buy-now/:productId
 module.exports.buyNow = async (req, res) => {
-    const productId = req.params.productId;
-    const quantity = parseInt(req.body.quantity) || 1;
+  const productId = req.params.productId;
+  const quantity = parseInt(req.body.quantity) || 1;
 
-    const productInfo = await Product.findOne({ _id: productId, deleted: false });
-    productInfo.priceNew = productHelper.priceNewProduct(productInfo);
+  const productInfo = await Product.findOne({ _id: productId, deleted: false });
+  productInfo.priceNew = productHelper.priceNewProduct(productInfo);
 
-    const fakeCart = {
-        products: [{
-            product_id: productId,
-            quantity: quantity,
-            productInfo: productInfo,
-            totalPrice: quantity * productInfo.priceNew
-        }],
-        totalPriceProducts: quantity * productInfo.priceNew,
-        isBuyNow: true // Đánh dấu để trang Checkout biết đây là mua ngay
-    };
+  const fakeCart = {
+    products: [{
+      product_id: productId,
+      quantity: quantity,
+      productInfo: productInfo,
+      totalPrice: quantity * productInfo.priceNew
+    }],
+    totalPriceProducts: quantity * productInfo.priceNew,
+    isBuyNow: true // Đánh dấu để trang Checkout biết đây là mua ngay
+  };
 
-    res.render("client/pages/checkout/index", {
-        pageTitle: "Thanh toán ngay",
-        cartDetail: fakeCart
-    });
+  res.render("client/pages/checkout/index", {
+    pageTitle: "Thanh toán ngay",
+    cartDetail: fakeCart
+  });
 };
 
 // [POST] /checkout/order
@@ -78,7 +78,7 @@ module.exports.order = async (req, res) => {
         discountPercentage: productInfo.discountPercentage
       });
     }
-  } 
+  }
   // TRƯỜNG HỢP 2: MUA TỪ GIỎ HÀNG (Lấy toàn bộ sản phẩm trong Cart)
   else {
     const cart = await Cart.findOne({ _id: cartId });
@@ -97,7 +97,7 @@ module.exports.order = async (req, res) => {
 
   // Nếu không có sản phẩm nào thì không cho đặt hàng
   if (products.length === 0) {
-    req.flash("error","vui lòng thêm sản phẩm trước khi đặt hàng!")
+    req.flash("error", "vui lòng thêm sản phẩm trước khi đặt hàng!")
     return res.redirect("/products");
   }
 
@@ -115,7 +115,33 @@ module.exports.order = async (req, res) => {
   if (!buyNowProductId) {
     await Cart.updateOne({ _id: cartId }, { products: [] });
   }
-  req.flash("success", "Đặt hàng thành công!");
-  res.redirect("/");
-  // res.redirect(`/checkout/success/${order.id}`);
+  res.redirect(`/checkout/success/${order.id}`);
 };
+
+
+
+//[GET]/checkout/success/:id
+module.exports.success = async (req, res) => {
+  const orderId = req.params.orderId
+
+  const order = await Order.findOne({
+    _id: orderId,
+  });
+
+  for (const product of order.products) {
+    const productInfo = await Product.findOne({
+      _id: product.product_id
+    }).select(" title thumbnail");
+    product.productInfo = productInfo
+    
+    product.priceNew = productHelper.priceNewProduct(product);
+
+    product.totalPrice = product.priceNew * product.quantity;
+  }
+  order.totalPrice = order.products.reduce((sum, item) => sum + item.totalPrice ,0)
+  
+  res.render("client/pages/checkout/success", {
+    pageTitle: "Đặt hàng thành công!",
+    order: order
+  })
+}
