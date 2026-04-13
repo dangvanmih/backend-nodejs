@@ -48,12 +48,19 @@ header.header
             a(href="javascript:;") 
               i.fa-regular.fa-circle-user
             //- Menu xổ xuống của User
-            ul.inner-menu-user
-              li
-                a(href="/user/login") Đăng nhập
-              li
-                a(href="/user/register") Đăng ký
-        
+            if(user)
+              ul.inner-menu-user
+                li
+                  a(href="/user/infoUser") Tài khoản
+                li
+                  a(href="/user/logout") Đăng xuất 
+            else
+              ul.inner-menu-user
+                li
+                  a(href="/user/login") Đăng nhập
+                li
+                  a(href="/user/register") Đăng ký
+
           .action-cart
             a(href="/cart")
               i.fa-solid.fa-cart-shopping
