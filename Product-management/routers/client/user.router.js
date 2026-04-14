@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router() //tạo các router con
 const controller = require("../../controller/client/user-controller");
 const validate = require("../../validates/client/user.validate");
-
+const middleware = require("../../middlewares/client/auth.middleware")
 router.get('/register', controller.register);
 
 router.post('/register', validate.register, controller.registerPost);
@@ -24,5 +24,7 @@ router.post('/password/otp', controller.otpPasswordPost);
 router.get('/password/reset', controller.resetPassword);
 
 router.post('/password/reset', validate.resetPassword, controller.resetPasswordPost);
+
+router.get('/infoUser',middleware.requireAuth, controller.infoUser);
 
 module.exports = router;

@@ -1,0 +1,42 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block css
+  link(rel="stylesheet", href="/css/user.css")
+
+block main
+  .container.my-5
+    .row.justify-content-center
+      .col-lg-8
+        +box-head("Thông tin cá nhân")
+        
+        .auth-card.shadow-sm.border-0.mt-4
+          .card-body.p-5
+            .row.mb-4
+              .col-md-12
+                h3.font-weight-bold.mb-1 #{user.fullName}
+                p.text-muted.mb-0 
+                  span.badge.badge-success Thành viên
+            
+            hr.my-4
+
+            .row
+              .col-md-6.mb-3
+                label.small.text-uppercase.text-muted.font-weight-bold Email
+                p.h6 #{user.email}
+              
+              .col-md-6.mb-3
+                label.small.text-uppercase.text-muted.font-weight-bold Số điện thoại
+                p.h6 #{user.phone || "Chưa cập nhật"}
+              
+              .col-md-6.mb-3
+                label.small.text-uppercase.text-muted.font-weight-bold Ngày tham gia
+                p.h6 #{user.createdAt ? new Date(user.createdAt).toLocaleDateString('vi-VN') : "---"}
+
+            //- .mt-4.d-flex.gap-2
+            //-   a(href="/user/profile/edit" class="btn btn-primary px-4 shadow-none") 
+            //-     i.fa-solid.fa-user-pen.mr-2
+            //-     | Chỉnh sửa thông tin
+            //-   a(href="/user/password/change" class="btn btn-outline-secondary px-4 ml-2 shadow-none") 
+            //-     i.fa-solid.fa-key.mr-2
+            //-     | Đổi mật khẩu

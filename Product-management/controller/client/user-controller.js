@@ -99,7 +99,7 @@ module.exports.forgotPasswordPost = async (req, res) => {
     email: req.body.email,
     deleted: false
   })
-  if(!email) {
+  if (!email) {
     req.flash("error", "Email không tồn tại!");
     res.redirect(req.get('Referrer') || '/');
     return;
@@ -114,20 +114,20 @@ module.exports.forgotPasswordPost = async (req, res) => {
 
   const forgotPassword = new ForgotPassword(objectForgotPassword);
   await forgotPassword.save()
-  
+
   //gửi otp về mail:
   const subject = `Mã OTP xác minh lấy lại mật khẩu`;
   const html = `Mã OTP xác minh lấy lại mật khẩu là <b>${otp}</b>, mã sẽ hết hạn sau 3 phút. Lưu ý không chia sẻ mã cho bất kỳ ai. `;
   sendMailHelper.sendMail(emailUser, subject, html)
 
   res.redirect(`/user/password/otp?email=${emailUser}`)
-  
+
 };
 
 //[GET]/user/password/otp
 module.exports.otpPassword = async (req, res) => {
   const email = req.query.email
-  
+
   res.render("client/pages/user/otp-password", {
     pageTitle: "Nhập mã OTP",
     email: email
@@ -136,7 +136,7 @@ module.exports.otpPassword = async (req, res) => {
 
 //[POST]/user/password/otp
 module.exports.otpPasswordPost = async (req, res) => {
-  
+
   const email = req.body.email
   const otp = req.body.otp
 
@@ -145,9 +145,9 @@ module.exports.otpPasswordPost = async (req, res) => {
     otp: otp,
   })
 
-  
-  if(!forgotPassword) {
-    req.flash("error","Mã OTP không hợp lệ!")
+
+  if (!forgotPassword) {
+    req.flash("error", "Mã OTP không hợp lệ!")
     res.redirect(req.get('Referrer') || '/');
     return;
   }
@@ -155,7 +155,7 @@ module.exports.otpPasswordPost = async (req, res) => {
     email: email
   })
   res.cookie("tokenUser", user.tokenUser);
-  
+
   res.redirect(`/user/password/reset`)
 
 };
@@ -163,7 +163,7 @@ module.exports.otpPasswordPost = async (req, res) => {
 
 //[GET]/user/password/reset
 module.exports.resetPassword = async (req, res) => {
-  
+
   res.render("client/pages/user/reset-password", {
     pageTitle: "Đổi mật khẩu",
   })
@@ -179,9 +179,17 @@ module.exports.resetPasswordPost = async (req, res) => {
     toke: tokenUser,
     password: md5(password)
   })
-  
+
 
   req.flash("success", "Đổi mật khẩu thành công");
 
   res.redirect("/")
 };
+
+//[GET]/user/infoUser
+module.exports.infoUser = async (req, res) => {
+
+  res.render("client/pages/user/infoUser", {
+    pageTitle: "Thông tin tài khoản"
+  })
+}
