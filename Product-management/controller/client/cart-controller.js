@@ -73,12 +73,8 @@ module.exports.addPost = async (req, res) => {
       }
     );
   }
-  if (req.query.redirect === "checkout") {
-    res.redirect("/checkout");
-  } else {
-    req.flash("success", "Đã thêm sản phẩm vào giỏ hàng!");
-    res.redirect("/cart");
-  }
+  req.flash("success", "Đã thêm sản phẩm vào giỏ hàng!");
+  res.redirect(req.get('Referrer') || '/');
 };
 
 //[DELETE]/cart/delete/:productId

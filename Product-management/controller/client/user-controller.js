@@ -46,7 +46,6 @@ module.exports.login = async (req, res) => {
 
 //[POST]/user/login
 module.exports.loginPost = async (req, res) => {
-
   const email = req.body.email;
   const password = req.body.password;
 
@@ -57,33 +56,67 @@ module.exports.loginPost = async (req, res) => {
 
   if (!user) {
     req.flash("error", "Email không tồn tại!");
-    res.redirect(req.get('Referrer') || '/');
-    return;
+    return res.redirect("back");
   };
 
   if (md5(password) != user.password) {
     req.flash("error", "Mật khẩu không chính xác!");
-    res.redirect(req.get('Referrer') || '/');
-    return;
+    return res.redirect("back");
   };
 
   if (user.status == "inactive") {
     req.flash("error", "Tài khoản đã bị khóa!");
-    res.redirect(req.get('Referrer') || '/');
-    return;
+    return res.redirect("back");
   };
 
+  // --- LOGIC XỬ LÝ GIỎ HÀNG ---
+  const cartIdCookie = req.cookies.cartId; // Giỏ hàng tạm từ trình duyệt
+
+  // 1. Tìm giỏ hàng "chính chủ" của User trong DB (nếu có)
+  const existCartUser = await Cart.findOne({
+    user_id: user.id
+  });
+
+  if (existCartUser) {
+    // TRƯỜNG HỢP A: User này đã từng có giỏ hàng trong DB
+    // Ta lấy giỏ hàng tạm (Cookie) gộp vào giỏ hàng chính (DB)
+    const currentCart = await Cart.findOne({ _id: cartIdCookie });
+
+    if (currentCart && currentCart.products.length > 0) {
+      for (const product of currentCart.products) {
+        // Kiểm tra xem sản phẩm trong giỏ tạm đã có trong giỏ chính chưa
+        const existProduct = existCartUser.products.find(item => item.product_id == product.product_id);
+
+        if (existProduct) {
+          // Nếu có rồi thì cộng dồn số lượng
+          existProduct.quantity += product.quantity;
+        } else {
+          // Nếu chưa có thì thêm mới vào mảng products
+          existCartUser.products.push(product);
+        }
+      }
+      // Lưu giỏ hàng chính sau khi gộp
+      await existCartUser.save();
+
+      // Xóa giỏ hàng tạm vì đã gộp xong
+      await Cart.deleteOne({ _id: cartIdCookie });
+    }
+
+    // Luôn cập nhật Cookie về ID giỏ hàng chính chủ
+    res.cookie("cartId", existCartUser.id);
+
+  } else {
+    // TRƯỜNG HỢP B: User này chưa có giỏ hàng nào trong DB
+    // Chỉ cần gán user_id vào giỏ hàng hiện tại
+    await Cart.updateOne(
+      { _id: cartIdCookie },
+      { user_id: user.id }
+    );
+  }
+  // ----------------------------
+
   res.cookie("tokenUser", user.tokenUser);
-
-  // lưu userId vào collection cart
-  await Cart.updateOne(
-    {
-      _id: req.cookies.cartId
-    },
-    {
-      user_id: user.id,
-
-    })
+  
   res.redirect("/");
 };
 
