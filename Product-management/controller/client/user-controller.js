@@ -1,4 +1,5 @@
 const User = require("../../models/users.model")
+const Cart = require("../../models/cart.model")
 const flash = require("express-flash");
 const md5 = require("md5");
 const ForgotPassword = require("../../models/forgot-password.model");
@@ -74,6 +75,15 @@ module.exports.loginPost = async (req, res) => {
 
   res.cookie("tokenUser", user.tokenUser);
 
+  // lưu userId vào collection cart
+  await Cart.updateOne(
+    {
+      _id: req.cookies.cartId
+    },
+    {
+      user_id: user.id,
+
+    })
   res.redirect("/");
 };
 
