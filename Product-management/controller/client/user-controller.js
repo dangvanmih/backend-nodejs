@@ -44,11 +44,12 @@ module.exports.login = async (req, res) => {
   })
 };
 
-//[POST]/user/login
+// [POST] /user/login
 module.exports.loginPost = async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
+  // 1. Kiểm tra tài khoản tồn tại
   const user = await User.findOne({
     email: email,
     deleted: false
@@ -57,66 +58,88 @@ module.exports.loginPost = async (req, res) => {
   if (!user) {
     req.flash("error", "Email không tồn tại!");
     return res.redirect("back");
-  };
+  }
 
-  if (md5(password) != user.password) {
+  // 2. Kiểm tra mật khẩu
+  if (md5(password) !== user.password) {
     req.flash("error", "Mật khẩu không chính xác!");
     return res.redirect("back");
-  };
+  }
 
-  if (user.status == "inactive") {
+  // 3. Kiểm tra trạng thái hoạt động
+  if (user.status === "inactive") {
     req.flash("error", "Tài khoản đã bị khóa!");
     return res.redirect("back");
-  };
+  }
 
-  // --- LOGIC XỬ LÝ GIỎ HÀNG ---
-  const cartIdCookie = req.cookies.cartId; // Giỏ hàng tạm từ trình duyệt
+  // --- LOGIC XỬ LÝ GIỎ HÀNG (QUAN TRỌNG) ---
+  const cartIdCookie = req.cookies.cartId;
 
-  // 1. Tìm giỏ hàng "chính chủ" của User trong DB (nếu có)
+  // Tìm giỏ hàng chính chủ của User đang đăng nhập (nếu có trong DB)
   const existCartUser = await Cart.findOne({
     user_id: user.id
   });
 
   if (existCartUser) {
-    // TRƯỜNG HỢP A: User này đã từng có giỏ hàng trong DB
-    // Ta lấy giỏ hàng tạm (Cookie) gộp vào giỏ hàng chính (DB)
+    // TRƯỜNG HỢP A: User đã từng có giỏ hàng trong Database
     const currentCart = await Cart.findOne({ _id: cartIdCookie });
 
     if (currentCart && currentCart.products.length > 0) {
-      for (const product of currentCart.products) {
-        // Kiểm tra xem sản phẩm trong giỏ tạm đã có trong giỏ chính chưa
-        const existProduct = existCartUser.products.find(item => item.product_id == product.product_id);
+      /** * CHỈ GỘP nếu giỏ hàng tạm này đang "vô chủ". 
+       * Tránh việc ông B login vào đúng trình duyệt ông A vừa logout (mà chưa xóa cookie) 
+       * rồi lấy đồ của ông A gộp vào giỏ ông B.
+       */
+      if (!currentCart.user_id) {
+        for (const product of currentCart.products) {
+          const existProduct = existCartUser.products.find(
+            (item) => item.product_id == product.product_id
+          );
 
-        if (existProduct) {
-          // Nếu có rồi thì cộng dồn số lượng
-          existProduct.quantity += product.quantity;
-        } else {
-          // Nếu chưa có thì thêm mới vào mảng products
-          existCartUser.products.push(product);
+          if (existProduct) {
+            existProduct.quantity += product.quantity;
+          } else {
+            existCartUser.products.push(product);
+          }
         }
+        await existCartUser.save();
+        
+        // Gộp xong thì xóa giỏ hàng tạm "vô chủ" đi
+        await Cart.deleteOne({ _id: cartIdCookie });
       }
-      // Lưu giỏ hàng chính sau khi gộp
-      await existCartUser.save();
-
-      // Xóa giỏ hàng tạm vì đã gộp xong
-      await Cart.deleteOne({ _id: cartIdCookie });
     }
-
-    // Luôn cập nhật Cookie về ID giỏ hàng chính chủ
+    
+    // Luôn cập nhật Cookie trình duyệt về ID giỏ hàng chính chủ
     res.cookie("cartId", existCartUser.id);
 
   } else {
-    // TRƯỜNG HỢP B: User này chưa có giỏ hàng nào trong DB
-    // Chỉ cần gán user_id vào giỏ hàng hiện tại
-    await Cart.updateOne(
-      { _id: cartIdCookie },
-      { user_id: user.id }
-    );
-  }
-  // ----------------------------
+    // TRƯỜNG HỢP B: User này chưa từng có giỏ hàng gắn với ID trong DB
+    const currentCart = await Cart.findOne({ _id: cartIdCookie });
 
+    if (currentCart && !currentCart.user_id) {
+      // Nếu giỏ hàng hiện tại chưa có chủ -> Gắn tên User này vào làm chủ luôn
+      await Cart.updateOne(
+        { _id: cartIdCookie },
+        { user_id: user.id }
+      );
+    } else {
+      /**
+       * Nếu giỏ hiện tại ĐÃ CÓ CHỦ (của người đăng nhập trước đó)
+       * hoặc không tồn tại -> Phải tạo mới hoàn toàn để đảm bảo tính riêng tư.
+       */
+      const newCart = new Cart({
+        user_id: user.id,
+        products: []
+      });
+      await newCart.save();
+      res.cookie("cartId", newCart.id);
+    }
+  }
+  // ----------------------------------------
+
+  // Lưu token vào cookie để duy trì đăng nhập
   res.cookie("tokenUser", user.tokenUser);
-  
+
+  req.flash("success", `Chào mừng ${user.fullName} quay trở lại!`);
   res.redirect("/");
 };
 
@@ -124,8 +147,8 @@ module.exports.loginPost = async (req, res) => {
 module.exports.logout = async (req, res) => {
 
   res.clearCookie("tokenUser");
-
-  res.redirect("/")
+  res.clearCookie("cartId");
+  res.redirect("/");
 };
 
 //[GET]/user/password/forgot
