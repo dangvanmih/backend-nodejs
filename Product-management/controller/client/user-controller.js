@@ -1,10 +1,10 @@
-const User = require("../../models/users.model")
-const Cart = require("../../models/cart.model")
+const User = require("../../models/users.model");
+const Cart = require("../../models/cart.model");
 const flash = require("express-flash");
 const md5 = require("md5");
 const ForgotPassword = require("../../models/forgot-password.model");
 const generateHelper = require("../../helpers/generate");
-const sendMailHelper = require("../../helpers/sendMail")
+const sendMailHelper = require("../../helpers/sendMail");
 //[GET]/user/register
 module.exports.register = async (req, res) => {
 
@@ -259,3 +259,5 @@ module.exports.infoUser = async (req, res) => {
     pageTitle: "Thông tin tài khoản"
   })
 }
+
+
