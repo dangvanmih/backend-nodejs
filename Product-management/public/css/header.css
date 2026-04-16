@@ -58,7 +58,27 @@
   text-transform: uppercase;
   color: #333;
 }
+.inner-logo img {
+    /* Chỉnh lại chiều rộng mong muốn, ví dụ 150px hoặc 200px */
+    width: 150px; 
+    
+    /* Giữ nguyên tỉ lệ ảnh */
+    height: auto; 
+    
+    /* Đảm bảo logo không bị méo */
+    object-fit: contain; 
+    
+    /* Căn giữa theo chiều dọc nếu cần */
+    display: block;
+    margin: 0 auto;
+}
 
+/* Responsive: Trên điện thoại có thể để nhỏ hơn */
+@media (max-width: 767px) {
+    .inner-logo img {
+        width: 100px;
+    }
+}
 /* 3. ACTIONS BÊN PHẢI */
 .inner-actions {
   gap: 15px;
