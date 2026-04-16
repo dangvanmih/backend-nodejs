@@ -69,14 +69,28 @@ module.exports.order = async (req, res) => {
 
   // TRƯỜNG HỢP 1: MUA NGAY (Chỉ có 1 sản phẩm)
   if (buyNowProductId) {
+
     const productInfo = await Product.findOne({ _id: buyNowProductId });
+
     if (productInfo) {
+
+      const quantity = parseInt(buyNowQuantity);
+
+      // KIỂM TRA KHO
+      if (productInfo.stock < quantity) {
+        req.flash("error", `Sản phẩm ${productInfo.title} chỉ còn ${productInfo.stock} sản phẩm!`);
+        return res.redirect("back");
+      }
+
       products.push({
         product_id: buyNowProductId,
         quantity: parseInt(buyNowQuantity),
         price: productInfo.price,
         discountPercentage: productInfo.discountPercentage
       });
+
+      // TRỪ KHO
+      await Product.updateOne({ _id: buyNowProductId }, { $inc: { stock: -quantity } });
     }
   }
   // TRƯỜNG HỢP 2: MUA TỪ GIỎ HÀNG (Lấy toàn bộ sản phẩm trong Cart)
@@ -85,12 +99,22 @@ module.exports.order = async (req, res) => {
     if (cart && cart.products.length > 0) {
       for (const product of cart.products) {
         const productInfo = await Product.findOne({ _id: product.product_id });
+
+        // KIỂM TRA KHO TỪNG MÓN
+        if (productInfo.stock < product.quantity) {
+          req.flash("error", `Sản phẩm ${productInfo.title} không đủ số lượng trong kho!`);
+          return res.redirect("back");
+        }
+
         products.push({
           product_id: product.product_id,
           quantity: product.quantity,
           price: productInfo.price,
           discountPercentage: productInfo.discountPercentage
         });
+
+        // TRỪ KHO TỪNG MÓN
+        await Product.updateOne({ _id: product.product_id }, { $inc: { stock: -product.quantity } });
       }
     }
   }
@@ -133,13 +157,13 @@ module.exports.success = async (req, res) => {
       _id: product.product_id
     }).select(" title thumbnail");
     product.productInfo = productInfo
-    
+
     product.priceNew = productHelper.priceNewProduct(product);
 
     product.totalPrice = product.priceNew * product.quantity;
   }
-  order.totalPrice = order.products.reduce((sum, item) => sum + item.totalPrice ,0)
-  
+  order.totalPrice = order.products.reduce((sum, item) => sum + item.totalPrice, 0)
+
   res.render("client/pages/checkout/success", {
     pageTitle: "Đặt hàng thành công!",
     order: order
