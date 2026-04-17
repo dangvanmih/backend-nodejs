@@ -55,11 +55,7 @@ app.set("view engine", "pug");
 //socketIo
 const server = http.createServer(app);
 const io = new Server(server);
-
-io.on('connection', (socket) => {
-  console.log('a user connected');
-});
-
+global._io = io;
 
 //APP Local variables
 app.locals.prefixAdmin = systemConfg.prefixAdmin; // khai báo biến như này thì biến đó sẽ "chỉ" sử dụng được trong tất cả các file pug

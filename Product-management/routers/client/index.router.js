@@ -9,6 +9,9 @@ const userRouter = require("./user.router");
 const chatRouter = require("./chat.router");
 const userMiddleware = require("../../middlewares/client/user.middleware");
 const SettingMiddleware = require("../../middlewares/client/setting.middleware")
+const authmiddleware = require("../../middlewares/client/auth.middleware")
+
+
 module.exports = (app) => {
   app.use(categoryMiddleware.category)
   app.use(cartMiddleware.cartId)
@@ -20,7 +23,7 @@ module.exports = (app) => {
   app.use("/cart", cartRouters)
   app.use("/checkout", checkoutRouter)
   app.use("/user", userRouter)
-  app.use("/chat", chatRouter)
+  app.use("/chat", authmiddleware.requireAuth, chatRouter)
 }
 
 // giải thích phần app.get và app.use:

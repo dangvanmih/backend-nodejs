@@ -311,3 +311,63 @@
 }
 
 /* end-alert  */
+
+
+/* btn message  */
+/* Nút chat cố định */
+.chat-fixed {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 999;
+}
+
+.chat-fixed a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background-color: #007bff; /* Màu xanh chủ đạo của bạn */
+  color: #fff;
+  border-radius: 50%;
+  font-size: 28px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  position: relative;
+}
+
+.chat-fixed a:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+  color: #fff;
+}
+
+/* Chấm xanh thông báo trạng thái hoặc tin nhắn mới */
+.chat-fixed .badge-status {
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  width: 15px;
+  height: 15px;
+  background-color: #28a745; /* Màu xanh lá (Online) */
+  border: 2px solid #fff;
+  border-radius: 50%;
+}
+
+/* Hiệu ứng rung nhẹ để thu hút sự chú ý (tùy chọn) */
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  80% { transform: rotate(0deg); }
+  85% { transform: rotate(10deg); }
+  90% { transform: rotate(-10deg); }
+  95% { transform: rotate(10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.chat-fixed a {
+  animation: shake 5s infinite;
+}
+
+/* end btn message  */
