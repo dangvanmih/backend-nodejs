@@ -7,7 +7,7 @@ block main
   .container.my-5
     .row.justify-content-center
       .col-md-10.col-lg-8
-        .chat-card.card.shadow-lg.border-0
+        .chat.chat-card.card.shadow-lg.border-0
           //- Header của khung chat
           .card-header.bg-white.py-3.border-bottom
             .d-flex.align-items-center
@@ -19,26 +19,28 @@ block main
                 small.text-success Đang hoạt động
 
           //- Vùng hiển thị tin nhắn
-          .card-body.chat-box#chat-box
-            //- Tin nhắn từ người khác (Incoming)
-            .inner-incoming
-              .inner-name Nguyễn Văn A
-              .inner-content
-                | Chào mọi người, shop mình có sẵn mẫu giày Nike Jordan không ạ?
-              .inner-time 10:30 AM
+          .card-body.chat-box#chat-box(data-lenis-prevent)
+            each chat in chats
+              //- Tin nhắn từ người khác (Incoming)
+              div(class=(chat.infoUser.id == user.id ? "inner-outgoing" :  "inner-incoming"))
+                if(chat.infoUser.id != user.id)
+                  .inner-name #{chat.infoUser.fullName}
+                .inner-content
+                  | #{chat.content}
+                .inner-time #{moment(chat.createdAt).format("hh:mm A")}
 
-            //- Tin nhắn của mình (Outgoing)
-            .inner-outgoing
-              .inner-content
-                | Chào bạn! Mẫu đó bên mình đang còn sẵn size 40-42 nhé.
-              .inner-time 10:32 AM
+            //- //- Tin nhắn của mình (Outgoing)
+            //- .inner-outgoing
+            //-   .inner-content
+            //-     | Chào bạn! Mẫu đó bên mình đang còn sẵn size 40-42 nhé.
+            //-   .inner-time 10:32 AM
 
-            //- Thêm tin nhắn mẫu để test scroll
-            .inner-incoming
-              .inner-name Admin
-              .inner-content
-                | Các bạn có thể nhấn vào mục Sản phẩm để xem chi tiết các mẫu mới nhất nhé!
-              .inner-time 10:35 AM
+            //- //- Thêm tin nhắn mẫu để test scroll
+            //- .inner-incoming
+            //-   .inner-name Admin
+            //-   .inner-content
+            //-     | Các bạn có thể nhấn vào mục Sản phẩm để xem chi tiết các mẫu mới nhất nhé!
+            //-   .inner-time 10:35 AM
 
           //- Thanh nhập liệu
           .card-footer.bg-white.p-3
@@ -57,3 +59,4 @@ block main
                 .input-group-append
                   button.btn.btn-primary.px-4(type="submit")
                     i.fa-solid.fa-paper-plane
+    
