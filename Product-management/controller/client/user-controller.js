@@ -57,19 +57,19 @@ module.exports.loginPost = async (req, res) => {
 
   if (!user) {
     req.flash("error", "Email không tồn tại!");
-    return res.redirect("back");
+    res.redirect(req.get('Referrer') || '/');
   }
 
   // 2. Kiểm tra mật khẩu
   if (md5(password) !== user.password) {
     req.flash("error", "Mật khẩu không chính xác!");
-    return res.redirect("back");
+    res.redirect(req.get('Referrer') || '/');
   }
 
   // 3. Kiểm tra trạng thái hoạt động
   if (user.status === "inactive") {
     req.flash("error", "Tài khoản đã bị khóa!");
-    return res.redirect("back");
+    res.redirect(req.get('Referrer') || '/');
   }
 
   // --- LOGIC XỬ LÝ GIỎ HÀNG (QUAN TRỌNG) ---
