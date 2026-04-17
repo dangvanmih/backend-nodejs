@@ -1,0 +1,81 @@
+/* Khung bo góc và đổ bóng */
+.chat-card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* Vùng tin nhắn có thanh cuộn */
+.chat-box {
+    height: 450px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Tin nhắn chung */
+.inner-content {
+    max-width: 70%;
+    padding: 10px 15px;
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+    margin-bottom: 2px;
+}
+
+.inner-time {
+    font-size: 10px;
+    color: #999;
+    margin-bottom: 15px;
+}
+
+/* Tin nhắn của người khác */
+.inner-incoming {
+    align-self: flex-start;
+}
+.inner-incoming .inner-name {
+    font-size: 12px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 4px;
+}
+.inner-incoming .inner-content {
+    background-color: #ffffff;
+    color: #333;
+    border-radius: 0 15px 15px 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Tin nhắn của mình */
+.inner-outgoing {
+    align-self: flex-end;
+    text-align: right;
+}
+.inner-outgoing .inner-content {
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 15px 15px 0 15px;
+    box-shadow: 0 2px 5px rgba(0,123,255,0.2);
+}
+
+/* Trạng thái Online */
+.status-online {
+    position: absolute;
+    bottom: 2px;
+    right: 15px;
+    width: 12px;
+    height: 12px;
+    background-color: #28a745;
+    border: 2px solid #fff;
+    border-radius: 50%;
+}
+
+/* Tùy chỉnh thanh cuộn cho đẹp */
+.chat-box::-webkit-scrollbar {
+    width: 6px;
+}
+.chat-box::-webkit-scrollbar-thumb {
+    background: #e0e0e0;
+    border-radius: 10px;
+}

@@ -1,0 +1,59 @@
+extends ../../layouts/default.pug
+
+block css
+  link(rel="stylesheet", href="/css/chat.css")
+
+block main
+  .container.my-5
+    .row.justify-content-center
+      .col-md-10.col-lg-8
+        .chat-card.card.shadow-lg.border-0
+          //- Header của khung chat
+          .card-header.bg-white.py-3.border-bottom
+            .d-flex.align-items-center
+              .position-relative
+                img(src="/images/avatar-default.png" class="rounded-circle mr-3" width="45" height="45")
+                span.status-online
+              div
+                h6.mb-0.font-weight-bold Nhóm Chat Cộng Đồng
+                small.text-success Đang hoạt động
+
+          //- Vùng hiển thị tin nhắn
+          .card-body.chat-box#chat-box
+            //- Tin nhắn từ người khác (Incoming)
+            .inner-incoming
+              .inner-name Nguyễn Văn A
+              .inner-content
+                | Chào mọi người, shop mình có sẵn mẫu giày Nike Jordan không ạ?
+              .inner-time 10:30 AM
+
+            //- Tin nhắn của mình (Outgoing)
+            .inner-outgoing
+              .inner-content
+                | Chào bạn! Mẫu đó bên mình đang còn sẵn size 40-42 nhé.
+              .inner-time 10:32 AM
+
+            //- Thêm tin nhắn mẫu để test scroll
+            .inner-incoming
+              .inner-name Admin
+              .inner-content
+                | Các bạn có thể nhấn vào mục Sản phẩm để xem chi tiết các mẫu mới nhất nhé!
+              .inner-time 10:35 AM
+
+          //- Thanh nhập liệu
+          .card-footer.bg-white.p-3
+            form.inner-form#form-chat(action="")
+              .input-group
+                .input-group-prepend
+                  button.btn.btn-light(type="button")
+                    i.fa-regular.fa-face-smile
+                input(
+                  type="text"
+                  class="form-control border-0 bg-light shadow-none"
+                  placeholder="Nhập tin nhắn..."
+                  name="content"
+                  autocomplete="off"
+                )
+                .input-group-append
+                  button.btn.btn-primary.px-4(type="submit")
+                    i.fa-solid.fa-paper-plane

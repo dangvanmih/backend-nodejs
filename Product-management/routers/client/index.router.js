@@ -6,6 +6,7 @@ const cartMiddleware = require("../../middlewares/client/cart.middleware")
 const cartRouters = require("./cart.router");
 const checkoutRouter = require("./checkout.router");
 const userRouter = require("./user.router");
+const chatRouter = require("./chat.router");
 const userMiddleware = require("../../middlewares/client/user.middleware");
 const SettingMiddleware = require("../../middlewares/client/setting.middleware")
 module.exports = (app) => {
@@ -19,6 +20,7 @@ module.exports = (app) => {
   app.use("/cart", cartRouters)
   app.use("/checkout", checkoutRouter)
   app.use("/user", userRouter)
+  app.use("/chat", chatRouter)
 }
 
 // giải thích phần app.get và app.use:
