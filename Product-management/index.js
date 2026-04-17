@@ -17,6 +17,10 @@ const cookieParser = require("cookie-parser");
 //import thư viện express-session
 const session = require("express-session");
 
+//import socket.io
+const http = require("http");
+const { Server } = require("socket.io");
+
 //import thư viện moment
 const moment = require("moment")
 //cấu hình .env
@@ -47,6 +51,16 @@ app.use(methodOverride("_method"));
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
 
+
+//socketIo
+const server = http.createServer(app);
+const io = new Server(server);
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+});
+
+
 //APP Local variables
 app.locals.prefixAdmin = systemConfg.prefixAdmin; // khai báo biến như này thì biến đó sẽ "chỉ" sử dụng được trong tất cả các file pug
 app.locals.moment = moment;
@@ -71,6 +85,6 @@ app.use((req, res) => {
     });
   });
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 })
