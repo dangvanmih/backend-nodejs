@@ -17,6 +17,7 @@ module.exports = (app) => {
   app.use(cartMiddleware.cartId)
   app.use(userMiddleware.infoUser)
   app.use(SettingMiddleware.settingGeneral)
+  app.use(userMiddleware.layoutChats)
   app.use("/", homeRouters)
   app.use("/products", productRouters) // ở đây Nó gắn tiền tố /products cho toàn bộ route bên trong productRouters.
   app.use("/search", searchRouters)

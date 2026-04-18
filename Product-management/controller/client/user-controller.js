@@ -63,13 +63,13 @@ module.exports.loginPost = async (req, res) => {
   // 2. Kiểm tra mật khẩu
   if (md5(password) !== user.password) {
     req.flash("error", "Mật khẩu không chính xác!");
-    res.redirect(req.get('Referrer') || '/');
+    res.redirect(req.get('Referrer'));
   }
 
   // 3. Kiểm tra trạng thái hoạt động
   if (user.status === "inactive") {
     req.flash("error", "Tài khoản đã bị khóa!");
-    res.redirect(req.get('Referrer') || '/');
+    res.redirect(req.get('Referrer'));
   }
 
   // --- LOGIC XỬ LÝ GIỎ HÀNG (QUAN TRỌNG) ---

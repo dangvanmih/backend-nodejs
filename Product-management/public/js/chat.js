@@ -21,6 +21,7 @@ if (formSendData) {
 socket.on("SERVER_RETURN_MESSAGE", (data) => {
   const body = document.querySelector(".chat .inner-body");
   const myId = document.querySelector("[my-id]").getAttribute("my-id");
+
   if (body) {
     const div = document.createElement("div");
     let htmlFullName = "";
@@ -37,8 +38,14 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
       ${htmlFullName}
       <div class="inner-content">${data.content}</div>
     `;
-
+    
     body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
   }
 });
 
+// Tự động cuộn xuống cuối khi load xong trang
+const body = document.querySelector(".chat .inner-body");
+if (body) {
+  body.scrollTop = body.scrollHeight;
+}
