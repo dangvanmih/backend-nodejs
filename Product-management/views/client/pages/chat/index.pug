@@ -1,7 +1,7 @@
 extends ../../layouts/default.pug
 
 block css
-  link(rel="stylesheet", href="/css/chat.css")
+  link(rel="stylesheet" href="/css/chat.css")
 
 block main
   .container.my-5
@@ -20,7 +20,7 @@ block main
 
           //- Vùng hiển thị tin nhắn
           .inner-body.card-body.chat-box#chat-box(data-lenis-prevent)
-          
+
             each chat in chats
               div(class=(chat.infoUser._id == user.id ? "inner-outgoing" :  "inner-incoming"))
                 if(chat.infoUser.id != user.id)
@@ -29,14 +29,17 @@ block main
                   | #{chat.content}
                 .inner-time #{moment(chat.createdAt).format("hh:mm A")}
 
-
+            div(class="inner-list-typing")
+          
           //- Thanh nhập liệu
           .card-footer.bg-white.p-3
             form.inner-form#form-chat(action="")
               .input-group
                 .input-group-prepend
-                  button.btn.btn-light(type="button")
+                  span.button-icon.btn.btn-light
                     i.fa-regular.fa-face-smile
+                  div(class="tooltip" role="tooltip")
+                    emoji-picker
                 input(
                   type="text"
                   class="form-control border-0 bg-light shadow-none"
@@ -47,4 +50,3 @@ block main
                 .input-group-append
                   button.btn.btn-primary.px-4(type="submit")
                     i.fa-solid.fa-paper-plane
-    
