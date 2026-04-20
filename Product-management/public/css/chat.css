@@ -117,7 +117,23 @@
   font-size: 15px;
   line-height: 1.4;
 }
+.chat .inner-body .inner-images img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  background-color: #efefef;
+  padding: 10px;
+  margin: 0px 5px 5px 0px ;
+  border-radius: 5px;
+};
+.chat .inner-body .inner-outgoing .inner-images {
+  margin-left: 0;
+  text-align: right;
+};
 
+.chat .inner-body .inner-outgoing .inner-images img {
+  margin: 0 0 5px 5px;
+}
 .inner-incoming .inner-content {
   background-color: #f1f0f0;
   color: black;
@@ -210,3 +226,4 @@
   0%, 100% { transform: scale(0.6); opacity: 0.5; }
   50% { transform: scale(1); opacity: 1; }
 }
+

@@ -7,7 +7,7 @@ block main
   .container.my-5
     .row.justify-content-center
       .col-md-10.col-lg-8
-        .chat(my-id=user.id).chat-card.card.shadow-lg.border-0
+        .chat(my-id=user.id my-name=user.fullName).chat-card.card.shadow-lg.border-0
           //- Header của khung chat
           .card-header.bg-white.py-3.border-bottom
             .d-flex.align-items-center
@@ -25,14 +25,21 @@ block main
               div(class=(chat.infoUser._id == user.id ? "inner-outgoing" :  "inner-incoming"))
                 if(chat.infoUser.id != user.id)
                   .inner-name #{chat.infoUser.fullName}
-                .inner-content
-                  | #{chat.content}
+                if(chat.content)
+                  .inner-content
+                    | #{chat.content}
+                if(chat.images)
+                  .inner-images
+                    each image in chat.images 
+                      img(src=image)
                 .inner-time #{moment(chat.createdAt).format("hh:mm A")}
 
             div(class="inner-list-typing")
           
           //- Thanh nhập liệu
           .card-footer.bg-white.p-3
+            
+
             form.inner-form#form-chat(action="")
               .input-group
                 .input-group-prepend
@@ -47,6 +54,7 @@ block main
                   name="content"
                   autocomplete="off"
                 )
+                div(class="custom-file-container" data-upload-id="upload-image")
                 .input-group-append
                   button.btn.btn-primary.px-4(type="submit")
                     i.fa-solid.fa-paper-plane

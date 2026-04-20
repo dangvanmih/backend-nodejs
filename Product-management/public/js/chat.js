@@ -1,15 +1,32 @@
+
+
+import { FileUploadWithPreview } from 'https://unpkg.com/file-upload-with-preview/dist/index.js';
+import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js'
+
+
+// FileUploadWithPreview 
+const upload = new FileUploadWithPreview('upload-image', {
+  multiple: true,
+  maxFileCount: 6
+});
+// End FileUploadWithPreview 
+
 //CLIENT_SEND_MESSAGE
 const formSendData = document.querySelector(".chat .inner-form");
-import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js'
 
 if (formSendData) {
   formSendData.addEventListener("submit", (e) => {
     e.preventDefault();
     const content = e.target.elements.content.value;
+    const images = upload.cachedFileArray || [];
+    if (content || images.length > 0) {
 
-    if (content) {
-      socket.emit("CLIENT_SEND_MESSAGE", content);
+      socket.emit("CLIENT_SEND_MESSAGE", {
+        content: content,
+        images: images
+      });
       e.target.elements.content.value = "";
+      upload.resetPreviewPanel();
       socket.emit("CLIENT_SEND_TYPING", "hidden");
     }
 
@@ -28,6 +45,8 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
   if (body) {
     const div = document.createElement("div");
     let htmlFullName = "";
+    let htmlContent = "";
+    let htmlImages = "";
 
     // So sánh ID để quyết định bên trái hay bên phải
     if (myId == data.userId) {
@@ -37,9 +56,28 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
       htmlFullName = `<div class="inner-name">${data.fullName}</div>`;
     }
 
+
+    if (data.content) {
+      htmlContent = `<div class="inner-content">${data.content}</div>`
+    }
+
+
+    if (data.images.length > 0) {
+      htmlImages += `<div class="inner-images">`
+      for (const image of data.images) {
+        htmlImages += `
+
+          <img src="${image}">
+      `
+      }
+      htmlImages += `</div>`
+    }
+
+
     div.innerHTML = `
       ${htmlFullName}
-      <div class="inner-content">${data.content}</div>
+      ${htmlContent}
+      ${htmlImages}
     `;
 
     body.insertBefore(div, boxTyping);
@@ -94,12 +132,12 @@ if (emojiPicker) {
   const inputChat = document.querySelector(".chat .inner-form input[name='content']");
   emojiPicker.addEventListener("emoji-click", (event) => {
     const icon = event.detail.unicode;
-    
+
     inputChat.value = inputChat.value + icon;
-    
+
     const end = inputChat.value.length;
 
-    inputChat.setSelectionRange(end,end);
+    inputChat.setSelectionRange(end, end);
 
     inputChat.focus();
 
@@ -112,7 +150,7 @@ if (emojiPicker) {
   // đoạn này được hiểu như sau: khi keyup thì chạy xuống CST show và chạy xuống CST 
   // hidden nhưng nó mất 3s thì trong khoảng time 3s user vẫn đang gõ thì nó lại gọi lại keyup và clear đi timeout tới khi nào user ngưng gõ
   inputChat.addEventListener("keyup", () => {
-   showTyping();
+    showTyping();
   });
 }
 
@@ -155,3 +193,5 @@ if (elementListTyping) {
 }
 
 // end SERVER_RETURN_TYPING
+
+

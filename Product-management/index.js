@@ -56,6 +56,8 @@ app.set("view engine", "pug");
 const server = http.createServer(app);
 const io = new Server(server);
 global._io = io;
+const chatSocket = require("./socket/chat.socket");
+chatSocket(_io);
 
 //APP Local variables
 app.locals.prefixAdmin = systemConfg.prefixAdmin; // khai báo biến như này thì biến đó sẽ "chỉ" sử dụng được trong tất cả các file pug
