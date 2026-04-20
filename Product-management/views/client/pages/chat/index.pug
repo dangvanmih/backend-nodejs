@@ -38,23 +38,26 @@ block main
           
           //- Thanh nhập liệu
           .card-footer.bg-white.p-3
-            
+            .inner-preview-images 
+              div(class="custom-file-container" data-upload-id="upload-image")
 
             form.inner-form#form-chat(action="")
               .input-group
+                
+                input(
+                  type="text"
+                  class="form-control   bg-light shadow-none"
+                  placeholder="Nhập tin nhắn..."
+                  name="content"
+                  autocomplete="off"
+                )
                 .input-group-prepend
                   span.button-icon.btn.btn-light
                     i.fa-regular.fa-face-smile
                   div(class="tooltip" role="tooltip")
                     emoji-picker
-                input(
-                  type="text"
-                  class="form-control border-0 bg-light shadow-none"
-                  placeholder="Nhập tin nhắn..."
-                  name="content"
-                  autocomplete="off"
-                )
-                div(class="custom-file-container" data-upload-id="upload-image")
+                label(class="btn btn-light mb-0" for="file-upload-with-preview-upload-image") 
+                  <i class="fa-regular fa-image"></i>
                 .input-group-append
                   button.btn.btn-primary.px-4(type="submit")
                     i.fa-solid.fa-paper-plane

@@ -195,3 +195,26 @@ if (elementListTyping) {
 // end SERVER_RETURN_TYPING
 
 
+// 1. Tạo phần tử overlay cho preview
+const overlay = document.createElement('div');
+overlay.className = 'preview-overlay';
+overlay.innerHTML = '<img src="">';
+document.body.appendChild(overlay);
+
+// 2. Lắng nghe sự kiện click trong khung chat (Event Delegation)
+const chatBody = document.querySelector(".chat .inner-body");
+if (chatBody) {
+  chatBody.addEventListener("click", (e) => {
+    // Kiểm tra xem đối tượng bị click có phải là thẻ IMG không
+    if (e.target.tagName === 'IMG' && e.target.closest('.inner-images')) {
+      const src = e.target.src;
+      overlay.querySelector('img').src = src;
+      overlay.style.display = 'flex'; // Hiện overlay
+    }
+  });
+}
+
+// 3. Đóng preview khi click vào tấm màn đen
+overlay.onclick = () => {
+  overlay.style.display = 'none';
+};
