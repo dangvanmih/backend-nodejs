@@ -1,5 +1,5 @@
-const Chat = require("../models/chats.model");
-const uploadToCloudinary = require("../helpers/uploadToCloudinary");
+const Chat = require("../../models/chats.model");
+const uploadToCloudinary = require("../../helpers/uploadToCloudinary");
 
 module.exports = (io) => {
   io.on('connection', (socket) => {

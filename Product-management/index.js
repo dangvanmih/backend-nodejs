@@ -56,7 +56,7 @@ app.set("view engine", "pug");
 const server = http.createServer(app);
 const io = new Server(server);
 global._io = io;
-const chatSocket = require("./socket/chat.socket");
+const chatSocket = require("./sockets/client/chat.socket");
 chatSocket(_io);
 
 //APP Local variables
